@@ -1,0 +1,71 @@
+.exam-list-card {
+  background: #fafbfc;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 28px 30px 38px 30px;
+  box-sizing: border-box;
+  position: relative;
+}
+.heading {
+  margin-bottom: 18px;
+  position: relative;
+}
+.heading h4 {
+  margin: 0 0 2px 0;
+  font-size: 21px;
+}
+.heading p {
+  color: #6b6b6b;
+  font-size: 14px;
+  margin: 0 0 8px 0;
+}
+.add-topic-button {
+  background: #a17ee8;
+  color: #fff;
+  border: none;
+  padding: 7px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: background 0.18s;
+}
+.add-topic-button:hover {
+  background: #8c6ad9
+}
+.all-exams-container {
+  margin-top: 15px;
+}
+.all-exams-container > div {
+  margin-bottom: 18px; /* space between cards */
+}
+.all-exams-container > div:last-child {
+  margin-bottom: 0;
+}
+.add-topic-btn{
+  background: #a17ee8;
+}
+.add-topic-btn:hover{
+  background: #8c6ad9;
+}
+.cancel-btn:hover{
+background:#eff1f3;
+}
+
+h1, h2, h3, h4, h5, h6,
+p, span, div,
+.modal-title, .modal-subtitle {
+  cursor: default;
+}
+
+button, .btn, .add-topic-button, .btn-close {
+  cursor: pointer;
+}
+
+input, textarea {
+  cursor: text;
+}

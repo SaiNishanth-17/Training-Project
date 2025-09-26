@@ -1,0 +1,130 @@
+.topic-card {
+  background: #fff;
+  border-radius: 9px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  padding: 18px 16px 15px 16px;
+  margin-bottom: 18px;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+}
+.topic-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 5px;
+}
+.topic-title {
+  font-weight: 600;
+  font-size: 18px;
+  color: #222;
+}
+.active-label {
+  background-color: #8c6ad9;
+  color: #fff;
+  font-size: 13px;
+  padding: 2px 12px 3px 12px;
+  border-radius: 5px;
+  margin-left: 9px;
+}
+.question-count {
+  background: #eff1f3;
+  color: #222;
+  font-size: 13px;
+  padding: 2px 12px 3px 12px;
+  border-radius: 5px;
+  margin-left: 12px;
+}
+.topic-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 9px;
+}
+.icon-btn {
+  background: #fff;
+  border: 1px solid #ececec;
+  border-radius: 5px;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  margin-left: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.16s, background 0.16s;
+  font-size: 16px;
+}
+.edit-btn::before {
+  content: '✎';
+}
+
+.delete-btn::before {
+  content: '🗑'; 
+}
+.edit-btn:hover { border-color: #2093ed; }
+.delete-btn:hover { border-color: #e8423e; }
+.topic-desc {
+  font-size: 15px;
+  color: #505050;
+  margin-bottom: 6px;
+  margin-left: 2px;
+}
+.topic-details {
+  font-size: 14px;
+  color: #6a6a6a;
+  margin-bottom: 12px;
+  margin-left: 2px;
+}
+.inactive-label{
+background-color: black;
+  color: #fff;
+  font-size: 13px;
+  padding: 2px 12px 3px 12px;
+  border-radius: 5px;
+  margin-left: 9px;
+}
+.save-topic-btn{
+  background: #a17ee8;
+}
+.save-topic-btn:hover{
+  background: #8c6ad9;
+}
+.cancel-btn:hover{
+background:#eff1f3;
+}
+
+.topic-title,
+.active-label,
+.inactive-label,
+.question-count,
+.topic-desc,
+.topic-details,
+.modal-title,
+.modal-subtitle,
+label,
+p,
+h1, h2, h3, h4, h5, h6,
+span,
+div {
+  cursor: default;
+}
+
+button,
+.icon-btn,
+.edit-btn,
+.delete-btn,
+.btn-close,
+.cancel-btn,
+.save-topic-btn {
+  cursor: pointer;
+}
+
+input[type="text"],
+input[type="number"],
+textarea {
+  cursor: text;
+}
+
+input[type="checkbox"] {
+  cursor: pointer;
+}

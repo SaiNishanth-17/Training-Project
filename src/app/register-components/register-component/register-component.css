@@ -1,0 +1,130 @@
+.auth-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 30px;
+  background-color: #f4f2fc;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.auth-container h2 {
+  text-align: center;
+  color: #9f71e4;
+  margin-bottom: 20px;
+}
+
+.auth-container label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #333;
+}
+
+.auth-container input[type="text"],
+.auth-container input[type="email"],
+.auth-container input[type="password"] {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.auth-container input:focus {
+  border-color: #9f71e4;
+  outline: none;
+}
+
+.auth-container .error {
+  color: crimson;
+  font-size: 0.85rem;
+  margin-bottom: 10px;
+}
+
+.auth-container button[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  background-color: #9f71e4;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.auth-container button[type="submit"]:hover {
+  background-color: #7d5ed1;
+}
+
+.auth-container p {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.auth-container span {
+  color: #9f71e4;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.auth-container span:hover {
+  color: #7d5ed1;
+}
+
+.auth-container span.active {
+  text-decoration: underline;
+}
+
+.back-button {
+  background-color: white;
+  text-align: center;
+  width: 144px;
+  border-radius: 1rem;
+  height: 48px;
+  position: relative;
+  color: black;
+  font-size: 1.25rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  overflow: hidden;
+}
+
+.back-button-icon-container {
+  background-color: #b68ef1;
+  border-radius: 0.75rem;
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  z-index: 10;
+  transition: width 500ms ease;
+}
+
+.back-button-text {
+  transform: translateX(8px);
+  /* Add a transition for a smooth fade out */
+  transition: opacity 500ms ease, transform 500ms ease;
+}
+
+.back-button:hover .back-button-icon-container {
+  width: 100px;
+}
+
+.back-button:hover .back-button-text {
+  /* Hide the text by making it transparent and shifting its position */
+  opacity: 0;
+  transform: translateX(20px);
+}

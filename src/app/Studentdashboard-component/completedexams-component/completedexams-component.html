@@ -1,0 +1,10 @@
+<h3 class="section-title">Completed Exams</h3>
+<div class="exam-list">
+  <div class="exam-card" *ngFor="let exam of completed">
+    <h4>{{ exam.examname }}</h4>
+    <p>Duration: {{ exam.duration }}</p>
+    <small>{{ exam.noOfQusetions }} questions</small><br>
+    <small>Score: {{ exam.score }}%</small><br>
+    <button disabled>Completed</button>
+  </div>
+</div>

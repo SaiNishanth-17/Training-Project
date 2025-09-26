@@ -1,0 +1,61 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+<div class="sidebar">
+  <div class="logo" style="display: flex; flex-direction: row; margin-bottom: 25px; align-items: safe; ">
+    <img src="//img.freepik.com/premium-vector/tf-logo_590037-223.jpg" class="logo">
+    <h1 style="margin-top: 6px;">TestFest</h1>
+  </div>
+  <div class="nav-menu">
+    
+<div class="nav-item"
+     [class.active]="activeItem === 'Dashboard'"
+     routerLink="/admin-dashboard"
+     (click)="setActiveItem('Dashboard')">
+  <i class="fa-solid fa-desktop"></i>
+  <span>Dashboard</span>
+</div>
+
+    <div class="nav-item" 
+         [class.active]="activeItem === 'Exams'"
+         routerLink="/admin-dashboard/exam"
+         (click)="setActiveItem('Exams')">
+      <i class="fa-solid fa-user-pen"></i>
+      <span>Exams</span>
+    </div>
+    <div class="nav-item" 
+         [class.active]="activeItem === 'Questions'"
+         routerLink="/admin-dashboard/questionbank"
+         (click)="setActiveItem('Questions')">
+      <i class="fa-solid fa-question"></i>
+      <span>Questions</span>
+    </div>
+    <div class="nav-item"
+     [class.active]="activeItem === 'Analytics'"
+     routerLink="/admin-dashboard/analytics"
+     (click)="setActiveItem('Analytics')">
+  <i class="fa-solid fa-chart-line"></i>
+  <span>Analytics</span>
+</div>
+
+  </div>
+</div>
+
+
+<!-- <div class="main-content">
+ <app-dashboard *ngIf="activeItem === 'Dashboard'"></app-dashboard>
+  <app-exams *ngIf="activeItem === 'Exams'"></app-exams>
+  <app-questions *ngIf="activeItem === 'Questions'"></app-questions> 
+  <app-analytics-student-page *ngIf="activeItem === 'Analytics'"></app-analytics-student-page>
+</div> -->
+
+<!-- <div class="main-content">
+  <ng-container [ngSwitch]="activeItem">
+   <app-dashboard *ngSwitchCase="'Dashboard'"></app-dashboard> -->
+    <!-- <app-exams *ngSwitchCase="'Exams'"></app-exams> -->
+    <!-- <app-questions *ngSwitchCase="'Questions'"></app-questions> -->
+    <!-- <app-analytics-student-page *ngSwitchCase="'Analytics'"></app-analytics-student-page> -->
+    <!-- Add other components as needed 
+  </ng-container>
+</div> -->
+

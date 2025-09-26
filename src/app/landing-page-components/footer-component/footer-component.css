@@ -1,0 +1,9 @@
+footer{
+  text-align: center;
+  justify-content:end;
+  background-color: black; /* dark dashboard blue */
+  color: white;
+  padding: 15px 30px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  border-radius: 10px;
+}

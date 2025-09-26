@@ -1,0 +1,66 @@
+<body>
+  <input type="checkbox" id="menu-toggle" hidden>
+
+  <header class="main-header">
+    <div class="logo-container">
+      <img src="//img.freepik.com/premium-vector/tf-logo_590037-223.jpg" class="logo">
+      <span class="site-name">TestFest</span>
+    </div>
+
+    <div class="search-container">
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        (input)="filterSuggestions()"
+        (blur)="clearSuggestions()"
+        placeholder="Search for exams, subjects..."
+        class="search-bar"
+      />
+      <ul *ngIf="filteredSuggestions.length > 0" class="suggestions-list">
+        <li *ngFor="let suggestion of filteredSuggestions" (mousedown)="$event.preventDefault()" (click)="showCourseDetails(suggestion)">
+          {{ suggestion }}
+        </li>
+      </ul>
+    </div>
+
+    <label for="menu-toggle" class="hamburger">☰</label>
+
+    <nav class="nav-links">
+      <a href="#">Home</a>
+      <div class="dropdown">
+        <a href="#">About</a>
+        <div class="dropdown-content">
+          <a href="#">Our Mission</a>
+          <a href="#">Team</a>
+        </div>
+      </div>
+      <a href="#">Contact</a>
+      <a href="login" class="btn login">Login</a>
+      <a href="signup" class="btn signup">Sign Up</a>
+    </nav>
+  </header>
+
+  <div *ngIf="isSingleCourseModalVisible && selectedCourse" class="modal-overlay" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>{{ selectedCourse.name }}</h2>
+        <span class="close-button" (click)="closeModal()">&times;</span>
+      </div>
+      <div class="modal-body">
+        <div class="course-details">
+          <p><strong>Author:</strong> {{ selectedCourse.author }}</p>
+          <p><strong>Duration:</strong> {{ selectedCourse.duration }}</p>
+          <div>
+            <strong>Topics:</strong>
+            <ul>
+              <li *ngFor="let topic of selectedCourse.topics">{{ topic }}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="closeModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</body>

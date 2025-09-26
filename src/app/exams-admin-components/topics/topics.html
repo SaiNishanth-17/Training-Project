@@ -1,0 +1,55 @@
+<div class="exam-list-card">
+  <div class="heading">
+    <h4>Topic Management</h4>
+    <p>Manage Exam Topics and their settings</p>
+    <button class="add-topic-button" (click)="openModal()">+ Add Topic</button>
+  </div>
+
+  <div class="all-exams-container">
+    <div *ngFor="let exam of exams">
+      <app-exam-topic [exam]="exam" (deleteExam)="removeExam($event)" (updateExam)="onChangeExam($event)"></app-exam-topic>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="addTopicModal" tabindex="-1" data-bs-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered modal-md">
+    <div class="modal-content">
+      <form (ngSubmit)="onSubmit($event)" #topicForm="ngForm">
+        <div class="modal-header d-flex flex-column align-items-start">
+             <div class="w-100 d-flex justify-content-between align-items-start">
+                 <h4 class="modal-title">Add New Topic</h4>
+                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <p class="modal-subtitle mt-2">Create a new exam topic with time limits and settings</p>
+        </div>
+
+        <div class="modal-body">
+          <div class="mb-3">
+            <label>Topic Name</label>
+            <input type="text" class="form-control" [(ngModel)]="newTopic.name" name="name" placeholder="e.g., Html">
+          </div>
+          <div class="mb-3">
+            <label>Description</label>
+            <input type="text" class="form-control" [(ngModel)]="newTopic.Description" name="description" placeholder="Describe what this topic covers...">
+          </div>
+          <div class="mb-3">
+            <label>Time Limit (Minutes)</label>
+            <input type="number" class="form-control" [(ngModel)]="newTopic.TimeLimit" name="timeLimit" min="1">
+          </div>
+          <div *ngIf="topicForm.controls['timeLimit']?.invalid" class="text-danger">
+               Time limit must be a positive number.
+          </div>
+          <div class="form-check mb-3">
+            <input type="checkbox" class="form-check-input" [(ngModel)]="newTopic.isActive" name="isactive" id="isActive">
+            <label class="form-check-label" for="isActive">Active (students can take this exam)</label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn add-topic-btn" >+ Add Topic</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

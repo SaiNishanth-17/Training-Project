@@ -1,0 +1,98 @@
+<div class="body-container">
+  <div class="hero-card" >
+    <h2>Welcome to TestFest</h2>
+    <p>Unlock your potential with our comprehensive mock tests and study materials. Start your journey to success today!</p>
+    <div class="hero-buttons">
+      <button class="primary-btn" routerLink="login">Start Now</button>
+      <button class="secondary-btn" (click)="showAllCourses()">Explore Subjects</button>
+    </div>
+  </div>
+
+  <div class="image-cards" >
+    <div class="image-card" style="margin-left: 20px;">
+      <img src="https://media.licdn.com/dms/image/v2/D5612AQHq4Pc2Pd6-ag/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1710871704382?e=2147483647&v=beta&t=XglZWHDJHpHrXgeBTr_H2TaJOwbieWzp-56237egUug" alt="Image 1">
+    </div>
+    
+  </div>
+</div>
+
+<div class="user-stories-container">
+  <h2 class="section-title">User Stories</h2>
+  <div class="story-cards">
+    <div class="story-card">
+      <h3>"I Passed!"</h3>
+      <p>TestFest's detailed analytics helped me pinpoint my weak areas. I improved my score by 30%!</p>
+      <span class="story-tag">#SuccessStory</span>
+    </div>
+    <div class="story-card">
+      <h3>"Amazing Support"</h3>
+      <p>The live doubt-solving sessions with experts made all the difference. I highly recommend it.</p>
+      <span class="story-tag">#HappyLearner</span>
+    </div>
+    <div class="story-card">
+      <h3>"Perfect for Practice"</h3>
+      <p>The mock tests are just like the real thing. I felt completely prepared on exam day.</p>
+      <span class="story-tag">#ExamReady</span>
+    </div>
+  </div>
+</div>
+
+<!-- Real Life Testimonies -->
+<div class="user-stories-container">
+  <h2 class="section-title">What Our Learners Say</h2>
+
+  <div class="story-cards">
+    <div class="story-card">
+      <h3>Sam</h3>
+      <p>"I used the portal daily for mock tests. My score jumped by 30% in just two weeks. The analytics helped me focus on weak areas."</p>
+      <span class="story-tag">Engineering Aspirant</span>
+    </div>
+
+    <div class="story-card">
+      <h3>Kas</h3>
+      <p>"The live doubt sessions were a game changer. I felt more confident going into the final exam after clearing all my doubts."</p>
+      <span class="story-tag">Medical Entrance Prep</span>
+    </div>
+
+    <div class="story-card">
+      <h3>Mohammed</h3>
+      <p>"The Rank Booster series helped me move from 120th to 15th rank. The structured lessons and feedback were top-notch."</p>
+      <span class="story-tag">Top Ranker</span>
+    </div>
+
+    <div class="story-card">
+      <h3>Kanth</h3>
+      <p>"I loved the personalized dashboard. It kept me motivated and on track with my daily goals. Highly recommend it!"</p>
+      <span class="story-tag">NEET Candidate</span>
+    </div>
+  </div>
+
+  <!-- Explore All COurses -->
+
+<div class="modal-overlay" *ngIf="isAllCourseVisible">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>All Subjects & Mock Tests</h2>
+      <span class="close-button" (click)="closeModal()">&times;</span>
+    </div>
+    <div class="modal-body">
+      <table class="course-table">
+        <thead>
+          <tr>
+            <th>Course Name</th>
+            <!-- <th>Subtopics</th> -->
+            <th>Duration</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let course of course">
+            <td>{{ course.name }}</td>
+            <!-- <td>{{ course.topics }}</td> -->
+            <td>{{ course.duration}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <button class="close" (click)="closeModal()">Close</button>
+  </div>
+</div>

@@ -1,0 +1,27 @@
+.analysis-section {
+  /* width: 300px; */
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', sans-serif;
+  align-items: center;
+}
+
+.analysis-section h3 {
+  margin-bottom: 15px;
+  color: #9f71e4;
+  font-size: 20px;
+  text-align: center;
+}
+
+.items{
+  font-size: 18px;
+  font-weight: bold;
+  color: #9f71e4;
+  margin-right: 15px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+

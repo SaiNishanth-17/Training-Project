@@ -1,0 +1,26 @@
+<div
+  class="alert text-center fw-bold fs-4 w-50 mx-auto my-4 rounded-pill shadow-sm"
+  [ngClass]="{
+    'alert-warning': timeLeft > 60,
+    'alert-danger': timeLeft <= 60
+  }"
+>
+  ⏳ Time Left: {{ timerDisplay }}
+</div>
+<div class="exam-container" *ngIf="currentExamQuestions.length > 0">
+  <div *ngFor="let question of currentExamQuestions; let i = index" class="question-block">
+    <h4>Q{{ i + 1 }}. {{ question.question }}</h4>
+
+    <div class="options-grid">
+      <button
+        *ngFor="let option of question.options; let j = index"
+        class="option-button"
+        (click)="selectAnswer(i, option)"
+        [class.selected]="selectedAnswers[i] === option"
+        type="button">
+        <strong>{{ answerOptions[j] }}.</strong> {{ option }}
+      </button>
+    </div>
+  </div>
+</div>
+<button (click)="submitExam()" class="submit-exam" type="button">Submit</button>

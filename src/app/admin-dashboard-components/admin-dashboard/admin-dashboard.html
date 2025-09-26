@@ -1,0 +1,112 @@
+<!-- Header -->
+      <div class="header">
+        <div class="salutation">
+          <h2>Hi {{ userData.name.split(' ')[0] }}...</h2>
+        </div>
+        <div class="header-actions" style="margin-left: 50%; margin-right: 10px; cursor: pointer;">
+          <div class="user-profile">
+            <div class="profile-img">{{ userData.initials }}</div>
+            <div class="user-info">
+              <div class="user-name">{{ userData.name }}</div>
+              <div class="user-role">{{ userData.role }}</div>
+            </div>
+          </div>
+        </div>
+        <button class="logout-icon" aria-label="Logout" routerLink="/">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+        <polyline points="16 17 21 12 16 7"/>
+        <line x1="21" x2="9" y1="12" y2="12"/>
+      </svg>
+    </button>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <div class="page-title">
+          <div class="title">Dashboard</div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-cards">
+            <div class="stat-card" *ngFor="let stat of stats">
+                <div class="card-header">
+                    <div>
+                        <div class="card-value">{{ stat.value }}</div>
+                        <div class="card-label">{{ stat.label }}</div>
+                    </div>
+                    <div class="card-icon {{ stat.color }}">
+                        <i class="{{ stat.icon }}"></i>
+                    </div>
+                </div>
+                <div class="card-change {{ stat.trend }}">
+                    <i class="fas" [ngClass]="{
+                      'fa-arrow-down': stat.trend === 'negative',
+                      'fa-arrow-up': stat.trend === 'positive'
+                    }"></i>
+                    <span>{{ stat.change }}</span>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Recent Exams -->
+        <div class="table-card">
+            <div class="card-title">
+                <h3><i class="fa-solid fa-clipboard-list"></i> Recent Exams</h3>
+                <button class="btn btn-outline btn-sm" (click)="onViewAll()">
+                    <i class="fas" [ngClass]="{
+                      'fa-eye': !isTableVisible,
+                      'fa-eye-slash': isTableVisible
+                    }"></i> {{ isTableVisible ? 'Hide' : 'Show' }} Table
+                </button>
+            </div>
+            <div *ngIf="isTableVisible">
+                <div class="search-container">
+                    <input type="text"
+                    [(ngModel)]="searchText"
+                    (input)="onSearch($event)"
+                    placeholder="Search by ID, Name ..."
+                    class="search-input" />
+                    <i class="fas fa-search search-icon"></i>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Exam ID</th>
+                            <th>Student</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let exam of recentExams | searchFilterPipe:searchText">
+                            <td>{{ exam.id }}</td>
+                            <td>{{ exam.student }}</td>
+                            <td>{{ exam.date }}</td>
+                            <td>
+                              <span class="status {{ exam.status.toLowerCase() }}">
+                              <i [ngClass]="{
+                              'fa-solid fa-circle-check': exam.status === 'Passed',
+                              'fas fa-times-circle': exam.status === 'Failed'
+                              }" style="margin-right: 8px;"></i>
+                              {{ exam.status }}
+                              </span>
+                            </td>
+                            <td>
+                              <button class="btn btn-outline btn-sm" (click)="showExamDetails(exam)">
+                              <i class="fas fa-eye"></i> View
+                              </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <app-exam-details-modal
+            [isOpen]="isModalOpen"
+            [examDetails]="selectedExamDetails"
+            (closeModal)="closeExamDetails()">
+        </app-exam-details-modal>
+      </div>

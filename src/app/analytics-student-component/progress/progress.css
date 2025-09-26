@@ -1,0 +1,39 @@
+.progress-container {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.progress-container h3 {
+  font-size: 20px;
+  color: #9f71e4;
+}
+
+.progress-bar-wrapper {
+  width: 100%;
+  background-color: #ddd;
+  border-radius: 5px;
+  overflow: hidden;
+  height: 20px;
+  margin: 10px 0;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: #a50aff;
+  width: 0;
+  animation: fillProgress 2s ease-out forwards;
+}
+
+
+@keyframes fillProgress {
+  from {
+    width: 0%;
+  }
+  to {
+    width: var(--targetWidth, 0%); /* Set your desired progress here */
+  }
+}

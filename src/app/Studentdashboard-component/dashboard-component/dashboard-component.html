@@ -1,0 +1,26 @@
+<div class="dashboard">
+  <div class="greeting">
+    <h2>Hii John...</h2>
+    <button class="btn" routerLink="/" type="submit">Logout</button>
+  </div>
+
+  <div class="cards">
+    <div class="card" (click)="emitCard('available')">
+      <h3>Available Exams</h3>
+      <p>{{ availableCount }}</p>
+    </div>
+
+    <div class="card" (click)="emitCard('completed')">
+      <h3>Completed Exams</h3>
+      <p>{{ completedCount }}</p>
+    </div>
+
+    <div class="card" (click)="emitCard('progress')">
+      <h3>Progress</h3>
+      <p>{{ progress }}%</p>
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="progress"></div>
+      </div>
+    </div>
+  </div>
+</div>

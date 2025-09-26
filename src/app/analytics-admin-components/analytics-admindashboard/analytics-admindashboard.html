@@ -1,0 +1,49 @@
+<div class="dashboard">
+  <h2>Admin Dashboard</h2>
+
+  <!-- Summary Cards -->
+  <div class="summary">
+    <div class="card">Total Students <br><span>{{ totalStudents }}</span></div>
+    <div class="card">Total Exams <br><span>{{ totalExams }}</span></div>
+    <div class="card">Average Score <br><span>{{ avgScore }}%</span></div>
+    <div class="card">Pass Rate <br><span>{{ passRate }}%</span></div>
+  </div>
+
+  <div class="student-performance">
+    <h3>Student-wise Performance</h3>
+    <table>
+      <tr >
+        <th>Name</th>
+        <th>Average Score</th>
+        <th style="text-align: center;">Pass Rate</th>
+       
+      </tr>
+      <tr *ngFor="let student of students">
+        <td>{{ student.name }}</td>
+        <td>{{ student.average }}%</td>
+        <td style="display: flex; flex-direction: row; justify-content: space-evenly;"><div class="progress-container">
+            <div class="progress-bar" [style.width.%]="student.passrate"></div>
+          </div>{{ student.passrate }}%</td>
+        
+      </tr>
+    </table>
+  </div>
+
+  <div class="exam-performance">
+    <h3>Exam-wise Performance</h3>
+    <table>
+      <tr>
+        <th>Exam</th>
+        <th>Average Score</th>
+        <th>Highest</th>
+        <th>Pass Rate</th>
+      </tr>
+      <tr *ngFor="let exam of exams">
+        <td>{{ exam.name }}</td>
+        <td>{{ exam.avgScore }}</td>
+        <td>{{ exam.highest }}%</td>
+        <td>{{ exam.passRate }}%</td>
+      </tr>
+    </table>
+  </div>
+</div>

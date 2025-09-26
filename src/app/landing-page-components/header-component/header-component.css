@@ -1,0 +1,306 @@
+/* General Header Styles */
+.main-header {
+  background-color: #9f71e4; /* Updated to new theme color */
+  color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  flex-wrap: wrap;
+  border-radius: 10px;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  height: 40px;
+  width: auto;
+  margin-right: 10px;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+.site-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.search-container {
+    position: relative;
+    flex-grow: 1;
+    max-width: 500px;
+    margin: 0 2rem;
+}
+
+.search-bar {
+  width: 90%;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 25px;
+  font-size: 1rem;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.suggestions-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: white;
+  color: black;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  list-style: none;
+  padding: 0;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.suggestions-list li {
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.suggestions-list li:hover {
+  background-color: #f0f0f0;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.nav-links a, .nav-links .dropdown > a {
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover, .nav-links .dropdown > a:hover {
+  color: #cce5ff;
+}
+
+.btn {
+  padding: 0.5rem 1.25rem;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.btn.login {
+  background-color: #9f71e4; /* Updated to new theme color */
+  border: 2px solid white;
+  color: white;
+}
+
+.btn.login:hover {
+  background-color: #7b59b5; /* Darker shade for hover */
+  border-color: #7b59b5;
+}
+
+.btn.signup {
+  background-color: #9f71e4; /* Updated to new theme color */
+  border: 2px solid white;
+  color: white;
+}
+
+.btn.signup:hover {
+  background-color: #7b59b5; /* Darker shade for hover */
+  border-color: #7b59b5;
+}
+
+/* Dropdown styles */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border-radius: 5px;
+  padding: 10px 0;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #e0d0f4; /* Lighter shade for hover */
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Hamburger menu for mobile */
+.hamburger {
+  display: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  order: 1;
+}
+
+#menu-toggle:checked + .hamburger + .nav-links {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: #9f71e4; /* Updated to new theme color */
+  padding: 1rem;
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 600px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  transform: scale(0.9);
+  animation: modal-enter 0.3s forwards;
+  position: relative;
+}
+
+@keyframes modal-enter {
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.close-button {
+  cursor: pointer;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #aaa;
+  transition: color 0.2s;
+}
+
+.close-button:hover {
+  color: #555;
+}
+
+.course-details {
+  line-height: 1.6;
+}
+
+.course-details p {
+  margin: 0;
+}
+
+.course-details ul {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin-top: 5px;
+}
+
+.modal-footer {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.btn-primary {
+  background-color: #9f71e4; /* Updated to new theme color */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-primary:hover {
+  background-color: #7b59b5; /* Darker shade for hover */
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+.course-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.course-table th,
+.course-table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+
+.course-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.course-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}

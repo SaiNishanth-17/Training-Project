@@ -1,0 +1,61 @@
+.result-card {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  max-width: 600px;
+  margin: 30px auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+ 
+.summary-title {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  color: #333;
+}
+ 
+.view-analysis-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin-top: 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+ 
+.view-analysis-button:hover {
+  background-color: #0056b3;
+}
+ 
+.analysis-section {
+  max-width: 700px;
+  margin: 40px auto;
+}
+ 
+.analysis-title {
+  font-size: 1.4rem;
+  margin-bottom: 20px;
+  color: #444;
+}
+ 
+.analysis-card {
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+ 
+.correct-answer {
+  color: green;
+  font-weight: bold;
+}
+.wrong-answer {
+  color: red;
+  font-weight: bold;
+}
+ 

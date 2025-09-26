@@ -1,0 +1,27 @@
+<div class="result-card">
+  <h4 class="summary-title">📝 Exam Summary</h4>
+  <p><strong>Total Number of Questions:</strong> {{ noOfQuestions }}</p>
+  <p><strong>Number of Questions Attempted:</strong> {{ noOfQuestionsAttempted }}</p>
+  <p><strong>Correct Answers:</strong> {{ correctAnswersCount }}</p>
+  <button class="view-analysis-button" (click)="ShowAnalysis()">View Analysis</button>
+</div>
+ 
+<div *ngIf="showAnalysis" class="analysis-section">
+  <h4 class="analysis-title">📊 Answer Analysis</h4>
+  <div *ngFor="let question of examQuestions; let i = index" class="analysis-card">
+    <p><strong>Q{{ i + 1 }}:</strong> {{ question.question }}</p>
+    <p>
+      <strong>Your Answer:</strong>
+      <span
+        [ngClass]="{
+          'correct-answer': submittedAnswers[i] === question.answer,
+          'wrong-answer': submittedAnswers[i] !== question.answer
+        }"
+      >
+        {{ submittedAnswers[i] || 'Not Attempted' }}
+      </span>
+    </p>
+    <p><strong>Correct Answer:</strong> {{ question.answer }}</p>
+  </div>
+</div>
+ 
