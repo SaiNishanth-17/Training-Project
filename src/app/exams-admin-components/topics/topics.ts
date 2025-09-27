@@ -6,7 +6,7 @@ import { ExamTopicService } from '../../Services/exam-topic-service';
 import { FormsModule } from '@angular/forms';
 import { ExamTopic } from "../exam-topic/exam-topic";
 
-
+import { QuestionbankServices } from '../../Services/questionbank-services';
 
 declare var bootstrap:any;
 
@@ -17,7 +17,7 @@ declare var bootstrap:any;
   styleUrl: './topics.css'
 })
 export class Topics implements OnInit {
-  constructor(private examTopicService:ExamTopicService){}
+  constructor(private examTopicService:ExamTopicService,private questionBankService: QuestionbankServices ){}
 exams:ExamTopicType[]=[];
 ngOnInit(){
   this.exams=this.examTopicService.getExams();
@@ -40,6 +40,7 @@ openModal():void{
 onSubmit(event: any) {
    console.log('Form submitted:', event);
    this.exams.push({...this.newTopic});
+   this.questionBankService.addCourse(this.newTopic.name);
    this.newTopic={
        name:'',
        Description:'',

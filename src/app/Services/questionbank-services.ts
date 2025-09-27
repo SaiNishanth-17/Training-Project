@@ -10,7 +10,7 @@ export class QuestionbankServices {
     { name: 'JavaScript' },
     { name: 'Bootstrap' }
   ];
-
+  
 questionsByCourse: QuestionGroup[] = [
     {
       courseName: 'HTML',
@@ -404,4 +404,9 @@ questionsByCourse: QuestionGroup[] = [
     correctAnswerIndex: question.correctAnswerIndex
   };
   }
+
+  addCourse(name: string): void{
+    this.courses.push({ name: name });
+  }
+
 }

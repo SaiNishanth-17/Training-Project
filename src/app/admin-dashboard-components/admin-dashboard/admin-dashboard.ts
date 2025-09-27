@@ -52,7 +52,7 @@ export class AdminDashboard {
       },
       {
         label: 'Total Exams',
-        value: 20,
+        // value: this.adminService.getTotalExams(),
         icon: 'fa-solid fa-user-pen',
         color: 'blue',
         // change: 'No change from last month',
