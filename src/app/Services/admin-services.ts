@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
+import { ExamTopicService } from './exam-topic-service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminServices {
-  
+  // constructor(private noOfExams: ExamTopicService){}
   private recentExams = [
     { 
         id: '#EXAM-001', 
@@ -82,6 +83,10 @@ getRecentExams() {
     return this.recentExams.length;
   }
 
+  // getTotalExams(): number {
+  //   return this.noOfExams.exams.length;
+  // }
+
   getFailedStudents(): number {
     return this.recentExams.filter(exam => exam.status === 'Failed').length;
   }
@@ -97,7 +102,7 @@ getRecentExams() {
           },
           {
             label: 'Total Exams',
-            value: 20,
+            value: 20, //this.getTotalExams(),
             icon: 'fa-solid fa-user-pen',
             color: 'blue',
             change: 'No change from last month',
