@@ -5,7 +5,7 @@ import { ExamTopicService } from './exam-topic-service';
   providedIn: 'root'
 })
 export class AdminServices {
-  // constructor(private noOfExams: ExamTopicService){}
+  constructor(private noOfExams: ExamTopicService){}
   private recentExams = [
     { 
         id: '#EXAM-001', 
@@ -83,9 +83,9 @@ getRecentExams() {
     return this.recentExams.length;
   }
 
-  // getTotalExams(): number {
-  //   return this.noOfExams.exams.length;
-  // }
+  getTotalExams(): number {
+    return this.noOfExams.exams.length;
+  }
 
   getFailedStudents(): number {
     return this.recentExams.filter(exam => exam.status === 'Failed').length;
@@ -101,7 +101,7 @@ getRecentExams() {
             trend: 'positive'
           },
           {
-            label: 'Total Exams',
+            label: 'Total Exam Topics',
             value: 20, //this.getTotalExams(),
             icon: 'fa-solid fa-user-pen',
             color: 'blue',
