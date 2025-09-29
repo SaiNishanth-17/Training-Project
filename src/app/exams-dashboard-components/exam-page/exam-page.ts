@@ -23,6 +23,7 @@ export class ExamPage implements OnInit {
   examDurationMinutes: number = 0; 
   timeLeft: number = 0;
   examName!: string;
+  completedExams!:[{name:string,duration:number,date:Date}];
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -37,7 +38,7 @@ export class ExamPage implements OnInit {
   if (examName.toLowerCase() === 'css') return this.questionService.getCssQuestions();
   if (examName.toLowerCase() === 'javascript') return this.questionService.getJavascriptQuestions();
   if (examName.toLowerCase() === 'bootstrap') return this.questionService.getBootstrapQuestions();
-  return []; // For new topics, return empty for now
+  return []; 
 }
 
   ngOnInit(): void {
@@ -108,8 +109,14 @@ pad(num: number): string {
   return num < 10 ? '0' + num : num.toString();
 }
   submitExam() {
+    let dateVal=new Date();
+    this.completedExams.push({
+      name:this.examName,
+      duration:this.dataService.getTime(),
+      date:dateVal,
+    });
+    console.log(this.completedExams);
     this.dataService.setData(this.selectedAnswers, this.currentExamQuestions);
     this.router.navigate([`student-dashboard/exam`, this.examName, 'result']);
   }
-  
 }
