@@ -2,8 +2,8 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { StudentServices } from '../../Services/AvailableExamService';
 import { CompletedExamService } from '../../Services/completed-exam-service';
-import { StudentProgressService } from '../../Services/student-progress-service';
 import { RouterModule } from '@angular/router';
+import { StudentReportService } from '../../Services/student-report-service';
 
 // import { LoginComponent } from '../../login-component/login-component';
 
@@ -23,13 +23,13 @@ export class DashboardComponent {
   constructor(
     private availableService: StudentServices,
     private completedService: CompletedExamService,
-    private progressService: StudentProgressService
+    private studentReportService:StudentReportService
   ) {}
 
   ngOnInit() {
     this.availableCount = this.availableService.getAllExams().length;
     this.completedCount = this.completedService.getCompletedExams().length;
-    this.progress = this.progressService.getProgressPercentage();
+    this.progress = this.studentReportService.getProgress();
   }
 
   emitCard(section: 'available' | 'completed' | 'progress') {

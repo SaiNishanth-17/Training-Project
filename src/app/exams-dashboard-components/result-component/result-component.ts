@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { completedExams } from '../../Models/completedExams';
 import { CompletedExamService } from '../../Services/completed-exam-service';
 import { ExamDataService } from '../../Services/exam-data-service';
+import { StudentReportService } from '../../Services/student-report-service';
 
 @Component({
   selector: 'app-result-component',
@@ -22,7 +23,8 @@ examQuestions: any;
 submittedAnswers: any;
 
   constructor(private completedExamService: CompletedExamService,
-    private examdataservice:ExamDataService
+    private examdataservice:ExamDataService,
+    private studentReportService:StudentReportService
   ) {}
 
   ngOnInit(): void {

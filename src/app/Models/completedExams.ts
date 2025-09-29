@@ -5,3 +5,4 @@ export interface completedExams{
   duration: string,
   score?:number
 }
+
