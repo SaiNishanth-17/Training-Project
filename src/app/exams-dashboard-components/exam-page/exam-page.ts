@@ -32,6 +32,14 @@ export class ExamPage implements OnInit {
     private cdr: ChangeDetectorRef 
   ) {}
 
+  getQuestionsByExamName(examName: string): any[] {
+  if (examName.toLowerCase() === 'html') return this.questionService.getHtmlQuestions();
+  if (examName.toLowerCase() === 'css') return this.questionService.getCssQuestions();
+  if (examName.toLowerCase() === 'javascript') return this.questionService.getJavascriptQuestions();
+  if (examName.toLowerCase() === 'bootstrap') return this.questionService.getBootstrapQuestions();
+  return []; // For new topics, return empty for now
+}
+
   ngOnInit(): void {
     this.examName = this.route.snapshot.paramMap.get('name')!;
     this.examTime = this.dataService.getTime();
@@ -40,21 +48,28 @@ export class ExamPage implements OnInit {
 
     const routeParam = this.route.snapshot.paramMap.get('name');
     this.currentExamId = routeParam ? routeParam.toLowerCase() : null;
-    switch (this.currentExamId) {
-  case 'html':
-    this.currentExamQuestions = this.questionService.getHtmlQuestions();
-    break;
-  case 'css':
-    this.currentExamQuestions = this.questionService.getCssQuestions();
-    break;
-  case 'javascript':
-    this.currentExamQuestions = this.questionService.getJavascriptQuestions();
-    break;
-  case 'bootstrap':
-    this.currentExamQuestions = this.questionService.getBootstrapQuestions();
-    break;
-  default:
-    this.currentExamQuestions = [];
+    
+//     switch (this.currentExamId) {
+//   case 'html':
+//     this.currentExamQuestions = this.questionService.getHtmlQuestions();
+//     break;
+//   case 'css':
+//     this.currentExamQuestions = this.questionService.getCssQuestions();
+//     break;
+//   case 'javascript':
+//     this.currentExamQuestions = this.questionService.getJavascriptQuestions();
+//     break;
+//   case 'bootstrap':
+//     this.currentExamQuestions = this.questionService.getBootstrapQuestions();
+//     break;
+//   default:
+//     this.currentExamQuestions = [];
+// }
+this.currentExamQuestions=this.getQuestionsByExamName(this.currentExamId!);
+if (this.currentExamQuestions.length === 0) {
+  alert("No questions available for this topic yet.");
+  this.router.navigate(['/student-dashboard/exam']);
+  return;
 }
     this.selectedAnswers = new Array(this.currentExamQuestions.length).fill('');
     this.startTimer();

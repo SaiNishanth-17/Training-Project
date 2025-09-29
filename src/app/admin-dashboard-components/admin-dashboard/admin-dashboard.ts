@@ -51,8 +51,8 @@ export class AdminDashboard {
         // trend: 'positive'
       },
       {
-        label: 'Total Exams',
-        value: 20,
+        label: 'Total Exam Topics',
+        value: this.adminService.getTotalExams(),
         icon: 'fa-solid fa-user-pen',
         color: 'blue',
         // change: 'No change from last month',
