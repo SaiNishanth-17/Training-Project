@@ -1,11 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Student } from '../Models/student-data';
-import { completedExams } from '../Models/completedExams';
+import { CompletedExamService } from './completed-exam-service';
+import { ExamQuestionsService } from './exam-questions-service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StudentReportService {
+
+  constructor(private completedExamService:CompletedExamService,
+    private examQuestionService:ExamQuestionsService
+  ){}
   
   studentScoreDetails:Student[] = [
     { name: 'Alice', scores: [96,98,45 ]},
@@ -37,6 +42,7 @@ export class StudentReportService {
  
 
   getStudentAverages(): { name: string; average: number }[] {
+    
     return this.studentScoreDetails.map(student => {
       const total = student.scores.reduce((sum, score) => sum + score, 0);
       const average = total / student.scores.length;
@@ -48,41 +54,16 @@ export class StudentReportService {
   }
 
 
-  private examDetails:completedExams[]=[
-    {
-      id: 1,
-      name: "html",
-      duration: "30 mins",
-      status: 'completed' 
-    },
-    {
-      id: 1,
-      name: "css",
-      duration: "20 mins",
-      status: 'not-completed'
-    },
-    {
-      id: 3,
-      name: "JavaScript",
-      duration: "30 mins",
-      status: 'completed'
-    },
-    {
-      id: 4,
-      name: "bootstrap",
-      duration: "45 mins",
-      status: 'completed'
-    }
-  ]
+  
 
   getProgress():number{
-    let count=0;
-    for(const exam of this.examDetails){
-      if(exam.status==='completed'){
-        count++;
-      }
-    }
-    let completedPercentage=(count/this.examDetails.length)*100;
+    let completed_exams=this.completedExamService.getCompletedExams().length;
+    console.log(completed_exams);
+    let total_exams=this.examQuestionService.exams.length;
+    console.log(total_exams)
+    
+    let completedPercentage=(completed_exams/total_exams)*100;
+    console.log(completedPercentage);
     return completedPercentage;
 
   }

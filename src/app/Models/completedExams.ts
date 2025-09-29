@@ -3,7 +3,5 @@ export interface completedExams{
   name: string,
   noOfQuestions?:number,
   duration: string,
-  status: 'completed' | 'not-completed',
   score?:number
 }
-

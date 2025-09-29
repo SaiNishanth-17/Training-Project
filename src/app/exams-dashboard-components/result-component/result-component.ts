@@ -1,6 +1,8 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { ExamDataService } from '../../Services/exam-data-service';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { completedExams } from '../../Models/completedExams';
+import { CompletedExamService } from '../../Services/completed-exam-service';
+import { ExamDataService } from '../../Services/exam-data-service';
 
 @Component({
   selector: 'app-result-component',
@@ -9,29 +11,40 @@ import { CommonModule } from '@angular/common';
   styleUrl: './result-component.css'
 })
 export class ResultComponent {
-  submittedAnswers: string[] = [];
-  examQuestions: any[] = [];
-  noOfQuestions: number = 0;
-  noOfQuestionsAttempted: number = 0;
+
+  noOfQuestions:number=0;
+  
+noOfQuestionsAttempted: number = 0;
   correctAnswersCount: number = 0;
+  latestExam?: completedExams;
   showAnalysis: boolean = false;
- 
-  constructor(private examDataService: ExamDataService) {}
+examQuestions: any;
+submittedAnswers: any;
+
+  constructor(private completedExamService: CompletedExamService,
+    private examdataservice:ExamDataService
+  ) {}
+
   ngOnInit(): void {
-    this.submittedAnswers = this.examDataService.getAnswers();
-    this.examQuestions = this.examDataService.getQuestions();
-    this.noOfQuestions=this.examQuestions.length;
-   for (let i = 0; i < this.submittedAnswers.length; i++) {
-      if (this.submittedAnswers[i] !== '') {
-        this.noOfQuestionsAttempted++;
-      }
-    }
-    for(let i=0;i<this.examQuestions.length;i++){
-      if(this.submittedAnswers[i]===this.examQuestions[i].answer){
-        this.correctAnswersCount++;
-      }
-    }
+    this.completedExamService.initializeExamData();
+    const [attempted, correct] = this.completedExamService.calculateScore();
+    
+    this.noOfQuestions=this.examdataservice.getQuestions().length;
+    this.noOfQuestionsAttempted=attempted;
+    this.correctAnswersCount=correct;
+
+    this.examQuestions=this.examdataservice.getQuestions();
+    this.submittedAnswers=this.examdataservice.getAnswers();
+    
+    console.log(this.examQuestions);
+    console.log(this.submittedAnswers);
+    console.log(this.completedExamService.completedExamList);
+
   }
+
+
+  // showAnalysis: boolean = false;
+
   ShowAnalysis():void{
     this.showAnalysis=true;
   }
