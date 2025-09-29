@@ -6,6 +6,7 @@ import { ExamQuestionsService } from '../../Services/exam-questions-service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { examQuestionType } from '../../Models/examQuestionType';
 import { NgZone, ChangeDetectorRef } from '@angular/core';
+import { CompletedExamService } from '../../Services/completed-exam-service';
 
 @Component({
   selector: 'app-exam-page',
@@ -23,8 +24,10 @@ export class ExamPage implements OnInit {
   examDurationMinutes: number = 0; 
   timeLeft: number = 0;
   examName!: string;
-  completedExams!:[{name:string,duration:number,date:Date}];
+  completedExams:any;
+  
   constructor(
+    private completedexamservice:CompletedExamService,
     private route: ActivatedRoute,
     private router: Router,
     private questionService: ExamQuestionsService,
@@ -110,12 +113,13 @@ pad(num: number): string {
 }
   submitExam() {
     let dateVal=new Date();
-    this.completedExams.push({
-      name:this.examName,
-      duration:this.dataService.getTime(),
-      date:dateVal,
-    });
-    console.log(this.completedExams);
+    // this.completedExams.add({
+    //   name:this.examName,
+    //   duration:this.dataService.getTime(),
+    //   date:dateVal,
+    // });
+    // console.log(this.completedExams);
+    this.completedexamservice.addCompletedExam(this.examName,this.examDurationMinutes);
     this.dataService.setData(this.selectedAnswers, this.currentExamQuestions);
     this.router.navigate([`student-dashboard/exam`, this.examName, 'result']);
   }
