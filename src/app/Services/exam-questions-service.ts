@@ -267,46 +267,48 @@ export class ExamQuestionsService {
     return this.bootstrapQuestions;
   }
 
-  //  getExamTopics() {
-  //   return this.exams;
-  // }
+   getExamTopics() {
+    return this.exams;
+  }
   newExam!:any;
-  //  addNewExam(examName:any){
-  //   this.newExam=examName;
-  //   this.exams.push({
-  //     id:this.exams[this.exams.length-1].id+1,
-  //     name: examName,
-  //     noOfTopics: 10,
-  //     noOfStudents: 0,
-  //     time: 10
-  //   })
-  // }
-  addNewExam(examName: any) {
-  this.newExam = examName;
-  const storedExams = localStorage.getItem('exams');
-  if (storedExams) {
-    this.exams = JSON.parse(storedExams);
+   addNewExam(examName:any,TimeLimit:any){
+    this.newExam=examName;
+    
+    this.exams.push({
+      id:this.exams[this.exams.length-1].id+1,
+      name: examName,
+      noOfTopics: 10,
+      noOfStudents: 0,
+      time: TimeLimit
+    })
   }
+//   addNewExam(examName: any) {
+//   this.newExam = examName;
+//   const storedExams = localStorage.getItem('exams');
+//   if (storedExams) {
+//     this.exams = JSON.parse(storedExams);
+//   }
 
-  const newId = this.exams.length > 0 ? this.exams[this.exams.length - 1].id + 1 : 1;
-  const newExam = {
-    id: newId,
-    name: examName,
-    noOfTopics: 10,
-    noOfStudents: 0,
-    time: 10
-  };
+//   const newId = this.exams.length > 0 ? this.exams[this.exams.length - 1].id + 1 : 1;
+//   const newExam = {
+//     id: newId,
+//     name: examName,
+//     noOfTopics: 10,
+//     noOfStudents: 0,
+//     time: 10
+//   };
 
-  this.exams.push(newExam);
-  localStorage.setItem('exams', JSON.stringify(this.exams)); 
-}
 
-getExamTopics() {
-  const storedExams = localStorage.getItem('exams');
-  if (storedExams) {
-    this.exams = JSON.parse(storedExams);
-  }
-  return this.exams;
-}
+//   this.exams.push(newExam);
+//   localStorage.setItem('exams', JSON.stringify(this.exams)); 
+// }
+
+// getExamTopics() {
+//   const storedExams = localStorage.getItem('exams');
+//   if (storedExams) {
+//     this.exams = JSON.parse(storedExams);
+//   }
+//   return this.exams;
+// }
 
 }

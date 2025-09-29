@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { StudentProgressService } from '../../Services/student-progress-service';
+import { StudentReportService } from '../../Services/student-report-service';
 @Component({
   selector: 'app-studentprogress-component',
   imports: [],
@@ -11,10 +11,10 @@ export class StudentprogressComponent {
   progress: number | null = null;
   // progressData: any;
 
-  constructor(private studentprogress: StudentProgressService) {}
+  constructor(private studentreportservice:StudentReportService) {}
 
   ngOnInit() {
-    this.progress = this.studentprogress.getProgressPercentage();
+    this.progress = this.studentreportservice.getProgress();
     // this.progressData = this.studentprogress.getProgressPercentage();
   }
 

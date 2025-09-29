@@ -9,19 +9,19 @@ export class StudentServices{
 
       private exams: completedExams[] = [
     {
-      name: 'HTML', duration: '30 mins', noOfQuestions: 20, status: 'completed', score: 85,
+      name: 'HTML', duration: '30 mins', noOfQuestions: 20, 
       id: 1
     },
     {
-      name: 'CSS', duration: '30 mins', noOfQuestions: 20, status: 'completed', score: 90,
+      name: 'CSS', duration: '30 mins', noOfQuestions: 20,
       id: 2
     },
     {
-      name: 'JavaScript', duration: '45 mins', noOfQuestions: 25, status: 'not-completed',
+      name: 'JavaScript', duration: '45 mins', noOfQuestions: 25,
       id: 3
     },
     {
-      name: 'Bootstrap', duration: '1 mins', noOfQuestions: 20, status: 'not-completed',
+      name: 'Bootstrap', duration: '1 mins', noOfQuestions: 20,
       id: 4
     }
   ];
