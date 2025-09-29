@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { ExamDataService } from '../../Services/exam-data-service';
 import { CommonModule } from '@angular/common';
 
@@ -17,7 +17,6 @@ export class ResultComponent {
   showAnalysis: boolean = false;
  
   constructor(private examDataService: ExamDataService) {}
- 
   ngOnInit(): void {
     this.submittedAnswers = this.examDataService.getAnswers();
     this.examQuestions = this.examDataService.getQuestions();

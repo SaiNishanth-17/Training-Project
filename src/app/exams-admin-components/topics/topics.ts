@@ -39,8 +39,7 @@ openModal():void{
 }
 
 onSubmit(event: any) {
-   console.log('Form submitted:', event);
-   this.questionsService.addNewExam(this.newTopic.name);
+   this.questionsService.addNewExam(this.newTopic.name,this.newTopic.TimeLimit);
    this.exams.push({...this.newTopic});
    this.questionBankService.addCourse(this.newTopic.name);
    this.newTopic={
