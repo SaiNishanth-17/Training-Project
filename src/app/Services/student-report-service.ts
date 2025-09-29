@@ -6,11 +6,14 @@ import { ExamQuestionsService } from './exam-questions-service';
 @Injectable({
   providedIn: 'root'
 })
-export class StudentReportService {
+export class StudentReportService  {
 
   constructor(private completedExamService:CompletedExamService,
     private examQuestionService:ExamQuestionsService
   ){}
+  getExam():number{
+    return this.examQuestionService.exams.length;
+  }
   
   studentScoreDetails:Student[] = [
     { name: 'Alice', scores: [96,98,45 ]},
@@ -41,16 +44,18 @@ export class StudentReportService {
 
  
 
-  getStudentAverages(): { name: string; average: number }[] {
+  getStudentAverage(): number {
+    let completedExams=this.completedExamService.completedExamList;
+    let scoredExams = completedExams.filter(exam => typeof exam.score === 'number');
+    if (scoredExams.length === 0) {
+      return 0;
+    }
+
+    let totalScore = scoredExams.reduce((sum, exam) => sum + exam.score!, 0);
+    let averageScore = totalScore / scoredExams.length;
+
+    return parseFloat(averageScore.toFixed(2));
     
-    return this.studentScoreDetails.map(student => {
-      const total = student.scores.reduce((sum, score) => sum + score, 0);
-      const average = total / student.scores.length;
-      return {
-        name: student.name,
-        average: parseFloat(average.toFixed(2)) // optional: round to 2 decimals
-      };
-    });
   }
 
 
@@ -58,13 +63,13 @@ export class StudentReportService {
 
   getProgress():number{
     let completed_exams=this.completedExamService.getCompletedExams().length;
-    console.log(completed_exams);
+    // console.log(completed_exams);
     let total_exams=this.examQuestionService.exams.length;
-    console.log(total_exams)
+    // console.log(total_exams);
     
     let completedPercentage=(completed_exams/total_exams)*100;
-    console.log(completedPercentage);
-    return completedPercentage;
+    // console.log(completedPercentage);
+    return parseFloat(completedPercentage.toFixed(2));
 
   }
 }
