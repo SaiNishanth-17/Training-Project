@@ -4,6 +4,7 @@ import { StudentServices } from '../../Services/AvailableExamService';
 import { CompletedExamService } from '../../Services/completed-exam-service';
 import { RouterModule } from '@angular/router';
 import { StudentReportService } from '../../Services/student-report-service';
+import { UserRegisteringService } from '../../Services/user-registering-service';
 
 // import { LoginComponent } from '../../login-component/login-component';
 
@@ -19,17 +20,20 @@ export class DashboardComponent {
   availableCount = 0;
   completedCount = 0;
   progress = 0;
+  firstname:string='';
 
   constructor(
     private availableService: StudentServices,
     private completedService: CompletedExamService,
-    private studentReportService:StudentReportService
+    private studentReportService:StudentReportService,
+    private userService:UserRegisteringService
   ) {}
 
   ngOnInit() {
     this.availableCount = this.availableService.getAllExams().length;
     this.completedCount = this.completedService.getCompletedExams().length;
     this.progress = this.studentReportService.getProgress();
+    this.firstname=this.userService.getFirstName();
   }
 
   emitCard(section: 'available' | 'completed' | 'progress') {
