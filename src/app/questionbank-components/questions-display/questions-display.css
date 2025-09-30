@@ -36,7 +36,7 @@ h2 {
 .control-group {
   display: flex;
   align-items: center;
-  gap: 10px;
+  /* gap: 10px; */
 }
 
 label {
@@ -203,16 +203,13 @@ tbody tr:hover {
 .modal {
   background-color: #ffffff;
   padding: 40px;
-  border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  z-index: 1000;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  width: 90%;
+  width: 70%;
   max-width: 600px;
   position: relative;
-  max-height: 90vh;
+  max-height: 95vh;
   overflow-y: auto;
   color: #333; /* Explicitly set font color for the modal content */
 }
@@ -222,7 +219,6 @@ tbody tr:hover {
   color: #9749db; /* Keep this color for the modal title */
   font-size: 1.8em;
   border-bottom: 1px solid #e2e8f0;
-  padding-bottom: 15px;
   margin-bottom: 25px;
 }
 
@@ -235,7 +231,7 @@ tbody tr:hover {
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  /* gap: 8px; */
 }
 
 .form-group input,
