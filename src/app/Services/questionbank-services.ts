@@ -10,6 +10,8 @@ export class QuestionbankServices {
     { name: 'JavaScript' },
     { name: 'Bootstrap' }
   ];
+
+  newQuestion!:QuestionGroup;
   
 questionsByCourse: QuestionGroup[] = [
     {
@@ -353,11 +355,11 @@ questionsByCourse: QuestionGroup[] = [
       ]
     }
   ];
+private nextId: number = 41;
 
   getQuestionsForCourse(selectedCourse: string): Question[] {
     const courseGroup = this.questionsByCourse.find(group => group.courseName === selectedCourse);
-
-    return  courseGroup!.questions ;
+    return  courseGroup!.questions || [] ;
   }
 
   filteredQuestions(questions: Question[], filterDifficulty: string, searchText: string): Question[] {
@@ -373,7 +375,6 @@ questionsByCourse: QuestionGroup[] = [
         q.subtopics.some(subtopic => subtopic.toLowerCase().includes(searchText.toLowerCase()))
       );
     }
-   
     return filtered;
   }
 
@@ -404,9 +405,26 @@ questionsByCourse: QuestionGroup[] = [
     correctAnswerIndex: question.correctAnswerIndex
   };
   }
-
-  addCourse(name: string): void{
-    this.courses.push({ name: name });
-  }
+addCourse(name: string): void { // From Exams-Admin Module
+    if (!this.courses.some(c => c.name.toLowerCase() === name.toLowerCase())) {
+        this.courses.push({ name: name });
+    }
+    const existingGroup = this.questionsByCourse.find(
+        group => group.courseName.toLowerCase() === name.toLowerCase()
+    );
+    if (!existingGroup) {
+        this.questionsByCourse.push({
+            courseName: name,
+            questions: [] 
+        });
+    }
+}
+addQuestion(newQuestion: Question, selectedCourseName: string): void {
+        const courseGroup = this.questionsByCourse.find(group => group.courseName === selectedCourseName)
+        if (courseGroup) {
+            newQuestion.id = this.nextId++; 
+            courseGroup.questions.push(newQuestion);
+        }
+    }
 
 }

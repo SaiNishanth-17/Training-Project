@@ -26,46 +26,102 @@
       <input type="text" [(ngModel)]="searchText" placeholder="Search question..." />
     </div>
 
-    <button class="btn add-btn dummy-btn" [disabled]="true">Add New Question</button>
+    <button class="btn add-btn dummy-btn" (click)="addQuestion()">Add New Question</button>
   </div>
+  
+<div class="table-container">
+    <ng-container *ngIf="getFilteredQuestions().length > 0; else noQuestions">
+        <table>
+            <thead>
+                <tr>
+                    <th>Question</th>
+                    <th>Difficulty</th>
+                    <th>Subtopics</th>
+                    <th>Correct Answer</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let question of getFilteredQuestions()">
+                    <td>
+                        <span class="question">{{ question.text }}</span>
+                        
+                        <ul class="options-list">
+                            <li *ngFor="let opt of question.options; let i = index">
+                                {{ getCharFromIndex(i) }}. {{ opt }}
+                            </li>
+                        </ul>
+                    </td>
+                    <td>
+                        <span class="difficulty-badge difficulty-{{ question.difficulty.toLowerCase() }}">
+                            {{ question.difficulty }}
+                        </span>
+                    </td>
+                    <td>{{ question.subtopics.join(', ') }}</td>
+                    <td>Correct Answer:<br><hr> {{ question.options[question.correctAnswerIndex] }}</td>
+                    <td class="action-buttons">
+                        <button class="btn edit-btn" (click)="editQuestion(question)">Edit</button>
+                        <button class="btn delete-btn" (click)="deleteQuestion(question.id)">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </ng-container>
 
-  <div class="table-container">
-    <table>
-      <thead>
-        <tr>
-          <th>Question</th>
-          <th>Difficulty</th>
-          <th>Subtopics</th>
-          <th>Correct Answer</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let question of getFilteredQuestions()">
-          <td>
-            <span class="question">{{ question.text }}</span>
-            
-            <ul class="options-list">
-              <li *ngFor="let opt of question.options; let i = index">
-                {{ getCharFromIndex(i) }}. {{ opt }}
-              </li>
-            </ul>
-          </td>
-          <td>
-            <span class="difficulty-badge difficulty-{{ question.difficulty.toLowerCase() }}">
-              {{ question.difficulty }}
-            </span>
-          </td>
-          <td>{{ question.subtopics.join(', ') }}</td>
-            <td>Correct Answer:<br><hr> {{ question.options[question.correctAnswerIndex] }}</td>
-          <td class="action-buttons">
-            <button class="btn edit-btn" (click)="editQuestion(question)">Edit</button>
-            <button class="btn delete-btn" (click)="deleteQuestion(question.id)">Delete</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+    <ng-template #noQuestions>
+        <div class="no-questions-caution">
+            <p>
+                There are currently no questions for the **{{ selectedCourseName }}** course. 
+                <br>Click the button below to add the first question!
+            </p>
+            <button class="btn add-btn" (click)="addQuestion()">Add First Question</button>
+        </div>
+    </ng-template>
+</div>
+
+  <div class="modal-overlay" *ngIf="isAddingModalOpen">
+    <div class="modal">
+      <h3>Add New Question</h3>
+
+      <div class="form-group">
+        <label>Question Text:</label>
+        <input [(ngModel)]="newQuestionItem.text" />
+      </div>
+
+      <div class="form-group">
+        <label>Difficulty:</label>
+        <select [(ngModel)]="newQuestionItem.difficulty">
+          <option>Easy</option>
+          <option>Medium</option>
+          <option>Hard</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Subtopics (comma separated):</label>
+        <input [(ngModel)]="subtopicsInput" />
+      </div>
+
+      <div class="form-group">
+        <label>Options:</label>
+        <input *ngFor="let opt of newQuestionItem.options; let i = index ; trackBy: trackByOptions" [(ngModel)]="newQuestionItem.options[i]" placeholder="Option {{ getCharFromIndex(i) }}" />
+      </div>
+
+      <div class="form-group">
+        <label>Correct Answer:</label>
+        <select [(ngModel)]="correctAnswerIndex">
+          <option *ngFor="let opt of newQuestionItem.options; let i = index" [value]="i">
+            {{ getCharFromIndex(i) }}
+          </option>
+        </select>
+      </div>
+
+      <div class="modal-buttons">
+        <button class="btn save-btn" (click)="saveNewQuestion()">Save</button>
+        <button class="btn cancel-btn" (click)="cancelAdd()">Cancel</button>
+      </div>
+    </div>
+  </div>
 
   <div class="modal-overlay" *ngIf="editingQuestion">
     <div class="modal">
