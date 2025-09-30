@@ -7,54 +7,71 @@
   </div>
   <p class="back-button-text"></p>
 </button>
-<div class="auth-container">
-<ng-container *ngIf="!showLogin">
-<!-- Register Form -->
-<form (submit)="register()" #regForm="ngForm">
-<h2>Register</h2>
-<label>Name:</label>
-<input type="text" name="name" ngModel required pattern="[A-Za-z ]+" placeholder="username" #name="ngModel">
-<div *ngIf="name.errors?.['required'] && name.touched" class="error">
-  Name field can't be empty
-</div>
-<div *ngIf="name.errors?.['pattern'] && name.touched" class="error">
-  Name should contain only letters and spaces
-</div>
-<label>Email:</label>
-<input type="email" name="email"  ngModel required  placeholder="email" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" #email="ngModel">
-<div *ngIf="email.errors?.['required'] && email.touched" class="error">
-      Email field can't be empty
-</div>
-<div *ngIf="email.errors?.['pattern'] && email.touched" class="error">
-      Enter a valid email address
-</div>
-<label>Password:</label>
-<input type="password" name="password" ngModel required pattern="[a-zA-Z\s0-9]{10,}" placeholder="password" #password="ngModel">
-<div *ngIf="password.errors?.['required'] && password.touched" class="error">
-      Password can't be empty
-</div>
-<div *ngIf="password.errors?.['pattern'] && password.touched" class="error">
-      Password is invalid
-</div>
-<label>Confirm Password:</label>
-<input type="password" name="confirmPassword" ngModel required #confirmPassword="ngModel">
-<div *ngIf="confirmPassword.touched && confirmPassword.value !== password.value" class="error">
-      Passwords do not match
-</div> 
 
+
+<div class="auth-container">
+  <ng-container *ngIf="!showLogin">
+    <!-- Register Form -->
+    <form (ngSubmit)="register()" #regForm="ngForm">
+      <h2>Register</h2>
  
-<button type="submit" routerLink="login" [disabled]="!regForm.valid">Register</button>
-<p>Already Registered? <span (click)="showLogin = true" [class.active]="showLogin">Login</span></p>
-</form>
-</ng-container>
-<ng-container *ngIf="showLogin">
-<!-- Login Form -->
-<form (ngSubmit)="login()" #logForm="ngForm">
-  <h2>Login</h2>
-  <input type="email" name="email" [(ngModel)]="email" placeholder="Email" required />
-  <input type="password" name="password" [(ngModel)]="password" placeholder="Password" required />
-  <button type="submit">Login</button>
-  <p>Not Registered? <span (click)="showLogin = false" [class.active]="!showLogin">Register</span></p>
-</form>
-</ng-container>
+      <label>First Name:</label>
+      <input type="text" name="firstname" [(ngModel)]="firstname" required pattern="[A-Za-z ]+" placeholder="Firstname" #firstnameField="ngModel">
+      <div *ngIf="firstnameField.errors?.['required'] && firstnameField.touched" class="error">
+        First Name field can't be empty
+      </div>
+      <div *ngIf="firstnameField.errors?.['pattern'] && firstnameField.touched" class="error">
+        Name should contain only letters and spaces
+      </div>
+ 
+      <label>Last Name:</label>
+      <input type="text" name="lastname" [(ngModel)]="lastname" required pattern="[A-Za-z ]+" placeholder="Lastname" #lastnameField="ngModel">
+      <div *ngIf="lastnameField.errors?.['required'] && lastnameField.touched" class="error">
+        Last Name field can't be empty
+      </div>
+      <div *ngIf="lastnameField.errors?.['pattern'] && lastnameField.touched" class="error">
+        Name should contain only letters and spaces
+      </div>
+ 
+      <label>Email:</label>
+      <input type="email" name="email" placeholder="email" [(ngModel)]="email" required pattern="^[a-z0-9]+@[a-z0-9]+\.[a-z]{2,}$" #emailField="ngModel">
+      <div *ngIf="emailField.errors?.['required'] && emailField.touched" class="error">
+        Email field can't be empty
+      </div>
+      <div *ngIf="emailField.errors?.['pattern'] && emailField.touched" class="error">
+        Enter a valid email address
+      </div>
+ 
+      <label>Password:</label>
+      <input type="password" name="password" [(ngModel)]="password" required pattern="[a-zA-Z0-9]{6,}" placeholder="Password" #passwordField="ngModel" minlength="6">
+      <div *ngIf="passwordField.errors?.['required'] && passwordField.touched" class="error">
+        Password can't be empty
+      </div>
+      <div *ngIf="passwordField.errors?.['pattern'] && passwordField.touched" class="error">
+        Password must be at least 6 characters and alphanumeric
+      </div>
+ 
+      <label>Confirm Password:</label>
+      <input type="password" name="confirmPassword" [(ngModel)]="confirmPassword" required placeholder="Confirm Password" #confirmPasswordField="ngModel">
+      <div *ngIf="confirmPasswordField.touched && confirmPassword !== password" class="error">
+        Passwords do not match
+      </div>
+ 
+      <button type="submit" [disabled]="!regForm.valid">Register</button>
+      <p>Already Registered? <span (click)="showLogin = true" [class.active]="showLogin">Login</span></p>
+    </form>
+  </ng-container>
+ 
+  <ng-container *ngIf="showLogin">
+    <!-- Login Form -->
+    <form (ngSubmit)="login()" #logForm="ngForm">
+      <h2>Login</h2>
+      <input type="email" name="email" [(ngModel)]="lemail" placeholder="Email" ngModel required #email="ngModel">
+      <small *ngIf="email.invalid && email.touched">Please enter valid mail</small>
+      <input type="password" name="password" [(ngModel)]="lpassword" placeholder="Password" ngModel required #password="ngModel">
+      <small *ngIf="password.invalid && password.touched">Please enter valid password</small>
+      <button type="submit">Login</button>
+      <p>Not Registered? <span (click)="showLogin = false" [class.active]="!showLogin">Register</span></p>
+    </form>
+  </ng-container>
 </div>
