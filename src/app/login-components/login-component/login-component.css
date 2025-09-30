@@ -128,3 +128,6 @@
   opacity: 0;
   transform: translateX(20px);
 }
+small{
+  color: red;
+}

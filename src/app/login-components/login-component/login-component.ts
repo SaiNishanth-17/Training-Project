@@ -1,8 +1,83 @@
-import { Component } from '@angular/core';
+// import { Component } from '@angular/core';
+// import { CommonModule } from '@angular/common';
+// import { FormsModule } from '@angular/forms';
+// import { Router, RouterModule } from '@angular/router';
+// import { UserService } from '../../Services/user-service';
+// import { User } from '../../Models/userService.model';
+ 
+// @Component({
+//   selector: 'app-login-component',
+//   standalone: true,
+//   imports: [CommonModule, FormsModule, RouterModule],
+//   templateUrl: './login-component.html',
+//   styleUrl: './login-component.css'
+// })
+// export class LoginComponent {
+
+
+
+//   showLogin = true;
+
+  // Registration fields
+//   email: string = '';
+//   password: string = '';
+//   firstname: string = '';
+//   lastname:string='';
+//   confirmPassword: string = '';
+
+//   // Login fields
+//   lemail: string = '';
+//   lpassword: string = '';
+
+//   constructor(private router: Router, private userService: UserService) {}
+
+//   register() {
+//     const email = this.email.trim().toLowerCase();
+//     const password = this.password;
+//     const firstname = this.firstname;
+//     const lastname=this.lastname
+
+//     if (password !== this.confirmPassword) {
+//       alert('Passwords do not match');
+//       return;
+//     }
+
+//     const newUser: User = { firstname,lastname,email, password };
+//     const success = this.userService.addUser(newUser);
+
+//     if (!success) {
+//       alert('Email already registered');
+//       return;
+//     }
+
+//     alert('Registered successfully! Please log in.');
+//     this.showLogin = true;
+//   }
+
+//   login() {
+//     const loginEmail = this.lemail.trim().toLowerCase();
+//     const loginPassword = this.lpassword;
+
+//     if (loginEmail === 'admin@gmail.com' && loginPassword === '123456') {
+//       this.router.navigate(['/admin-dashboard']);
+//       return;
+//     }
+
+//     const isValid = this.userService.validateUser(loginEmail, loginPassword);
+//     if (isValid) {
+//       this.router.navigate(['/student-dashboard']);
+//     } else {
+//       alert('Invalid email or password. Please try again.');
+//     }
+//   }
+// }
+ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
- 
+import { UserService } from '../../Services/user-service';
+import { User } from '../../Models/userService.model';
+
 @Component({
   selector: 'app-login-component',
   standalone: true,
@@ -12,27 +87,67 @@ import { Router, RouterModule } from '@angular/router';
 })
 export class LoginComponent {
   showLogin = true;
+
+  // Registration fields
+  firstname: string = '';
+  lastname: string = '';
   email: string = '';
-password: any;
- 
-  constructor(private router: Router) {}
- 
-  login() {
-    const emailLower = this.email.trim().toLowerCase();
- 
-    if (emailLower === 'admin@gmail.com') {
-      console.log('Navigating to admin dashboard');
-      this.router.navigate(['/admin-dashboard']);
-    } else {
-      console.log('Navigating to student dashboard');
-      this.router.navigate(['/student-dashboard']);
-    }
-  }
- 
+  password: string = '';
+  confirmPassword: string = '';
+
+  // Login fields
+  lemail: string = '';
+  lpassword: string = '';
+
+  constructor(private router: Router, private userService: UserService) {}
+
   register() {
-    alert('Registered successfully');
+    const email = this.email.trim().toLowerCase();
+    const password = this.password;
+    const firstname = this.firstname.trim();
+    const lastname = this.lastname.trim();
+
+    if (password !== this.confirmPassword) {
+      alert('Passwords do not match');
+      return;
+    }
+
+    const newUser: User = { firstname, lastname, email, password };
+    const success = this.userService.addUser(newUser);
+
+    if (!success) {
+      alert('Email already registered');
+      return;
+    }
+
+    alert('Registered successfully! Please log in.');
     this.showLogin = true;
   }
+
+  login() {
+    const loginEmail = this.lemail.trim().toLowerCase();
+    const loginPassword = this.lpassword;
+
+    if (loginEmail === 'admin@gmail.com' && loginPassword === '123456') {
+      this.router.navigate(['/admin-dashboard']);
+      return;
+    }
+  
+   
+    
+const isValid = this.userService.validateUser(loginEmail, loginPassword);
+  if (isValid) {
+    // Get the user object
+    const user = this.userService.getUserByEmail(loginEmail);
+    if (user) {
+      this.userService.setFirstName(user.firstname); // Set the first name
+    }
+
+    this.router.navigate(['/student-dashboard']);
+  } 
+  else {
+    alert('invalid credentials')
+  }
+  }
 }
- 
  

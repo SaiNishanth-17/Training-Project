@@ -12,10 +12,18 @@
 <!-- Register Form -->
 <form (submit)="register()" #regForm="ngForm">
 <h2>Register</h2>
-<label>Name:</label>
-<input type="text" name="name" ngModel required pattern="[A-Za-z ]+" placeholder="username" #name="ngModel">
+<label>First Name:</label>
+<input type="text" name="name" ngModel required pattern="[A-Za-z ]+" placeholder="Firstname" #name="ngModel">
 <div *ngIf="name.errors?.['required'] && name.touched" class="error">
   Name field can't be empty
+</div>
+<div *ngIf="name.errors?.['pattern'] && name.touched" class="error">
+   First Name should contain only letters and spaces
+</div>
+<label>Last Name:</label>
+<input type="text" name="name" ngModel required pattern="[A-Za-z ]+" placeholder="Lastname" #name="ngModel">
+<div *ngIf="name.errors?.['required'] && name.touched" class="error">
+  Last Name field can't be empty
 </div>
 <div *ngIf="name.errors?.['pattern'] && name.touched" class="error">
   Name should contain only letters and spaces
