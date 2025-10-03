@@ -16,6 +16,7 @@ export class StudentReportService  {
   }
   
   studentScoreDetails:Student[] = [
+    { name:"Harini", scores:[90,100,100]},
     { name: 'Alice', scores: [96,98,45 ]},
     { name: 'Bob', scores: [92,89,78] },
     { name: 'Charlie', scores: [89,87,98] },
