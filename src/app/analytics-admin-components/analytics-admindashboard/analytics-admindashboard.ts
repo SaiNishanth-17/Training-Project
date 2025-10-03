@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { AdminReportServices } from '../../Services/admin-report-services';
 import { ScoreAnalytics } from '../../Models/scoreAnalysis';
 
+import { StudentReportService } from '../../Services/student-report-service';
+
 @Component({
   selector: 'app-analytics-admindashboard',
   imports: [CommonModule],
@@ -10,11 +12,14 @@ import { ScoreAnalytics } from '../../Models/scoreAnalysis';
   styleUrl: './analytics-admindashboard.css'
 })
 export class AnalyticsAdmindashboard implements OnInit{
+  
 
-  constructor(private adminreportservices: AdminReportServices){}
+  constructor(private adminreportservices: AdminReportServices,
+    private studentreportservice:StudentReportService
+  ){}
 
   exams?:any;
-
+  noOfExams: number=0;
   totalStudents!:number;
   totalExams!:number;
   avgScore!:number;
@@ -27,6 +32,7 @@ export class AnalyticsAdmindashboard implements OnInit{
     this.totalAverage();
     this.studentScoreAnalysis();
     this.exams=this.adminreportservices.examsScore;
+    this.noOfExams=this.studentreportservice.getExam();
   }
 
   numberOfStudents(){
