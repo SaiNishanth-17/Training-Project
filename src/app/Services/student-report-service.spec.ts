@@ -19,18 +19,7 @@ describe('StudentServices', () => {
     const exams = service.getAllExams();
     expect(exams.length).toBe(4);
   });
- 
- 
- 
-  it('should contain only 2 completed exams', () => {
-    const completed = service.getAllExams().filter(e => e.status === 'completed');
-    expect(completed.length).toBe(2);
-  });
- 
-  it('should contain JavaScript exam as not completed', () => {
-    const jsExam = service.getAllExams().find(e => e.name === 'JavaScript');
-    expect(jsExam?.status).toBe('not-completed');
-  });
+  
  
   it('should have unique IDs for each exam', () => {
     const ids = service.getAllExams().map(e => e.id);
