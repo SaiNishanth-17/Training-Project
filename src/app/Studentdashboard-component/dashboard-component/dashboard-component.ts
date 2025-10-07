@@ -5,6 +5,7 @@ import { CompletedExamService } from '../../Services/completed-exam-service';
 import { RouterModule } from '@angular/router';
 import { StudentReportService } from '../../Services/student-report-service';
 import { UserRegisteringService } from '../../Services/user-registering-service';
+import { ExamTopicService } from '../../Services/exam-topic-service';
 
 // import { LoginComponent } from '../../login-component/login-component';
 
@@ -26,11 +27,12 @@ export class DashboardComponent {
     private availableService: StudentServices,
     private completedService: CompletedExamService,
     private studentReportService:StudentReportService,
-    private userService:UserRegisteringService
+    private userService:UserRegisteringService,
+    private examtopicservice:ExamTopicService
   ) {}
 
   ngOnInit() {
-    this.availableCount = this.availableService.getAllExams().length;
+    this.availableCount = this.examtopicservice.exams.length;
     this.completedCount = this.completedService.getCompletedExams().length;
     this.progress = this.studentReportService.getProgress();
     this.firstname=this.userService.getFirstName();

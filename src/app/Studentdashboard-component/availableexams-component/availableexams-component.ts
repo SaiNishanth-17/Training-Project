@@ -2,6 +2,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { StudentServices } from '../../Services/AvailableExamService';
+import { ExamTopicService } from '../../Services/exam-topic-service';
 @Component({
   selector: 'app-available-exams',
   imports:[CommonModule],
@@ -13,10 +14,13 @@ export class AvailableexamsComponent {
   
 available: any[] = [];
 
-  constructor(private availableExams: StudentServices) {}
+  constructor(private availableExams: StudentServices,
+    private examtopicservice:ExamTopicService
+  ) {}
 
   ngOnInit() {
-    this.available = this.availableExams.getAllExams();
+    this.available = this.examtopicservice.exams;
+    console.log(this.available);
   }
 
   // AvailableExams() {
