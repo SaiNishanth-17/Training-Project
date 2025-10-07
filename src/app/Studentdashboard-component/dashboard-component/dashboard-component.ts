@@ -32,7 +32,7 @@ export class DashboardComponent {
   ) {}
 
   ngOnInit() {
-    this.availableCount = this.examtopicservice.exams.length;
+    this.availableCount = this.examtopicservice.exams.filter(exam=>exam.isActive).length;
     this.completedCount = this.completedService.getCompletedExams().length;
     this.progress = this.studentReportService.getProgress();
     this.firstname=this.userService.getFirstName();
