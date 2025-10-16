@@ -90,7 +90,7 @@ export class AdminDashboard {
     }
     
     private getTotalStudents(): number {
-      return this.adminService.getTotalStudents(); // Example static value
+      return this.adminService.getTotalStudents(); 
     }
   
     private getFailedStudents(): number {

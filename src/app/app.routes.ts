@@ -41,9 +41,3 @@ export const routes: Routes = [
     ]
    },
 ];
-// localhost:4200/student-dashboard/exam/demo
-// //
-// routeParamaters=this.routes.snapshot.paramMap('this.examId');
-// this.examId=routeparamters?routeParameters.toLowerCase():null;
-
-// this.router.navigate
