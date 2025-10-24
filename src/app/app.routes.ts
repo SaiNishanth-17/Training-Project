@@ -8,6 +8,7 @@ import { AnalyticsStudentPage } from './analytics-student-component/analytics-st
 import { AdminDashboard } from './admin-dashboard-components/admin-dashboard/admin-dashboard';
 import { QuestionsDisplay } from './questionbank-components/questions-display/questions-display';
 import { ExamPage } from './exams-dashboard-components/exam-page/exam-page';
+import { DisplayTopic } from './exams-dashboard-components/display-topic/display-topic';
 import { DisplayExams } from './exams-dashboard-components/display-exams/display-exams';
 import { AnalyticsAdmindashboard } from './analytics-admin-components/analytics-admindashboard/analytics-admindashboard';
 import { StudentdashboardComponent } from './Studentdashboard-component/Studentdashboard-component';
@@ -33,10 +34,13 @@ export const routes: Routes = [
   },
   { path: 'student-dashboard', component: StudentPage,
     children:[
-      {path: '', component: StudentdashboardComponent},
-      {path: 'exam', component: DisplayExams},
-      { path: 'exam/:name', component: ExamPage },
-      { path: 'exam/:name/result', component: ResultComponent },
+  {path: '', component: StudentdashboardComponent},
+  {path: 'exam', component: DisplayExams},
+  // when user clicks an exam card, show the list of topics for that exam
+  { path: 'exam/:name', component: DisplayTopic },
+  // route to actually start the exam (ExamPage expects route param :name)
+  { path: 'exam/:name/start', component: ExamPage },
+  { path: 'exam/:name/result', component: ResultComponent },
       { path: 'analytics', component: AnalyticsStudentPage }
     ]
    },
