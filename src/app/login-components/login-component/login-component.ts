@@ -40,7 +40,6 @@ export class LoginComponent {
       alert('Passwords do not match');
       return;
     }
-
     const newUser: User = { firstname, lastname, email, password };
     const success = this.userService.addUser(newUser);
 

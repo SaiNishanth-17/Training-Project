@@ -92,7 +92,7 @@ startTimer() {
         if (this.timeLeft > 0) {
           this.timeLeft--;
           this.updateTimerDisplay();
-          this.cdr.detectChanges(); 
+          this.cdr.detectChanges();
         } else {
           clearInterval(this.intervalId);
           this.submitExam();

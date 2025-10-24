@@ -14,7 +14,6 @@ import { StudentReportService } from '../../Services/student-report-service';
 export class ResultComponent {
 
   noOfQuestions:number=0;
-  
 noOfQuestionsAttempted: number = 0;
   correctAnswersCount: number = 0;
   latestExam?: completedExams;
@@ -46,7 +45,6 @@ submittedAnswers: any;
 
 
   // showAnalysis: boolean = false;
-
   ShowAnalysis():void{
     this.showAnalysis=true;
   }

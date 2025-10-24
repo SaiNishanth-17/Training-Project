@@ -14,8 +14,7 @@ import { StudentdashboardComponent } from './Studentdashboard-component/Studentd
 import { ResultComponent } from './exams-dashboard-components/result-component/result-component';
 import { Topics } from './exams-admin-components/topics/topics';
 import { StudentPage } from './Studentdashboard-component/student-page/student-page';
-
-
+import { ExamSubtopicManagerComponent } from './exams-admin-components/exam-subtopic-manager/exam-subtopic-manager';
 
 export const routes: Routes = [
   { path: '', component: LandingPage },
@@ -28,7 +27,8 @@ export const routes: Routes = [
       { path: '', component: AdminDashboard },
       { path: 'questionbank', component: QuestionsDisplay },
       { path: 'exam', component:  Topics},
-      { path: 'analytics', component: AnalyticsAdmindashboard }
+      { path: 'analytics', component: AnalyticsAdmindashboard },
+      { path: 'manage-subtopics/:examName', component: ExamSubtopicManagerComponent }
     ]
   },
   { path: 'student-dashboard', component: StudentPage,
