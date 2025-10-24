@@ -1,4 +1,69 @@
-exam-topic.css
+.exam-list-card {
+  background: #fafbfc;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 28px 30px 38px 30px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.heading {
+  margin-bottom: 18px;
+  position: relative;
+}
+
+.heading h4 {
+  margin: 0 0 2px 0;
+  font-size: 21px;
+}
+
+.heading p {
+  color: #6b6b6b;
+  font-size: 14px;
+  margin: 0 0 8px 0;
+}
+
+/* Violet button for all actions */
+.save-topic-btn {
+  background: #a17ee8;
+  color: #fff;
+  border: none;
+  padding: 7px 18px;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: background 0.18s;
+}
+
+.save-topic-btn:hover {
+  background: #8c6ad9;
+}
+
+/* Positioning for top button */
+.add-subtopic-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.cancel-btn:hover {
+  background: #eff1f3;
+}
+
+.all-exams-container {
+  margin-top: 15px;
+}
+
+.all-exams-container > div {
+  margin-bottom: 18px;
+}
+
+.all-exams-container > div:last-child {
+  margin-bottom: 0;
+}
+
+/* Subtopic card styling */
 .topic-card {
   background: #fff;
   border-radius: 9px;
@@ -9,17 +74,20 @@ exam-topic.css
   width: 100%;
   box-sizing: border-box;
 }
+
 .topic-header {
   display: flex;
   align-items: center;
   gap: 12px;
   margin-bottom: 5px;
 }
+
 .topic-title {
   font-weight: 600;
   font-size: 18px;
   color: #222;
 }
+
 .active-label {
   background-color: #8c6ad9;
   color: #fff;
@@ -28,6 +96,16 @@ exam-topic.css
   border-radius: 5px;
   margin-left: 9px;
 }
+
+.inactive-label {
+  background-color: black;
+  color: #fff;
+  font-size: 13px;
+  padding: 2px 12px 3px 12px;
+  border-radius: 5px;
+  margin-left: 9px;
+}
+
 .question-count {
   background: #eff1f3;
   color: #222;
@@ -36,11 +114,13 @@ exam-topic.css
   border-radius: 5px;
   margin-left: 12px;
 }
+
 .topic-actions {
   margin-left: auto;
   display: flex;
   gap: 9px;
 }
+
 .icon-btn {
   background: #fff;
   border: 1px solid #ececec;
@@ -55,51 +135,36 @@ exam-topic.css
   transition: border-color 0.16s, background 0.16s;
   font-size: 16px;
 }
+
 .edit-btn::before {
   content: '✎';
 }
 
 .delete-btn::before {
-  content: '🗑'; 
+  content: '🗑';
 }
-.edit-btn:hover { border-color: #2093ed; }
-.delete-btn:hover { border-color: #e8423e; }
+
+.edit-btn:hover {
+  border-color: #2093ed;
+}
+
+.delete-btn:hover {
+  border-color: #e8423e;
+}
+
 .topic-desc {
   font-size: 15px;
   color: #505050;
   margin-bottom: 6px;
   margin-left: 2px;
 }
-.topic-details {
-  font-size: 14px;
-  color: #6a6a6a;
-  margin-bottom: 12px;
-  margin-left: 2px;
-}
-.inactive-label{
-background-color: black;
-  color: #fff;
-  font-size: 13px;
-  padding: 2px 12px 3px 12px;
-  border-radius: 5px;
-  margin-left: 9px;
-}
-.save-topic-btn{
-  background: #a17ee8;
-}
-.save-topic-btn:hover{
-  background: #8c6ad9;
-}
-.cancel-btn:hover{
-background:#eff1f3;
-}
 
+/* Cursor styles */
 .topic-title,
 .active-label,
 .inactive-label,
 .question-count,
 .topic-desc,
-.topic-details,
 .modal-title,
 .modal-subtitle,
 label,
@@ -128,10 +193,4 @@ textarea {
 
 input[type="checkbox"] {
   cursor: pointer;
-}
-.topic-card.clickable {
-  cursor: pointer;
-}
-.topic-card.clickable:hover {
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }

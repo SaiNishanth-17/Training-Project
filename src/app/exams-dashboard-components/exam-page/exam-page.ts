@@ -119,8 +119,8 @@ pad(num: number): string {
     //   date:dateVal,
     // });
     // console.log(this.completedExams);
-    this.completedexamservice.addCompletedExam(this.examName,this.examDurationMinutes);
     this.dataService.setData(this.selectedAnswers, this.currentExamQuestions);
+    this.completedexamservice.addCompletedExam(this.examName,this.examDurationMinutes);
     this.router.navigate([`student-dashboard/exam`, this.examName, 'result']);
   }
 }

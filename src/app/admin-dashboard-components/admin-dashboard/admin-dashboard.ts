@@ -58,14 +58,6 @@ export class AdminDashboard {
         // change: 'No change from last month',
         // trend: 'positive'
       },
-      {
-        label: 'Failed Students',
-        value: this.getFailedStudents(),
-        icon: 'fa-solid fa-exclamation',
-        color: 'green',
-        // change: '10% from last month',
-        // trend: 'negative'
-      }
     ];
       }
 
@@ -90,7 +82,7 @@ export class AdminDashboard {
     }
     
     private getTotalStudents(): number {
-      return this.adminService.getTotalStudents(); // Example static value
+      return this.adminService.getTotalStudents(); 
     }
   
     private getFailedStudents(): number {
