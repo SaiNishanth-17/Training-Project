@@ -1,95 +1,77 @@
 import { Injectable } from '@angular/core';
 import { ExamTopicService } from './exam-topic-service';
+import { first } from 'rxjs-compat/operator/first';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminServices {
   constructor(private noOfExams: ExamTopicService){}
-  private recentExams = [
+  private records = [
     { 
-        id: '#EXAM-001', 
-        student: 'John Smith', 
-        date: '15 Mar 2025', 
-        status: 'Passed',
-        examDetails: {
-          totalQuestions: 50,
-          attemptedQuestions: 48,
-          correctAnswers: 45,
-          wrongAnswers: 3,
-          totalScore: 90
-        }
-      },
-      { 
-        id: '#EXAM-002', 
-        student: 'Emma Johnson', 
-        date: '14 Mar 2025', 
-        status: 'Passed',
-        examDetails: {
-          totalQuestions: 50,
-          attemptedQuestions: 30,
-          correctAnswers: 25,
-          wrongAnswers: 5,
-          totalScore: 50
-        }
-      },
-      { 
-        id: '#EXAM-003', 
-        student: 'Michael Brown', 
-        date: '13 Mar 2025', 
-        status: 'Passed',
-        examDetails: {
-          totalQuestions: 50,
-          attemptedQuestions: 50,
-          correctAnswers: 42,
-          wrongAnswers: 8,
-          totalScore: 84
-        }
-      },
-      { 
-        id: '#EXAM-004', 
-        student: 'Passah Davis', 
-        date: '12 Mar 2025', 
-        status: 'Failed',
-        examDetails: {
-          totalQuestions: 50,
-          attemptedQuestions: 15,
-          correctAnswers: 10,
-          wrongAnswers: 5,
-          totalScore: 20
-        }
-      },
-      { 
-        id: '#EXAM-005', 
-        student: 'David Wilson', 
-        date: '11 Mar 2025', 
-        status: 'Failed',
-        examDetails: {
-          totalQuestions: 50,
-          attemptedQuestions: 49,
-          correctAnswers: 47,
-          wrongAnswers: 2,
-          totalScore: 94
-        }
-      }
+        firstName: 'John',
+        lastName: 'Smith',
+        email: 'john@smaith.com',
+        role: 'Student',
+    },
+    { 
+        firstName: 'Emma',
+        lastName: 'Johnson',
+        email: 'emma@johnson.com',
+        role: 'Student',
+    },
+    { 
+        firstName: 'Michael',
+        lastName: 'Brown',
+        email: 'michael@brown.com',
+        role: 'Student',
+    },
+    { 
+        firstName: 'Passah',
+        lastName: 'Davis',
+        email: 'passah@davis.com',
+        role: 'Admin',
+    },
+    { 
+        firstName: 'David',
+        lastName: 'Wilson',
+        email: 'david@wilson.com',
+        role: 'Admin',
+    }  
   ];
 
   
-getRecentExams() {
-    return this.recentExams;
+getrecords() {
+    return this.records;
+  }
+
+  /** Update a user's role by email. Returns true if updated, false if not found. */
+  updateUserRole(email: string, newRole: string): boolean {
+    const idx = this.records.findIndex(r => r.email === email);
+    if (idx === -1) return false;
+    this.records[idx].role = newRole;
+    return true;
+  }
+
+  /** Delete a user record by email. Returns true if deleted. */
+  deleteUserByEmail(email: string): boolean {
+    const idx = this.records.findIndex(r => r.email === email);
+    if (idx === -1) return false;
+    this.records.splice(idx, 1);
+    return true;
   }
 
   getTotalStudents(): number {
-    return this.recentExams.length;
+    return this.records.length;
   }
 
   getTotalExams(): number {
     return this.noOfExams.exams.length;
   }
 
-  getFailedStudents(): number {
-    return this.recentExams.filter(exam => exam.status === 'Failed').length;
-  }
+  // getFailedStudents(): number {
+  //   return this.records.filter(exam => exam.status === 'Failed').length;
+  // }
 
   private examStat=[
           {
@@ -110,7 +92,7 @@ getRecentExams() {
           },
           {
             label: 'Failed Students',
-            value: this.getFailedStudents(),
+            // value: this.getFailedStudents(),
             icon: 'fas fa-shopping-cart',
             color: 'green',
             change: '10% from last month',

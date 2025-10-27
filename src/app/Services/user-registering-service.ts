@@ -34,4 +34,16 @@ export class UserRegisteringService {
     getUserByEmail(email: string): User | undefined {
     return this.users.find(user => user.email === email);
   }
+
+  // Current logged-in user
+  private currentUser: User | null = null;
+
+  setCurrentUser(user: User) {
+    this.currentUser = user;
+    this.setFirstName(user.firstname);
+  }
+
+  getCurrentUser(): User | null {
+    return this.currentUser;
+  }
 }
