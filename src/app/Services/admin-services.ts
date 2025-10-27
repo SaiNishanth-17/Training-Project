@@ -40,7 +40,6 @@ export class AdminServices {
     }  
   ];
 
-  
 getrecords() {
     return this.records;
   }
@@ -62,7 +61,7 @@ getrecords() {
   }
 
   getTotalStudents(): number {
-    return this.records.length;
+    return this.records.filter(r=>r.role==='student').length;
   }
 
   getTotalExams(): number {
