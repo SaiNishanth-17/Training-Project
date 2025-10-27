@@ -1,13 +1,25 @@
 <div class="dashboard">
-  <div class="greeting">
-    <h2>Hii {{firstname}}...</h2>
-    <button class="logout-icon" aria-label="Logout" routerLink="/">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-        <polyline points="16 17 21 12 16 7"/>
-        <line x1="21" x2="9" y1="12" y2="12"/>
-      </svg>
-    </button>
+  <div class="greeting" style="display:flex; align-items:center; gap:12px; justify-content:space-between;">
+    <div style="display:flex; align-items:center; gap:12px;">
+      <h2>Hii {{firstname}}...</h2>
+    </div>
+    <div style="display:flex; align-items:center; gap:12px;">
+      <!-- student profile pill placed next to logout -->
+      <div class="user-profile" style="display:flex; align-items:center; gap:8px; cursor:pointer;" (click)="openProfileModal()">
+        <div class="profile-img">{{ (studentProfile.firstName[0] || '') + (studentProfile.lastName[0] || '') }}</div>
+        <div class="user-info" style="display:none;">
+          <div class="user-name">{{ studentProfile.firstName }} {{ studentProfile.lastName }}</div>
+          <div class="user-role">{{ studentProfile.role }}</div>
+        </div>
+      </div>
+      <button class="logout-icon" aria-label="Logout" routerLink="/">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" x2="9" y1="12" y2="12"/>
+        </svg>
+      </button>
+    </div>
   </div>
 
   <div class="cards">
@@ -26,6 +38,45 @@
       <p>{{ progress }}%</p>
       <div class="progress-bar">
         <div class="progress-fill" [style.width.%]="progress"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Student Profile Modal -->
+  <div class="modal fade" tabindex="-1" [class.show]="isProfileModalOpen" [style.display]="isProfileModalOpen ? 'block' : 'none'">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+      <div class="modal-content">
+        <form (ngSubmit)="saveStudentProfile()">
+          <div class="modal-header d-flex flex-column align-items-start">
+            <div class="w-100 d-flex justify-content-between align-items-start">
+              <h4 class="modal-title">Edit Profile</h4>
+              <button type="button" class="btn-close" (click)="closeProfileModal()" aria-label="Close"></button>
+            </div>
+            <p class="modal-subtitle mt-2">Update your profile details</p>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label>First Name</label>
+              <input type="text" class="form-control" [value]="profileEdit.firstName" (input)="profileEdit.firstName = $any($event.target).value" required>
+            </div>
+            <div class="mb-3">
+              <label>Last Name</label>
+              <input type="text" class="form-control" [value]="profileEdit.lastName" (input)="profileEdit.lastName = $any($event.target).value" required>
+            </div>
+            <div class="mb-3">
+              <label>Password</label>
+              <input type="password" class="form-control" [value]="profileEdit.password" (input)="profileEdit.password = $any($event.target).value">
+            </div>
+            <div class="mb-3">
+              <label>Email</label>
+              <input type="email" class="form-control" [value]="profileEdit.email" disabled>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn cancel-btn" (click)="closeProfileModal()">Cancel</button>
+            <button type="submit" class="btn add-topic-btn">Save</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>

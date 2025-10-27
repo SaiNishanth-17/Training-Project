@@ -5,11 +5,15 @@ import { SearchFilterPipePipe } from './search-filter-pipe-pipe';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AdminServices } from '../../Services/admin-services';
+import { UserRegisteringService } from '../../Services/user-registering-service';
 
 interface UserData {
-  name: string;
+  firstName: string;
+  lastName: string;
+  email: string;
   role: string;
   readonly initials: string;
+  readonly name: string;
 }
 
 @Component({
@@ -24,22 +28,40 @@ export class AdminDashboard {
     selectedExamDetails: any;
     searchText: string = '';
     isTableVisible=false;
-    recentExams:any[]=[];
+    records:any[]=[];
     stats:any[]=[];
     
-    constructor(private adminService:AdminServices){}
+  constructor(private adminService:AdminServices, private userService: UserRegisteringService){}
+  editingEmail: string | null = null;
+  editRoleValue: string = '';
   
+    isProfileModalOpen: boolean = false;
+    profileEdit: any = {};
+
     userData: UserData={
-      name: 'Admin User',
-      role: 'Administrator',
+      firstName: 'Admin',
+      lastName: 'User',
+      email: 'admin@example.com',
+      role: 'Admin',
       get initials():string{
-        return this.name.split(' ').map(n => n[0]).join('').toUpperCase();
-      } 
+        return (this.firstName[0] || '') + (this.lastName[0] || '');
+      },
+      get name(): string {
+        return `${this.firstName} ${this.lastName}`.trim();
+      }
     }
     
     
     ngOnInit(): void {
-        this.recentExams = this.adminService.getRecentExams();
+        this.records = this.adminService.getrecords();
+
+        // if a current user is set (from login), populate userData with it
+        const current = this.userService.getCurrentUser();
+        if (current) {
+          this.userData.firstName = current.firstname || this.userData.firstName;
+          this.userData.lastName = current.lastname || this.userData.lastName;
+          this.userData.email = current.email || this.userData.email;
+        }
 
         this.stats = [
       {
@@ -75,6 +97,36 @@ export class AdminDashboard {
       };
       this.isModalOpen = true;
     }
+
+    startEdit(record: any) {
+      this.editingEmail = record.email;
+      this.editRoleValue = record.role;
+    }
+
+    cancelEdit() {
+      this.editingEmail = null;
+      this.editRoleValue = '';
+    }
+
+    saveRole(record: any) {
+      if (!this.editingEmail) return;
+      const success = this.adminService.updateUserRole(record.email, this.editRoleValue);
+      if (success) {
+        // update local reference
+        const idx = this.records.findIndex(r => r.email === record.email);
+        if (idx !== -1) this.records[idx].role = this.editRoleValue;
+      }
+      this.cancelEdit();
+    }
+
+    deleteRecord(record: any) {
+      const confirmed = confirm(`Delete user ${record.firstName} ${record.lastName}?`);
+      if (!confirmed) return;
+      const success = this.adminService.deleteUserByEmail(record.email);
+      if (success) {
+        this.records = this.records.filter(r => r.email !== record.email);
+      }
+    }
   
     closeExamDetails() {
       this.isModalOpen = false;
@@ -85,9 +137,9 @@ export class AdminDashboard {
       return this.adminService.getTotalStudents(); 
     }
   
-    private getFailedStudents(): number {
-      return this.adminService.getFailedStudents();
-    }
+    // private getFailedStudents(): number {
+    //   return this.adminService.getFailedStudents();
+    // }
   
     
     // Recent exams table
@@ -106,5 +158,24 @@ export class AdminDashboard {
 
     getExamStats() {
         return this.adminService.getExamStats();
+    }
+
+    openProfileModal() {
+      this.profileEdit = { ...this.userData };
+      this.isProfileModalOpen = true;
+    }
+
+    closeProfileModal() {
+      this.isProfileModalOpen = false;
+      this.profileEdit = {};
+    }
+
+    saveProfile() {
+      // apply changes to local userData
+      this.userData.firstName = this.profileEdit.firstName || this.userData.firstName;
+      this.userData.lastName = this.profileEdit.lastName || this.userData.lastName;
+      this.userData.email = this.profileEdit.email || this.userData.email;
+      // role is not editable here; keep existing role
+      this.closeProfileModal();
     }
 }

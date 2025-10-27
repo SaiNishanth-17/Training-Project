@@ -91,3 +91,30 @@
 .logout-icon:hover svg {
   color: var(--primary); /* Changes icon color on hover */
 }
+
+/* Reuse admin profile styles for student header */
+.user-profile {
+  display: flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.user-profile:hover { background-color: rgba(67,97,238,0.05); }
+.profile-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7209b7, #3a0ca3);
+  color: white;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Style for profile modal inputs/buttons */
+.modal .modal-content { border-radius: 10px; }
+.modal .add-topic-btn { background: #a17ee8; color: #fff; border: none; padding: 8px 14px; border-radius: 6px; }
+.modal .cancel-btn { background: transparent; border: 1px solid #e6e6e6; padding: 8px 12px; border-radius: 6px; }
