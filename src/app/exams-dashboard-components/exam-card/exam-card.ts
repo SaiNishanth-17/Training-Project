@@ -11,10 +11,11 @@ import { ExamDataService } from '../../Services/exam-data-service';
   templateUrl: './exam-card.html',
   styleUrl: './exam-card.css'
 })
+
 export class ExamCard {
   @Input() exam!: examType;
     constructor(private router:Router,private examDataService: ExamDataService){}
-    attemptExam() {
+    displayTopics() {
       this.examDataService.setTime(this.exam.time);
       this.router.navigate([`student-dashboard/exam`,  this.exam.name]);
       // this.router.navigateByUrl(`/${this.exam.name}`);

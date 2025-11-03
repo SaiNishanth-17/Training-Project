@@ -80,15 +80,12 @@
 </div>
 
   <div class="modal-overlay" *ngIf="isAddingModalOpen">
-    <div class="modal">
-      <h3>Add New Question</h3>
-
-      <div class="form-group">
-        <label>Question Text:</label>
-        <input [(ngModel)]="newQuestionItem.text" />
-      </div>
-
-      <div class="form-group">
+     <div class="modal">
+     <h3>Add New Question</h3>
+ <div class="form-group">
+<label>Question Text:</label>
+ <input [(ngModel)]="newQuestionItem.text" /> </div>
+  <div class="form-group">
         <label>Difficulty:</label>
         <select [(ngModel)]="newQuestionItem.difficulty">
           <option>Easy</option>

@@ -8,19 +8,23 @@
   box-sizing: border-box;
   position: relative;
 }
+
 .heading {
   margin-bottom: 18px;
   position: relative;
 }
+
 .heading h4 {
   margin: 0 0 2px 0;
   font-size: 21px;
 }
+
 .heading p {
   color: #6b6b6b;
   font-size: 14px;
   margin: 0 0 8px 0;
 }
+
 .add-topic-button {
   background: #a17ee8;
   color: #fff;
@@ -34,26 +38,57 @@
   top: 0;
   transition: background 0.18s;
 }
+
 .add-topic-button:hover {
-  background: #8c6ad9
+  background: #8c6ad9;
 }
+
+.add-topic-btn {
+  background: #a17ee8;
+  color: #fff;
+  border: none;
+  padding: 7px 18px;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: background 0.18s;
+}
+
+.add-topic-btn:hover {
+  background: #8c6ad9;
+}
+
+.cancel-btn {
+  background: #f8f9fa;
+  color: #333;
+  border: 1px solid #ccc;
+  padding: 7px 18px;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+.cancel-btn:hover {
+  background: #eff1f3;
+}
+
 .all-exams-container {
   margin-top: 15px;
 }
+
 .all-exams-container > div {
-  margin-bottom: 18px; /* space between cards */
+  margin-bottom: 18px;
 }
+
 .all-exams-container > div:last-child {
   margin-bottom: 0;
 }
-.add-topic-btn{
-  background: #a17ee8;
+
+.modal {
+  background-color: rgba(0, 0, 0, 0.5);
 }
-.add-topic-btn:hover{
-  background: #8c6ad9;
-}
-.cancel-btn:hover{
-background:#eff1f3;
+
+.modal-dialog {
+  max-width: 500px;
+  margin: 100px auto;
 }
 
 h1, h2, h3, h4, h5, h6,

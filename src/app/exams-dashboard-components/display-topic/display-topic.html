@@ -1,0 +1,18 @@
+<div class="display-topic-container">
+	<h2>{{ examName }} - Topics</h2>
+	<p *ngIf="noOfTopics">Total topics: {{ noOfTopics }} | Time limit: {{ timeLimit }} minutes</p>
+
+		<div class="topics-list">
+			<div class="topic-item" *ngFor="let t of topics; let i = index">
+				<div>
+					<div class="title">{{ t }}</div>
+					<div class="meta">{{ examName }} • {{ timeLimit }} min</div>
+				</div>
+				<div>
+					<button class="attempt-btn" (click)="attemptExam(i)">Attempt</button>
+				</div>
+			</div>
+		</div>
+
+		<button class="back-btn" (click)="goBack()">Back to Exams</button>
+</div>

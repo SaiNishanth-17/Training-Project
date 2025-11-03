@@ -40,7 +40,6 @@ export class LoginComponent {
       alert('Passwords do not match');
       return;
     }
-
     const newUser: User = { firstname, lastname, email, password };
     const success = this.userService.addUser(newUser);
 
@@ -58,6 +57,8 @@ export class LoginComponent {
     const loginPassword = this.lpassword;
 
     if (loginEmail === 'admin@gmail.com' && loginPassword === '123456') {
+      // set current user as admin in user service for profile usage
+      this.userService.setCurrentUser({ firstname: 'Admin', lastname: 'User', email: 'admin@gmail.com', password: '123456' } as any);
       this.router.navigate(['/admin-dashboard']);
       return;
     }
@@ -69,7 +70,7 @@ const isValid = this.userService.validateUser(loginEmail, loginPassword);
     // Get the user object
     const user = this.userService.getUserByEmail(loginEmail);
     if (user) {
-      this.userService.setFirstName(user.firstname); // Set the first name
+      this.userService.setCurrentUser(user);
     }
 
     this.router.navigate(['/student-dashboard']);

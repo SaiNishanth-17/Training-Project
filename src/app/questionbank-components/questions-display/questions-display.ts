@@ -38,7 +38,7 @@ export class QuestionsDisplay implements OnInit {
   }
 
   onCourseChange(selectedCourseName: string): void {
-    this.displayedQuestions = this.serviceQuestion.getQuestionsForCourse(selectedCourseName);
+    // this.displayedQuestions = this.serviceQuestion.getQuestionsForCourse(selectedCourseName);
     const questions = this.serviceQuestion.getQuestionsForCourse(selectedCourseName);
     this.displayedQuestions = questions || [];
     this.searchText = ""; 
@@ -92,7 +92,7 @@ export class QuestionsDisplay implements OnInit {
   addQuestion(){
     this.editingQuestion = null; 
     this.cancelAdd();
-    this.isAddingModalOpen = true; 
+    this.isAddingModalOpen = true; 
 }
 cancelAdd(): void {
     this.isAddingModalOpen = false;
