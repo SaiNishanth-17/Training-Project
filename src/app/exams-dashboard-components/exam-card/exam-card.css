@@ -1,84 +1,96 @@
-.exam-card {
-  background-color: #ffffff;
+.exam-row {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  padding: 16px;
+  background: #ffffff;
   border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-  width: 100%;
-  border: 1px solid rgba(0, 0, 0, 0.04);
-  text-align: left;
-  cursor: pointer;
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  border: 1px solid #e6e6e6;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  margin: 12px auto;
+  width: 320px;
+  box-sizing: border-box;
+  cursor: default; /* No pointer */
+  /* ❌ Removed transition */
 }
 
-/* subtle lift on hover */
-.exam-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+/* ❌ No hover effect on cards */
+.exam-row:hover {
+  transform: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
 }
 
-.exam-card h3 {
-  margin: 0 0 8px 0;
+.exam-info h3 {
+  margin: 0 0 6px 0;
+  font-size: 16px;
   color: #2c3e50;
-  font-size: 18px;
+  font-weight: 700;
 }
 
-.exam-card p {
+.exam-desc {
   margin: 0;
   color: #6b6b6b;
-  font-size: 14px;
+  font-size: 13px;
+  line-height: 1.35;
+  max-height: 3.6em;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* Full-screen modal overlay */
-.modal-overlay {
-  position: fixed !important;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
+.exam-controls {
   display: flex;
+  gap: 10px;
   align-items: center;
-  justify-content: center;
-  z-index: 100000;
+  justify-content: space-between;
+  width: 100%;
 }
 
-.modal {
-  background: #fff;
-  padding: 20px 24px;
-  border-radius: 8px;
-  max-width: 520px;
-  width: 96%;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
-}
-
-.modal-buttons {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  margin-top: 16px;
-}
-
-.cancel-btn {
-  background: #f8f9fa;
-  color: #333;
-  border: 1px solid #ccc;
-  padding: 8px 16px;
+.exam-controls select {
+  padding: 8px 10px;
   border-radius: 6px;
+  border: 1px solid #dde3ef;
+  background: #fff;
+  color: #2c3e50;
+  font-size: 14px;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .attempt-btn {
-  background: #28a745;
-  color: white;
+  background: #6f42c1;
+  color: #fff;
   border: none;
-  padding: 8px 16px;
+  padding: 8px 12px;
   border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
-.modal select,
-.modal input,
-.modal textarea {
-  width: 100%;
-  padding: 10px;
-  box-sizing: border-box;
-  margin-top: 8px;
+.attempt-btn:hover {
+  background-color: #5a35a0;
+  transform: scale(1.03);
+}
+
+.attempt-btn[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Responsive layout */
+@media (max-width: 720px) {
+  .exam-row {
+    width: 100%;
+    padding: 14px;
+  }
+  .exam-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .exam-controls select,
+  .attempt-btn {
+    width: 100%;
+  }
 }
