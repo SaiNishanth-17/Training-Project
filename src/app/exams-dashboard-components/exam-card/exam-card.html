@@ -1,7 +1,30 @@
-<div class="exam-card" (click)="displayTopics()">
-    <h3>{{exam.name}} Exam</h3>
-    <p><strong>Topics:</strong>{{exam.noOfTopics}}</p>
-    <!-- <p><strong>Students Enrolled:</strong>{{exam.noOfStudents}}</p> -->
-    <!-- <i class="fas fa-clock"></i><span>{{exam.time}} minutes</span><br><br> -->
-    <!-- <button (click)="attemptExam()">Attempt Exam</button> -->
+<div *ngFor="let exam of exams">
+  <button type="button" class="exam-card" (click)="onOpen(exam)">
+    <h3>{{ exam.name }} Exam</h3>
+    <p><strong>Topics:</strong> {{ exam.noOfTopics }}</p>
+  </button>
+</div>
+
+<!-- modal rendered inside the card component -->
+<div class="modal-overlay" *ngIf="modalOpen" (click)="closeModal()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <h5 class="modal-title">Select Level for {{ selectedExam?.name }}</h5>
+    <div class="modal-body">
+      <div class="mb-2">
+        <label>Level</label>
+        <select [(ngModel)]="chosenLevel">
+          <option value="basic">Basic</option>
+          <option value="intermediate">Intermediate</option>
+          <option value="advanced">Advanced</option>
+        </select>
+      </div>
+      <p>
+        Duration: <strong>{{ getDurationForLevel(chosenLevel) }} minutes</strong>
+      </p>
+    </div>
+    <div class="modal-buttons">
+      <button class="cancel-btn" type="button" (click)="closeModal()">Cancel</button>
+      <button class="attempt-btn" type="button" (click)="attemptExam()">Attempt Now</button>
+    </div>
+  </div>
 </div>

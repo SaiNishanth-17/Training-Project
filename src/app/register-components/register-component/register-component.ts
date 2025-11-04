@@ -2,17 +2,17 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { User } from '../../Models/userService'; 
+import { User } from '../../Models/userService';
 import { UserRegisteringService } from '../../Services/user-registering-service';
 
 @Component({
-  selector: 'app-login-component',
+  selector: 'app-register-component',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './register-component.html',
-  styleUrl: './register-component.css'
+  styleUrls: ['./register-component.css'],
 })
-export class RegisterComponent{
+export class RegisterComponent {
   showLogin = false;
 
   // Registration fields
@@ -25,11 +25,9 @@ export class RegisterComponent{
   // Login fields
   lemail: string = '';
   lpassword: string = '';
- 
-  constructor(private router: Router,
-    private userService:UserRegisteringService
-  ) {}
- 
+
+  constructor(private router: Router, private userService: UserRegisteringService) {}
+
   register() {
     const email = this.email.trim().toLowerCase();
     const password = this.password;
@@ -61,23 +59,18 @@ export class RegisterComponent{
       this.router.navigate(['/admin-dashboard']);
       return;
     }
-  
-   
-    
-const isValid = this.userService.validateUser(loginEmail, loginPassword);
-  if (isValid) {
-    // Get the user object
-    const user = this.userService.getUserByEmail(loginEmail);
-    if (user) {
-      this.userService.setFirstName(user.firstname); // Set the first name
-    }
 
-    this.router.navigate(['/student-dashboard']);
-  } 
-  else {
-    alert('invalid credentials')
-  }
+    const isValid = this.userService.validateUser(loginEmail, loginPassword);
+    if (isValid) {
+      // Get the user object
+      const user = this.userService.getUserByEmail(loginEmail);
+      if (user) {
+        this.userService.setFirstName(user.firstname); // Set the first name
+      }
+
+      this.router.navigate(['/student-dashboard']);
+    } else {
+      alert('invalid credentials');
+    }
   }
 }
- 
- 

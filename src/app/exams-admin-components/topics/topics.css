@@ -1,7 +1,7 @@
 .exam-list-card {
   background: #fafbfc;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   max-width: 900px;
   margin: 30px auto;
   padding: 28px 30px 38px 30px;
@@ -91,16 +91,107 @@
   margin: 100px auto;
 }
 
-h1, h2, h3, h4, h5, h6,
-p, span, div,
-.modal-title, .modal-subtitle {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+div,
+.modal-title,
+.modal-subtitle {
   cursor: default;
 }
 
-button, .btn, .add-topic-button, .btn-close {
+button,
+.btn,
+.add-topic-button,
+.btn-close {
   cursor: pointer;
 }
 
-input, textarea {
+input,
+textarea {
   cursor: text;
+}
+
+.topic-card.card-border {
+  background: #fff;
+  border-radius: 8px;
+  padding: 12px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e6e6e6;
+}
+
+.topic-header {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.topic-name {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.status {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+.status.inactive {
+  background: #ffe6e6;
+  color: #b33;
+}
+
+.status:not(.inactive) {
+  background: #e6ffec;
+  color: #197b3a;
+}
+
+.topic-desc {
+  color: #666;
+  margin-top: 6px;
+}
+
+.topic-actions button {
+  margin-left: 8px;
+}
+
+.topic-actions .btn-outline-primary {
+  background: transparent;
+  border: 1px solid #a17ee8;
+  color: #6b42c6;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+.topic-actions .btn-outline-danger {
+  background: transparent;
+  border: 1px solid #f5b4b4;
+  color: #d9534f;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+.topic-card + .topic-card {
+  margin-top: 10px;
+}
+
+/* make edit modal status a checkbox appearance */
+.modal .form-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modal input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
 }
