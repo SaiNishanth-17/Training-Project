@@ -1,14 +1,14 @@
 <div class="container mt-4 exam-list-card">
   <div class="heading">
-    <h4>Exam Topics</h4>
+    <h4>Exam Subjects</h4>
     <p>Manage your subjects and their configurations</p>
-    <button class="add-topic-button" (click)="showModal = true">Add Topic</button>
+    <button class="add-topic-button" (click)="showModal = true">Add Subject</button>
   </div>
 
   <div class="modal" tabindex="-1" [ngClass]="{ 'show d-block': showModal }">
     <div class="modal-dialog">
       <div class="modal-content p-3">
-        <h5 class="modal-title">Add New Exam Topic</h5>
+        <h5 class="modal-title">Add New Subject</h5>
         <div class="modal-body">
           <form>
             <div class="mb-2">
@@ -17,7 +17,18 @@
             </div>
             <div class="mb-2">
               <label>Description</label>
-              <textarea class="form-control" [(ngModel)]="newExam.Description" name="desc"></textarea>
+              <textarea
+                class="form-control"
+                [(ngModel)]="newExam.Description"
+                name="desc"
+              ></textarea>
+            </div>
+            <div class="mb-2">
+              <label>Status</label>
+              <select class="form-control" [(ngModel)]="newExam.isActive" name="status">
+                <option [ngValue]="true">Active</option>
+                <option [ngValue]="false">Inactive</option>
+              </select>
             </div>
           </form>
         </div>
@@ -29,7 +40,55 @@
     </div>
   </div>
 
+  <!-- Edit Topic Modal -->
+  <div class="modal" tabindex="-1" [ngClass]="{ 'show d-block': editModal }">
+    <div class="modal-dialog">
+      <div class="modal-content p-3">
+        <h5 class="modal-title">Update Subject</h5>
+        <div class="modal-body">
+          <form>
+            <div class="mb-2">
+              <label>Subject Name</label>
+              <input class="form-control" [(ngModel)]="editExamData.name" name="editName" />
+            </div>
+            <div class="mb-2">
+              <label>Description</label>
+              <textarea
+                class="form-control"
+                [(ngModel)]="editExamData.Description"
+                name="editDesc"
+              ></textarea>
+            </div>
+            <div class="mb-2 form-check">
+              <input type="checkbox" [(ngModel)]="editExamData.isActive" name="editStatus" />
+              <label>Active</label>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn cancel-btn" (click)="editModal = false">Cancel</button>
+          <button class="btn add-topic-btn" (click)="updateExam()">Update</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="all-exams-container">
-    <app-exam-topic *ngFor="let exam of exams" [exam]="exam"></app-exam-topic>
+    <!-- display subjects only (not clickable). Show Edit and Delete buttons to manage each subject -->
+    <div class="topic-card card-border" *ngFor="let exam of exams">
+      <div class="topic-info">
+        <div class="topic-header">
+          <span class="topic-name">{{ exam.name }}</span>
+          <span class="status" [class.inactive]="!exam.isActive">{{
+            exam.isActive ? 'Active' : 'Inactive'
+          }}</span>
+        </div>
+        <div class="topic-desc">{{ exam.Description }}</div>
+      </div>
+      <div class="topic-actions">
+        <button class="btn btn-sm btn-outline-primary" (click)="openEditModal(exam)">Edit</button>
+        <button class="btn btn-sm btn-outline-danger" (click)="confirmDelete(exam)">Delete</button>
+      </div>
+    </div>
   </div>
 </div>
