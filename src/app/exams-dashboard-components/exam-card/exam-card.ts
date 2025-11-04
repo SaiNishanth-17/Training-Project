@@ -17,29 +17,14 @@ import { examQuestionType } from '../../Models/examQuestionType';
 export class ExamCard {
   @Input() exams: examType[] = [];
 
-  // modal state handled inside this component
-  modalOpen = false;
-  selectedExam: examType | null = null;
-  chosenLevel: string = 'basic';
+  // per-exam chosen level map used by the inline dropdowns
+  levels: { [examName: string]: string } = {};
 
   constructor(
     private questionBank: QuestionbankServices,
     private examData: ExamDataService,
     private router: Router
   ) {}
-
-  onOpen(exam: examType) {
-    this.selectedExam = exam;
-    this.chosenLevel = 'basic';
-    this.modalOpen = true;
-    document.body.classList.add('modal-open');
-  }
-
-  closeModal() {
-    this.modalOpen = false;
-    this.selectedExam = null;
-    document.body.classList.remove('modal-open');
-  }
 
   getDurationForLevel(level: string) {
     switch (level) {
@@ -54,13 +39,15 @@ export class ExamCard {
     }
   }
 
-  attemptExam() {
-    if (!this.selectedExam) return;
-    const examName = this.selectedExam.name;
-    const duration = this.getDurationForLevel(this.chosenLevel);
+  attemptExam(exam: examType) {
+    const chosenLevel = this.levels[exam.name] || 'basic';
+    const examName = exam.name;
+    const duration = this.getDurationForLevel(chosenLevel);
+
     this.examData.setTime(duration);
+
     this.questionBank
-      .getQuestionsForExamLevel(examName, this.chosenLevel)
+      .getQuestionsForExamLevel(examName, chosenLevel)
       .subscribe((questions: any[]) => {
         if (!questions || questions.length !== 10) {
           alert(`Exam requires exactly 10 questions. Current: ${questions ? questions.length : 0}`);
@@ -75,7 +62,7 @@ export class ExamCard {
           difficulty: q.difficulty || 'Easy',
         }));
         this.examData.setData([], examQuestions);
-        this.closeModal();
+        // navigate to start route using dynamic exam name
         this.router.navigateByUrl(`/student-dashboard/exam/${encodeURIComponent(examName)}/start`);
       });
   }

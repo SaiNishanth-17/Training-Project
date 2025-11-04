@@ -1,30 +1,24 @@
-<div *ngFor="let exam of exams">
-  <button type="button" class="exam-card" (click)="onOpen(exam)">
+<div *ngFor="let exam of exams" class="exam-row">
+  <div class="exam-info">
     <h3>{{ exam.name }} Exam</h3>
-    <p><strong>Topics:</strong> {{ exam.noOfTopics }}</p>
-  </button>
-</div>
+    <p class="exam-desc" *ngIf="exam.description">{{ exam.description }}</p>
+  </div>
 
-<!-- modal rendered inside the card component -->
-<div class="modal-overlay" *ngIf="modalOpen" (click)="closeModal()">
-  <div class="modal" (click)="$event.stopPropagation()">
-    <h5 class="modal-title">Select Level for {{ selectedExam?.name }}</h5>
-    <div class="modal-body">
-      <div class="mb-2">
-        <label>Level</label>
-        <select [(ngModel)]="chosenLevel">
-          <option value="basic">Basic</option>
-          <option value="intermediate">Intermediate</option>
-          <option value="advanced">Advanced</option>
-        </select>
-      </div>
-      <p>
-        Duration: <strong>{{ getDurationForLevel(chosenLevel) }} minutes</strong>
-      </p>
-    </div>
-    <div class="modal-buttons">
-      <button class="cancel-btn" type="button" (click)="closeModal()">Cancel</button>
-      <button class="attempt-btn" type="button" (click)="attemptExam()">Attempt Now</button>
-    </div>
+  <div class="exam-controls">
+    <select [(ngModel)]="levels[exam.name]" [ngModelOptions]="{ standalone: true }">
+        <option value="" disabled> -- select an option -- </option>
+      <option value="basic">Basic</option>
+      <option value="intermediate">Intermediate</option>
+      <option value="advanced">Advanced</option>
+    </select>
+
+    <button
+      class="attempt-btn"
+      type="button"
+      (click)="attemptExam(exam)"
+      [disabled]="!levels[exam.name]"
+    >
+      Attempt Now
+    </button>
   </div>
 </div>

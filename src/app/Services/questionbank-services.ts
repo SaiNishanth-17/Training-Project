@@ -17,6 +17,7 @@ export class QuestionbankServices {
     {
       courseName: 'Maths',
       questions: [
+        // Easy (existing)
         {
           id: 1,
           text: 'What is 2 + 2?',
@@ -95,13 +96,64 @@ export class QuestionbankServices {
           difficulty: 'Easy',
           subtopics: ['Multiples'],
           options: ['10', '15', '20', '25'],
-          correctAnswerIndex: 2,
+          correctAnswerIndex: 0,
+        },
+        // Medium
+        {
+          id: 41,
+          text: 'What is 12 × 12?',
+          difficulty: 'Medium',
+          subtopics: ['Multiplication'],
+          options: ['124', '144', '134', '154'],
+          correctAnswerIndex: 1,
+        },
+        {
+          id: 42,
+          text: 'Solve for x: 2x + 3 = 11',
+          difficulty: 'Medium',
+          subtopics: ['Algebra'],
+          options: ['3', '4', '5', '6'],
+          correctAnswerIndex: 1,
+        },
+        {
+          id: 43,
+          text: 'What is the area of a circle with radius 7 (use π ≈ 3.14)?',
+          difficulty: 'Medium',
+          subtopics: ['Geometry'],
+          options: ['153.86', '140.5', '176.5', '196.0'],
+          correctAnswerIndex: 0,
+        },
+        // Hard
+        {
+          id: 44,
+          text: 'Find one root of x^2 - 5x + 6 = 0',
+          difficulty: 'Hard',
+          subtopics: ['Algebra'],
+          options: ['2', '3', '1', '4'],
+          correctAnswerIndex: 0,
+        },
+        {
+          id: 45,
+          text: 'What is the derivative of x^2 with respect to x?',
+          difficulty: 'Hard',
+          subtopics: ['Calculus'],
+          options: ['x', '2x', 'x^2', '2'],
+          correctAnswerIndex: 1,
+        },
+        {
+          id: 46,
+          text: 'How many ways to choose 2 items from 5 (combinations)?',
+          difficulty: 'Hard',
+          subtopics: ['Combinatorics'],
+          options: ['10', '20', '5', '15'],
+          correctAnswerIndex: 0,
         },
       ],
     },
     {
       courseName: 'Science',
       questions: [
+        // Easy (existing)
         {
           id: 11,
           text: 'Which gas do plants use for photosynthesis?',
@@ -182,11 +234,77 @@ export class QuestionbankServices {
           options: ['English', 'Mandarin', 'Spanish', 'Hindi'],
           correctAnswerIndex: 1,
         },
+        // Medium
+        {
+          id: 47,
+          text: 'What is the chemical name for table salt?',
+          difficulty: 'Medium',
+          subtopics: ['Chemistry'],
+          options: [
+            'Sodium Chloride',
+            'Potassium Chloride',
+            'Sodium Carbonate',
+            'Calcium Chloride',
+          ],
+          correctAnswerIndex: 0,
+        },
+        {
+          id: 48,
+          text: 'Which organ system transports oxygen and nutrients around the body?',
+          difficulty: 'Medium',
+          subtopics: ['Biology'],
+          options: [
+            'Digestive system',
+            'Nervous system',
+            'Circulatory system',
+            'Respiratory system',
+          ],
+          correctAnswerIndex: 2,
+        },
+        {
+          id: 49,
+          text: 'What is the primary function of chlorophyll in plants?',
+          difficulty: 'Medium',
+          subtopics: ['Biology'],
+          options: [
+            'Absorb minerals',
+            'Absorb light for photosynthesis',
+            'Store water',
+            'Support structure',
+          ],
+          correctAnswerIndex: 1,
+        },
+        // Hard
+        {
+          id: 50,
+          text: 'What particle has a negative charge and orbits the nucleus?',
+          difficulty: 'Hard',
+          subtopics: ['Atomic Structure'],
+          options: ['Proton', 'Electron', 'Neutron', 'Photon'],
+          correctAnswerIndex: 1,
+        },
+        {
+          id: 51,
+          text: 'Which law states that for every action there is an equal and opposite reaction?',
+          difficulty: 'Hard',
+          subtopics: ['Physics'],
+          options: ["Newton's First", "Newton's Second", "Newton's Third", 'Law of Gravitation'],
+          correctAnswerIndex: 2,
+        },
+        {
+          id: 52,
+          text: 'What is the pH of a strong acid (less than)?',
+          difficulty: 'Hard',
+          subtopics: ['Chemistry'],
+          options: ['7', '0-3', '8-10', '5-6'],
+          correctAnswerIndex: 1,
+        },
       ],
     },
     {
       courseName: 'Social',
       questions: [
+        // Easy (existing)
         {
           id: 21,
           text: 'Who was the first President of the United States?',
@@ -267,11 +385,62 @@ export class QuestionbankServices {
           options: ['Beijing', 'Seoul', 'Tokyo', 'Bangkok'],
           correctAnswerIndex: 2,
         },
+        // Medium
+        {
+          id: 53,
+          text: 'Who was the main author of the United States Constitution?',
+          difficulty: 'Medium',
+          subtopics: ['History'],
+          options: ['George Washington', 'James Madison', 'Thomas Jefferson', 'Benjamin Franklin'],
+          correctAnswerIndex: 1,
+        },
+        {
+          id: 54,
+          text: 'What is GDP a measure of?',
+          difficulty: 'Medium',
+          subtopics: ['Economics'],
+          options: ['Population', 'Economic output', 'Area', 'Life expectancy'],
+          correctAnswerIndex: 1,
+        },
+        {
+          id: 55,
+          text: 'Which treaty ended World War I?',
+          difficulty: 'Medium',
+          subtopics: ['History'],
+          options: ['Treaty of Versailles', 'Treaty of Paris', 'Treaty of Ghent', 'Treaty of Rome'],
+          correctAnswerIndex: 0,
+        },
+        // Hard
+        {
+          id: 56,
+          text: 'What year did the Berlin Wall fall?',
+          difficulty: 'Hard',
+          subtopics: ['History'],
+          options: ['1987', '1989', '1991', '1993'],
+          correctAnswerIndex: 1,
+        },
+        {
+          id: 57,
+          text: 'Which economic system is characterized by private ownership and market allocation?',
+          difficulty: 'Hard',
+          subtopics: ['Economics'],
+          options: ['Communism', 'Socialism', 'Capitalism', 'Feudalism'],
+          correctAnswerIndex: 2,
+        },
+        {
+          id: 58,
+          text: 'Which philosophical movement emphasized reason and individualism during the 17-18th centuries?',
+          difficulty: 'Hard',
+          subtopics: ['Philosophy'],
+          options: ['Romanticism', 'Enlightenment', 'Renaissance', 'Realism'],
+          correctAnswerIndex: 1,
+        },
       ],
     },
     {
       courseName: 'English',
       questions: [
+        // Easy (existing)
         {
           id: 31,
           text: 'Choose the correct plural of "mouse".',
@@ -372,10 +541,75 @@ export class QuestionbankServices {
           options: ['Protagonist', 'Antagonist', 'Narrator', 'Character foil'],
           correctAnswerIndex: 0,
         },
+        // Medium
+        {
+          id: 59,
+          text: 'Which sentence uses the past perfect tense?',
+          difficulty: 'Medium',
+          subtopics: ['Grammar'],
+          options: [
+            'I had finished my work before dinner.',
+            'I finish my work yesterday.',
+            'I have finish my work.',
+            'I will have finished it.',
+          ],
+          correctAnswerIndex: 0,
+        },
+        {
+          id: 60,
+          text: 'Choose the synonym of "rapid".',
+          difficulty: 'Medium',
+          subtopics: ['Vocabulary'],
+          options: ['Slow', 'Quick', 'Calm', 'Lazy'],
+          correctAnswerIndex: 1,
+        },
+        {
+          id: 61,
+          text: 'What is an example of an oxymoron?',
+          difficulty: 'Medium',
+          subtopics: ['Literature'],
+          options: ['Bittersweet', 'Happy', 'Sunny', 'Brave'],
+          correctAnswerIndex: 0,
+        },
+        // Hard
+        {
+          id: 62,
+          text: 'Which literary device involves giving human traits to non-human things?',
+          difficulty: 'Hard',
+          subtopics: ['Literature'],
+          options: ['Metaphor', 'Personification', 'Alliteration', 'Hyperbole'],
+          correctAnswerIndex: 1,
+        },
+        {
+          id: 63,
+          text: 'Identify the passive voice: "The cake was eaten by the children." What is the active version?',
+          difficulty: 'Hard',
+          subtopics: ['Grammar'],
+          options: [
+            'The children ate the cake.',
+            'The cake ate the children.',
+            'The children were eating cake.',
+            'The cake had been eaten.',
+          ],
+          correctAnswerIndex: 0,
+        },
+        {
+          id: 64,
+          text: 'Which of these is a characteristic of modernist literature?',
+          difficulty: 'Hard',
+          subtopics: ['Literature'],
+          options: [
+            'Strict moral lessons',
+            'Stream of consciousness',
+            'Epic hero',
+            'Romantic idealism',
+          ],
+          correctAnswerIndex: 1,
+        },
       ],
     },
   ];
-  private nextId: number = 41;
+  private nextId: number = 65;
 
   getQuestionsForCourse(selectedCourse: string): Question[] {
     const courseGroup = this.questionsByCourse.find((group) => group.courseName === selectedCourse);
