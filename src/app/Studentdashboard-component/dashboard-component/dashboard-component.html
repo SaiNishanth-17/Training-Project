@@ -7,7 +7,7 @@
       <!-- student profile pill placed next to logout -->
       <div class="user-profile" style="display:flex; align-items:center; gap:8px; cursor:pointer;" (click)="openProfileModal()">
         <div class="profile-img">{{ (studentProfile.firstName[0] || '') + (studentProfile.lastName[0] || '') }}</div>
-        <div class="user-info" style="display:none;">
+        <div class="user-i'nfo" style="display:none;">
           <div class="user-name">{{ studentProfile.firstName }} {{ studentProfile.lastName }}</div>
           <div class="user-role">{{ studentProfile.role }}</div>
         </div>
@@ -62,10 +62,6 @@
             <div class="mb-3">
               <label>Last Name</label>
               <input type="text" class="form-control" [value]="profileEdit.lastName" (input)="profileEdit.lastName = $any($event.target).value" required>
-            </div>
-            <div class="mb-3">
-              <label>Password</label>
-              <input type="password" class="form-control" [value]="profileEdit.password" (input)="profileEdit.password = $any($event.target).value">
             </div>
             <div class="mb-3">
               <label>Email</label>

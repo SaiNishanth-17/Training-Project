@@ -36,7 +36,7 @@ export class AdminDashboard {
   editRoleValue: string = '';
   
     isProfileModalOpen: boolean = false;
-    profileEdit: any = {};
+    profileEdit: any = { password: '' };
 
     userData: UserData={
       firstName: 'Admin',
@@ -73,7 +73,7 @@ export class AdminDashboard {
         // trend: 'positive'
       },
       {
-        label: 'Total Exam Topics',
+        label: 'Total Subjects',
         value: this.adminService.getTotalExams(),
         icon: 'fa-solid fa-user-pen',
         color: 'blue',
@@ -161,7 +161,12 @@ export class AdminDashboard {
     }
 
     openProfileModal() {
-      this.profileEdit = { ...this.userData };
+      this.profileEdit = { 
+        firstName: this.userData.firstName,
+        lastName: this.userData.lastName,
+        email: this.userData.email,
+        role: this.userData.role
+      };
       this.isProfileModalOpen = true;
     }
 
@@ -171,11 +176,13 @@ export class AdminDashboard {
     }
 
     saveProfile() {
-      // apply changes to local userData
       this.userData.firstName = this.profileEdit.firstName || this.userData.firstName;
       this.userData.lastName = this.profileEdit.lastName || this.userData.lastName;
-      this.userData.email = this.profileEdit.email || this.userData.email;
-      // role is not editable here; keep existing role
+      const user = this.userService.getUserByEmail(this.userData.email);
+      if (user) {
+        user.firstname = this.userData.firstName;
+        user.lastname = this.userData.lastName;
+      }
       this.closeProfileModal();
     }
 }

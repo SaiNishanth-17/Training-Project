@@ -98,9 +98,10 @@
                             </td>
                             <td>
                               <ng-container *ngIf="editingEmail !== record.email">
-                                <!-- prevent editing own role from here -->
-                                <button *ngIf="record.email !== userData.email" class="btn btn-sm" (click)="startEdit(record)">Edit Role</button>
-                                <button class="btn btn-sm btn-danger" (click)="deleteRecord(record)">Delete</button>
+                                <!-- Only allow editing/deleting students -->
+                                <button *ngIf="record.role === 'Student'" class="btn btn-sm" (click)="startEdit(record)">Edit Role</button>
+                                <button *ngIf="record.role === 'Student'" class="btn btn-sm btn-danger" (click)="deleteRecord(record)">Delete</button>
+                                <span *ngIf="record.role === 'Admin'">-</span>
                               </ng-container>
                               <ng-container *ngIf="editingEmail === record.email">
                                 <button class="btn btn-sm" (click)="saveRole(record)">Save</button>
@@ -140,11 +141,10 @@
                   </div>
                   <div class="mb-3">
                     <label>Email</label>
-                    <input type="email" class="form-control" [(ngModel)]="profileEdit.email" name="email" required>
+                    <input type="email" class="form-control" [value]="profileEdit.email" disabled>
                   </div>
                   <div class="mb-3">
                     <label>Role</label>
-                    <!-- Role is not editable from admin profile modal -->
                     <input type="text" class="form-control" [value]="profileEdit.role" disabled>
                   </div>
                 </div>
