@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-analytics-admindashboard',
@@ -10,11 +11,11 @@ import { CommonModule } from '@angular/common';
 })
 export class AnalyticsAdmindashboard implements OnInit {
 
-  
+  constructor(private http: HttpClient) {}
 
-  totalStudents = 120;
-  totalExams = 350;
-  passRate = 68;
+  totalStudents: number = 0;
+  totalExams: number = 0;
+  passRate: number = 0;
 
   students = [
     { name: "Sai Nishanth", avgScore: 72, passRate: 80 },
@@ -30,7 +31,24 @@ export class AnalyticsAdmindashboard implements OnInit {
 
   selectedStudent: any = null;
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loadAdminStats();
+  }
+
+  loadAdminStats(){
+    this.http.get<any>('http://localhost:8001/api/analytics/admin/stats').subscribe(
+      { next: (data) =>{
+        console.log(JSON.stringify(data));
+        // console.log.(data);
+      this.totalStudents = data.totalStudents;
+      this.totalExams = data.totalExams;
+      this.passRate = data.passRate;
+    },
+    error: (err) => {
+      console.error('Error fetching admin analytics data', err);
+    }
+    });
+  }
 
   selectStudent(student: any) {
     this.selectedStudent = student;
