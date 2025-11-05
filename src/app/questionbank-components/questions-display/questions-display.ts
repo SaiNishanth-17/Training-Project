@@ -16,7 +16,7 @@ export class QuestionsDisplay implements OnInit {
   selectedCourseName: string = ''; // start empty
   courses: { name: string }[] = [];
   filterDifficulty: string = ''; // require selection
-  correctAnswerIndex: number = 0;
+  correctAnswer: string = '';
   isAddingNew: boolean = false;
   editingQuestion: Question | null | undefined;
   displayedQuestions: Question[] = [];
@@ -26,7 +26,7 @@ export class QuestionsDisplay implements OnInit {
     id: 0,
     text: '',
     options: ['', '', '', ''],
-    correctAnswerIndex: 0,
+    correctAnswer: '',
     difficulty: 'Easy', // This default is overwritten in addQuestion()
   };
 
@@ -64,7 +64,7 @@ export class QuestionsDisplay implements OnInit {
 
   editQuestion(question: Question): void {
     this.editingQuestion = this.serviceQuestion.deepCloneQuestion(question);
-    this.correctAnswerIndex = this.editingQuestion.correctAnswerIndex;
+    this.correctAnswer = this.editingQuestion.correctAnswer;
     this.isAddingNew = false;
   }
 
@@ -76,7 +76,7 @@ export class QuestionsDisplay implements OnInit {
   }
 
   cancelEdit(): void {
-    this.correctAnswerIndex = 0;
+    this.correctAnswer = '';
     this.isAddingNew = false;
     this.editingQuestion = null;
   }
@@ -110,14 +110,14 @@ export class QuestionsDisplay implements OnInit {
 
   cancelAdd(): void {
     this.isAddingModalOpen = false;
-    this.correctAnswerIndex = 0;
+    this.correctAnswer = '';
     // Reset the new question item (difficulty will be reset to 'Easy' here, 
     // and then re-set by addQuestion() if a filter is active)
     this.newQuestionItem = {
       id: 0,
       text: '',
       options: ['', '', '', ''],
-      correctAnswerIndex: 0,
+      correctAnswer: '',
       difficulty: 'Easy',
     };
   }
@@ -138,10 +138,14 @@ export class QuestionsDisplay implements OnInit {
         return false;
       }
     }
-    if (q.correctAnswerIndex === undefined || q.correctAnswerIndex < 0) {
-      alert('A correct answer must be selected.');
+    if (q.correctAnswer === undefined ) {
+      alert('A correct answer must be entered.');
       return false;
     }
+    if (!q.options.includes(q.correctAnswer)) {
+      alert('The Correct Answer text must exactly match one of the four options provided (A, B, C, or D).');
+      return false;
+    }
        
     return true;
   }
@@ -151,7 +155,7 @@ export class QuestionsDisplay implements OnInit {
       return;
     }
     
-    this.newQuestionItem.correctAnswerIndex = this.correctAnswerIndex;
+    this.newQuestionItem.correctAnswer = this.correctAnswer;
     const questionToAdd: Question = this.serviceQuestion.deepCloneQuestion(this.newQuestionItem);
     this.serviceQuestion.addQuestion(questionToAdd, this.selectedCourseName);
     this.cancelAdd();

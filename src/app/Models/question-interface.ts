@@ -3,7 +3,7 @@ export interface Question {
   text: string;
   difficulty: 'Easy' | 'Medium' | 'Hard';
   options:string[];
-  correctAnswerIndex:number;
+  correctAnswer:string;
 }
 
 export interface QuestionGroup{
