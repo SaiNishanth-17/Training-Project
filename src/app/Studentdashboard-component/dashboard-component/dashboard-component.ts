@@ -71,10 +71,18 @@ export class DashboardComponent {
   }
 
   saveStudentProfile() {
-    // only firstName, lastName, password can be changed; email & role are read-only here
     this.studentProfile.firstName = this.profileEdit.firstName || this.studentProfile.firstName;
     this.studentProfile.lastName = this.profileEdit.lastName || this.studentProfile.lastName;
-    this.studentProfile.password = this.profileEdit.password || this.studentProfile.password;
+    if (this.profileEdit.password) {
+      const user = this.userService.getUserByEmail(this.studentProfile.email);
+      if (user) {
+        user.firstname = this.studentProfile.firstName;
+        user.lastname = this.studentProfile.lastName;
+        user.password = this.profileEdit.password;
+        this.userService.setCurrentUser(user);
+      }
+    }
+    this.firstname = this.studentProfile.firstName;
     this.closeProfileModal();
   }
 
