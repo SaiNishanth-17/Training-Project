@@ -16,7 +16,7 @@
       <h2>Register</h2>
  
       <label>First Name:</label>
-      <input type="text" name="firstname" [(ngModel)]="firstname" required pattern="[A-Za-z ]+" placeholder="Firstname" #firstnameField="ngModel">
+      <input type="text" name="firstname" [(ngModel)]="firstname" required pattern="^[a-zA-Z\s]+$" placeholder="Firstname" #firstnameField="ngModel">
       <div *ngIf="firstnameField.errors?.['required'] && firstnameField.touched" class="error">
         First Name field can't be empty
       </div>
@@ -25,7 +25,7 @@
       </div>
  
       <label>Last Name:</label>
-      <input type="text" name="lastname" [(ngModel)]="lastname" required pattern="[A-Za-z ]+" placeholder="Lastname" #lastnameField="ngModel">
+      <input type="text" name="lastname" [(ngModel)]="lastname" required pattern="^[a-zA-Z\s]+$" placeholder="Lastname" #lastnameField="ngModel">
       <div *ngIf="lastnameField.errors?.['required'] && lastnameField.touched" class="error">
         Last Name field can't be empty
       </div>
@@ -34,7 +34,7 @@
       </div>
  
       <label>Email:</label>
-      <input type="email" name="email" placeholder="email" [(ngModel)]="email" required pattern="^[a-z0-9]+@[a-z0-9]+\.[a-z]{2,}$" #emailField="ngModel">
+      <input type="email" name="email" placeholder="email" [(ngModel)]="email" required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" #emailField="ngModel">
       <div *ngIf="emailField.errors?.['required'] && emailField.touched" class="error">
         Email field can't be empty
       </div>
@@ -43,12 +43,12 @@
       </div>
  
       <label>Password:</label>
-      <input type="password" name="password" [(ngModel)]="password" required pattern="[a-zA-Z0-9]{6,}" placeholder="Password" #passwordField="ngModel" minlength="6">
+      <input type="password" name="password" [(ngModel)]="password" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" placeholder="Password" #passwordField="ngModel" minlength="6">
       <div *ngIf="passwordField.errors?.['required'] && passwordField.touched" class="error">
         Password can't be empty
       </div>
       <div *ngIf="passwordField.errors?.['pattern'] && passwordField.touched" class="error">
-        Password must be at least 6 characters and alphanumeric
+       Password must contain uppercase, lowercase, digit, special character and be at least 8 characters long
       </div>
  
       <label>Confirm Password:</label>
