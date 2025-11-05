@@ -13,9 +13,9 @@ import { QuestionGroup } from '../../Models/question-interface';
   styleUrl: './questions-display.css',
 })
 export class QuestionsDisplay implements OnInit {
-  selectedCourseName: string = ''; // start empty
+  selectedCourseName: string = ''; 
   courses: { name: string }[] = [];
-  filterDifficulty: string = ''; // require selection
+  filterDifficulty: string = ''; 
   correctAnswer: string = '';
   isAddingNew: boolean = false;
   editingQuestion: Question | null | undefined;
@@ -27,7 +27,7 @@ export class QuestionsDisplay implements OnInit {
     text: '',
     options: ['', '', '', ''],
     correctAnswer: '',
-    difficulty: 'Easy', // This default is overwritten in addQuestion()
+    difficulty: 'Easy', 
   };
 
   constructor(private serviceQuestion: QuestionbankServices) {}
@@ -53,7 +53,6 @@ export class QuestionsDisplay implements OnInit {
   }
 
   getFilteredQuestions(): Question[] {
-    // only show when both course and difficulty are selected
     if (!this.selectedCourseName || !this.filterDifficulty) return [];
     return this.displayedQuestions;
   }
@@ -93,15 +92,9 @@ export class QuestionsDisplay implements OnInit {
     this.editingQuestion = null;
     this.cancelAdd();
 
-    // 🚀 FIX: Set the difficulty for the new question based on the current filter
-    // Only assign it if filterDifficulty has a selected value
     if (this.filterDifficulty) {
-        // Since filterDifficulty is a string, and difficulty expects a specific literal type, 
-        // we use 'as' for type assertion if TypeScript complains,
-        // otherwise, we just assign the string value.
         this.newQuestionItem.difficulty = this.filterDifficulty as 'Easy' | 'Medium' | 'Hard';
     } else {
-        // If no filter is set (which is usually prevented by isAddDisabled), default to 'Easy'
         this.newQuestionItem.difficulty = 'Easy';
     }
 
@@ -111,8 +104,6 @@ export class QuestionsDisplay implements OnInit {
   cancelAdd(): void {
     this.isAddingModalOpen = false;
     this.correctAnswer = '';
-    // Reset the new question item (difficulty will be reset to 'Easy' here, 
-    // and then re-set by addQuestion() if a filter is active)
     this.newQuestionItem = {
       id: 0,
       text: '',
@@ -164,7 +155,6 @@ export class QuestionsDisplay implements OnInit {
   }
 
   isAddDisabled(): boolean {
-    // disable only when a difficulty is selected and count >= 10
     if (!this.selectedCourseName || !this.filterDifficulty) return true;
     return this.questionsCountForSelectedDifficulty() >= 10;
   }
