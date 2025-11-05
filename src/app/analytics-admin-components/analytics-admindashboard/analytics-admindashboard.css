@@ -3,7 +3,7 @@
   font-family: Arial, sans-serif;
 }
 
-/* summary cards */
+/* Summary Cards */
 .summary {
   display: flex;
   gap: 20px;
@@ -28,24 +28,47 @@
   color: #874caf;
 }
 
-/* tables */
+/* Tables */
 table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 30px;
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
 th, td {
   text-align: left;
-  padding: 8px;
-  border-bottom: 1px solid #ddd;
+  padding: 10px 12px;
+  border-bottom: 1px solid #eee;
 }
 
 th {
   background-color: #f0f0ff;
+  font-weight: 600;
+  color: #4a4a4a;
 }
 
-/* progress bars */
+tr:hover {
+  background-color: #faf8ff;
+  transition: 0.2s;
+}
+
+/* Clickable Links (Student / Exam Names) */
+.clickable {
+  color: #874caf;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.clickable:hover {
+  text-decoration: underline;
+}
+
+/* Progress Bars */
 .progress-container {
   width: 100px;
   height: 10px;
@@ -58,4 +81,71 @@ th {
   height: 100%;
   background-color: #874caf;
   transition: width 0.5s ease-in-out;
+}
+
+/* Modal Styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 10px;
+  width: 420px;
+  max-width: 90%;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  position: relative;
+  animation: slideUp 0.3s ease;
+}
+
+.modal-content h3 {
+  color: #874caf;
+  margin-bottom: 10px;
+}
+
+.modal-content h4 {
+  color: #5a2d7f;
+  margin-top: 15px;
+}
+
+.modal-content p, .modal-content li {
+  font-size: 15px;
+  color: #333;
+  line-height: 1.5;
+}
+
+.close {
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 22px;
+  color: #874caf;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: #5a2d7f;
+}
+
+/* Smooth animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }

@@ -23,10 +23,5 @@ export class AnalyticsStudentPage implements OnInit {
   ngOnInit(): void {
     this.noOfExams=this.studentreportservice.getExam();
     this.averageScore=this.studentreportservice.getStudentAverage();
-    
-    
-  }
-
-  
-  
+  }  
 }

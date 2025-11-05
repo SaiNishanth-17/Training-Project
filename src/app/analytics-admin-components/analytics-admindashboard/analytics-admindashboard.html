@@ -1,49 +1,53 @@
 <div class="dashboard">
-  <h2>Analytics</h2>
+  <h2>Admin Analytics</h2>
 
   <!-- Summary Cards -->
   <div class="summary">
-    <div class="card">Total Students <br><span>{{ totalStudents }}</span></div>
-    <div class="card">Total Exams <br><span>{{ noOfExams }}</span></div>
-    <div class="card">Average Score <br><span>{{ avgScore }}%</span></div>
-    <div class="card">Pass Rate <br><span>{{ passRate }}%</span></div>
+    <div class="card">Total Students <span>{{ totalStudents }}</span></div>
+    <div class="card">Total Exams Taken <span>{{ totalExams }}</span></div>
+    <div class="card">Pass Rate <span>{{ passRate }}%</span></div>
   </div>
 
-  <div class="student-performance">
-    <h3>Student-wise Performance</h3>
-    <table>
-      <tr >
-        <th>Name</th>
-        <th>Average Score</th>
-        <th style="text-align: center;">Pass Rate</th>
-       
-      </tr>
-      <tr *ngFor="let student of students">
-        <td>{{ student.name }}</td>
-        <td>{{ student.average }}%</td>
-        <td style="display: flex; flex-direction: row; justify-content: space-evenly;"><div class="progress-container">
-            <div class="progress-bar" [style.width.%]="student.passrate"></div>
-          </div>{{ student.passrate }}%</td>
-        
-      </tr>
-    </table>
-  </div>
+  <!-- Student Performance -->
+  <h3>Student-wise Performance</h3>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Avg Score</th>
+      <th>Pass Rate</th>
+    </tr>
+    <tr *ngFor="let s of students">
+      <td class="clickable" (click)="selectStudent(s)">{{ s.name }}</td>
+      <td>{{ s.avgScore }}%</td>
+      <td>
+        <div class="progress-container">
+          <div class="progress-bar" [style.width.%]="s.passRate"></div>
+        </div>
+        {{ s.passRate }}%
+      </td>
+    </tr>
+  </table>
 
-  <div class="exam-performance">
-    <h3>Exam-wise Performance</h3>
-    <table>
-      <tr>
-        <th>Exam</th>
-        <th>Average Score</th>
-        <th>Highest</th>
-        <th>Pass Rate</th>
-      </tr>
-      <tr *ngFor="let exam of exams">
-        <td>{{ exam.name }}</td>
-        <td>{{ exam.avgScore }}</td>
-        <td>{{ exam.highest }}%</td>
-        <td>{{ exam.passRate }}%</td>
-      </tr>
-    </table>
+  <!-- Subject-wise Performance -->
+  <h3>Subject-wise Performance</h3>
+  <table>
+    <tr>
+      <th>Subject</th>
+      <th>Avg Score</th>
+    </tr>
+    <tr *ngFor="let sub of subjects">
+      <td>{{ sub.subjectName }}</td>
+      <td>{{ sub.avgScore }}%</td>
+    </tr>
+  </table>
+
+  <!-- Student Modal -->
+  <div class="modal" *ngIf="selectedStudent">
+    <div class="modal-content">
+      <span class="close" (click)="closeModal()">&times;</span>
+      <h3>{{ selectedStudent.name }}</h3>
+      <p><strong>Average Score:</strong> {{ selectedStudent.avgScore }}%</p>
+      <p><strong>Pass Rate:</strong> {{ selectedStudent.passRate }}%</p>
+    </div>
   </div>
 </div>
