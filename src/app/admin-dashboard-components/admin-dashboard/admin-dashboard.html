@@ -82,8 +82,8 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let record of records | searchFilterPipe:searchText">
-                            <td>{{ record.firstName }}</td>
-                            <td>{{ record.lastName }}</td>
+                            <td>{{ record.firstname || record.firstName }}</td>
+                            <td>{{ record.lastname || record.lastName }}</td>
                             <td>{{ record.email }}</td>
                             <td>
                               <ng-container *ngIf="editingEmail !== record.email">
@@ -113,11 +113,6 @@
                 </table>
             </div>
         </div>
-        <app-exam-details-modal
-            [isOpen]="isModalOpen"
-            [examDetails]="selectedExamDetails"
-            (closeModal)="closeExamDetails()">
-        </app-exam-details-modal>
         <!-- Profile Modal -->
         <div class="modal fade" tabindex="-1" [class.show]="isProfileModalOpen" [style.display]="isProfileModalOpen ? 'block' : 'none'">
           <div class="modal-dialog modal-dialog-centered modal-md">
