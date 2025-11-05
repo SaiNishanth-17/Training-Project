@@ -1,7 +1,24 @@
-<div class="exam-card" (click)="displayTopics()">
-    <h3>{{exam.name}} Exam</h3>
-    <p><strong>Topics:</strong>{{exam.noOfTopics}}</p>
-    <!-- <p><strong>Students Enrolled:</strong>{{exam.noOfStudents}}</p> -->
-    <!-- <i class="fas fa-clock"></i><span>{{exam.time}} minutes</span><br><br> -->
-    <!-- <button (click)="attemptExam()">Attempt Exam</button> -->
+<div *ngFor="let exam of exams" class="exam-row">
+  <div class="exam-info">
+    <h3>{{ exam.name }} Exam</h3>
+    <p class="exam-desc" *ngIf="exam.description">{{ exam.description }}</p>
+  </div>
+
+  <div class="exam-controls">
+    <select [(ngModel)]="levels[exam.name]" [ngModelOptions]="{ standalone: true }">
+        <option value="" disabled> -- select an option -- </option>
+      <option value="basic">Basic</option>
+      <option value="intermediate">Intermediate</option>
+      <option value="advanced">Advanced</option>
+    </select>
+
+    <button
+      class="attempt-btn"
+      type="button"
+      (click)="attemptExam(exam)"
+      [disabled]="!levels[exam.name]"
+    >
+      Attempt Now
+    </button>
+  </div>
 </div>

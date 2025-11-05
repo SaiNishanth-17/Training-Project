@@ -10,43 +10,56 @@ import { QuestionGroup } from '../../Models/question-interface';
 
 @Component({
   selector: 'app-questions-display',
-  imports: [FormsModule,CommonModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './questions-display.html',
-  styleUrl: './questions-display.css'
+  styleUrl: './questions-display.css',
 })
 export class QuestionsDisplay implements OnInit {
-  selectedCourseName: string = "HTML";
-  courses: {name:string}[] = [];
-  filterDifficulty: string = "All";
-  searchText: string = "";
+  selectedCourseName: string = ''; // start empty
+  courses: { name: string }[] = [];
+  filterDifficulty: string = ''; // require selection
   correctAnswerIndex: number = 0;
   isAddingNew: boolean = false;
-  subtopicsInput: string = "";
+  subtopicsInput: string = '';
   editingQuestion: Question | null | undefined;
   displayedQuestions: Question[] = [];
-  newQuestion!:QuestionGroup;
-  isAddingModalOpen: boolean = false; 
-  newQuestionItem: Question = { id: 0, text: '', options: ['', '', '', ''], correctAnswerIndex: 0, subtopics: [], difficulty: 'Easy' }; 
+  newQuestion!: QuestionGroup;
+  isAddingModalOpen: boolean = false;
+  newQuestionItem: Question = {
+    id: 0,
+    text: '',
+    options: ['', '', '', ''],
+    correctAnswerIndex: 0,
+    subtopics: [],
+    difficulty: 'Easy',
+  };
 
-  // displayedQuestionsCopy: Question[] = [];
-
-  constructor(private serviceQuestion: QuestionbankServices) { }
+  constructor(private serviceQuestion: QuestionbankServices) {}
 
   ngOnInit(): void {
     this.courses = this.serviceQuestion.courses;
-    this.onCourseChange(this.selectedCourseName);
   }
 
   onCourseChange(selectedCourseName: string): void {
-    // this.displayedQuestions = this.serviceQuestion.getQuestionsForCourse(selectedCourseName);
-    const questions = this.serviceQuestion.getQuestionsForCourse(selectedCourseName);
-    this.displayedQuestions = questions || [];
-    this.searchText = ""; 
-    this.filterDifficulty = "All";
+    this.selectedCourseName = selectedCourseName;
+    this.displayedQuestions = [];
+    this.filterDifficulty = '';
+  }
+
+  onDifficultyChange(level: string) {
+    this.filterDifficulty = level;
+    if (this.selectedCourseName && this.filterDifficulty) {
+      const questions = this.serviceQuestion.getQuestionsForCourse(this.selectedCourseName);
+      this.displayedQuestions = questions.filter((q) => q.difficulty === this.filterDifficulty);
+    } else {
+      this.displayedQuestions = [];
+    }
   }
 
   getFilteredQuestions(): Question[] {
-    return this.serviceQuestion.filteredQuestions(this.displayedQuestions, this.filterDifficulty, this.searchText);
+    // only show when both course and difficulty are selected
+    if (!this.selectedCourseName || !this.filterDifficulty) return [];
+    return this.displayedQuestions;
   }
 
   getCharFromIndex(i: number): string {
@@ -62,17 +75,17 @@ export class QuestionsDisplay implements OnInit {
 
   saveQuestion(): void {
     if (!this.editingQuestion) return;
- 
+
     this.editingQuestion.correctAnswerIndex = this.correctAnswerIndex;
     this.editingQuestion.subtopics = this.subtopicsInput
       .split(',')
-      .map(s => s.trim())
-      .filter(s => s);
- 
-    this.serviceQuestion.saveQuestion(this.editingQuestion,this.selectedCourseName);
+      .map((s) => s.trim())
+      .filter((s) => s);
+
+    this.serviceQuestion.saveQuestion(this.editingQuestion, this.selectedCourseName);
     this.editingQuestion = null;
-    this.onCourseChange(this.selectedCourseName);
-   }
+    this.onDifficultyChange(this.filterDifficulty);
+  }
 
   cancelEdit(): void {
     this.subtopicsInput = '';
@@ -83,69 +96,87 @@ export class QuestionsDisplay implements OnInit {
 
   deleteQuestion(id: number): void {
     this.serviceQuestion.deleteQuestion(id, this.selectedCourseName);
-    this.onCourseChange(this.selectedCourseName);
+    this.onDifficultyChange(this.filterDifficulty);
   }
   trackByOptions(index: number, option: string): number {
     return index;
   }
-  
-  addQuestion(){
-    this.editingQuestion = null; 
+
+  addQuestion() {
+    this.editingQuestion = null;
     this.cancelAdd();
-    this.isAddingModalOpen = true; 
-}
-cancelAdd(): void {
+    this.isAddingModalOpen = true;
+  }
+  cancelAdd(): void {
     this.isAddingModalOpen = false;
     this.subtopicsInput = '';
     this.correctAnswerIndex = 0;
-    this.newQuestionItem = { id: 0, text: '', options: ['', '', '', ''], correctAnswerIndex: 0, subtopics: [], difficulty: 'Easy' };
-}
+    this.newQuestionItem = {
+      id: 0,
+      text: '',
+      options: ['', '', '', ''],
+      correctAnswerIndex: 0,
+      subtopics: [],
+      difficulty: 'Easy',
+    };
+  }
 
-private validateNewQuestion(): boolean {
-  const q = this.newQuestionItem;
-  if (!q.text || q.text.trim() === '') {
-    alert('Please enter the Question Text.');
-    return false;
-  }
-  if (!q.difficulty) {
-    alert('Please select the Difficulty level.');
-    return false;
-  }
-  for (let i = 0; i < q.options.length; i++) {
-    if (!q.options[i] || q.options[i].trim() === '') {
-      alert(`Please enter Option ${this.getCharFromIndex(i)}.`);
+  private validateNewQuestion(): boolean {
+    const q = this.newQuestionItem;
+    if (!q.text || q.text.trim() === '') {
+      alert('Please enter the Question Text.');
       return false;
     }
-  }
-  if (q.correctAnswerIndex === undefined || q.correctAnswerIndex < 0) {
-     alert('A correct answer must be selected.');
-     return false;
-  }
-  const processedSubtopics = this.subtopicsInput
-    .split(',')
-    .map(s => s.trim())
-    .filter(s => s);
-    
-  if (processedSubtopics.length === 0) {
-    alert('Please enter at least one subtopic, separated by commas.');
-    return false;
-  }
-  return true; 
-}
-
-saveNewQuestion(): void {
-        if (!this.validateNewQuestion()) {
-           return; 
-         }
-        this.newQuestionItem.subtopics = this.subtopicsInput
-            .split(',')
-            .map(s => s.trim())
-            .filter(s => s);
-        this.newQuestionItem.correctAnswerIndex = this.correctAnswerIndex;
-        const questionToAdd: Question = this.serviceQuestion.deepCloneQuestion(this.newQuestionItem);
-        this.serviceQuestion.addQuestion(questionToAdd, this.selectedCourseName); 
-        this.cancelAdd(); 
-        this.onCourseChange(this.selectedCourseName);
+    if (!q.difficulty) {
+      alert('Please select the Difficulty level.');
+      return false;
     }
+    for (let i = 0; i < q.options.length; i++) {
+      if (!q.options[i] || q.options[i].trim() === '') {
+        alert(`Please enter Option ${this.getCharFromIndex(i)}.`);
+        return false;
+      }
+    }
+    if (q.correctAnswerIndex === undefined || q.correctAnswerIndex < 0) {
+      alert('A correct answer must be selected.');
+      return false;
+    }
+    const processedSubtopics = this.subtopicsInput
+      .split(',')
+      .map((s) => s.trim())
+      .filter((s) => s);
 
+    if (processedSubtopics.length === 0) {
+      alert('Please enter at least one subtopic, separated by commas.');
+      return false;
+    }
+    return true;
+  }
+
+  saveNewQuestion(): void {
+    if (!this.validateNewQuestion()) {
+      return;
+    }
+    this.newQuestionItem.subtopics = this.subtopicsInput
+      .split(',')
+      .map((s) => s.trim())
+      .filter((s) => s);
+    this.newQuestionItem.correctAnswerIndex = this.correctAnswerIndex;
+    const questionToAdd: Question = this.serviceQuestion.deepCloneQuestion(this.newQuestionItem);
+    this.serviceQuestion.addQuestion(questionToAdd, this.selectedCourseName);
+    this.cancelAdd();
+    this.onDifficultyChange(this.filterDifficulty);
+  }
+
+  questionsCountForSelectedDifficulty(): number {
+    if (!this.selectedCourseName || !this.filterDifficulty) return 0;
+    const questions = this.serviceQuestion.getQuestionsForCourse(this.selectedCourseName);
+    return questions.filter((q) => q.difficulty === this.filterDifficulty).length;
+  }
+
+  isAddDisabled(): boolean {
+    // disable only when a difficulty is selected and count >= 10
+    if (!this.selectedCourseName || !this.filterDifficulty) return true;
+    return this.questionsCountForSelectedDifficulty() >= 10;
+  }
 }

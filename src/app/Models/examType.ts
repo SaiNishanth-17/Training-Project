@@ -1,7 +1,8 @@
 export interface examType {
-  id:number;
+  id: number;
   name: string;
   noOfTopics: number;
   noOfStudents: number;
-  time:number;
+  time: number;
+  description?: string;
 }
