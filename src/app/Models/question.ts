@@ -3,5 +3,5 @@ export interface Question {
     text: string,
     options: string[],
     correctAnswer: string,
-    difficulty: 'Easy' | 'Medium' | 'Hard',
+    difficulty: 'Beginner' | 'Intermediate' | 'Advanced',
 }

@@ -27,7 +27,7 @@ export class QuestionsDisplay implements OnInit {
     text: '',
     options: ['', '', '', ''],
     correctAnswer: '',
-    difficulty: 'Easy', 
+    difficulty: 'Beginner', 
   };
 
   constructor(private serviceQuestion: QuestionbankServices) {}
@@ -93,9 +93,9 @@ export class QuestionsDisplay implements OnInit {
     this.cancelAdd();
 
     if (this.filterDifficulty) {
-        this.newQuestionItem.difficulty = this.filterDifficulty as 'Easy' | 'Medium' | 'Hard';
+        this.newQuestionItem.difficulty = this.filterDifficulty as 'Beginner' | 'Intermediate' | 'Advanced';
     } else {
-        this.newQuestionItem.difficulty = 'Easy';
+        this.newQuestionItem.difficulty = 'Beginner';
     }
 
     this.isAddingModalOpen = true;
@@ -109,7 +109,7 @@ export class QuestionsDisplay implements OnInit {
       text: '',
       options: ['', '', '', ''],
       correctAnswer: '',
-      difficulty: 'Easy',
+      difficulty: 'Beginner',
     };
   }
 
