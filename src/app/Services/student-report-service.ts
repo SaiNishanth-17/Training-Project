@@ -23,6 +23,16 @@ export class StudentReportService  {
     { name: 'Diana', scores: [87,78,55] },
     { name: 'Ethan', scores: [99,87,67 ]}
   ];
+getExamWiseScores() {
+  return [
+    { name: 'Math', score: 85 },
+    { name: 'Science', score: 92 },
+    { name: 'English', score: 78 },
+    { name: 'History', score: 88 },
+    { name: 'Geography', score: 91 }
+  ];
+}
+
 
   getLeaderboard():{name:string; score:number;}[]{
     return this.studentScoreDetails.map(student => {

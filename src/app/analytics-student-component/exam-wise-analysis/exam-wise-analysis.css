@@ -1,27 +1,44 @@
+
 .analysis-section {
-  /* width: 300px; */
+  background: #fff;
+  border-radius: 10px;
   padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  font-family: 'Segoe UI', sans-serif;
-  align-items: center;
 }
 
 .analysis-section h3 {
+  color: #874caf;
   margin-bottom: 15px;
-  color: #9f71e4;
-  font-size: 20px;
   text-align: center;
+  font-weight: 600;
 }
 
-.items{
-  font-size: 18px;
-  font-weight: bold;
-  color: #9f71e4;
-  margin-right: 15px;
+.chart-container {
+  width: 100%;
+  height: 320px;
+  margin-bottom: 20px;
+}
+
+.exam-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.items {
   display: flex;
   justify-content: space-between;
-  width: 100%;
+  background: #f4f4f4;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #333;
 }
 
+
+.levels {
+  display: flex;
+  gap: 12px;
+  font-size: 13px;
+  color: #555;
+}
