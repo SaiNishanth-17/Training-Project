@@ -73,14 +73,11 @@ export class DashboardComponent {
   saveStudentProfile() {
     this.studentProfile.firstName = this.profileEdit.firstName || this.studentProfile.firstName;
     this.studentProfile.lastName = this.profileEdit.lastName || this.studentProfile.lastName;
-    if (this.profileEdit.password) {
-      const user = this.userService.getUserByEmail(this.studentProfile.email);
-      if (user) {
-        user.firstname = this.studentProfile.firstName;
-        user.lastname = this.studentProfile.lastName;
-        user.password = this.profileEdit.password;
-        this.userService.setCurrentUser(user);
-      }
+    const user = this.userService.getUserByEmail(this.studentProfile.email);
+    if (user) {
+      user.firstname = this.studentProfile.firstName;
+      user.lastname = this.studentProfile.lastName;
+      this.userService.setCurrentUser(user);
     }
     this.firstname = this.studentProfile.firstName;
     this.closeProfileModal();

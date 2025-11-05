@@ -75,15 +75,11 @@
       <div class="no-questions-caution">
         <p *ngIf="selectedCourseName && filterDifficulty">
           There are currently no questions for the <strong>{{ selectedCourseName }}</strong> course
-          at <strong>{{ filterDifficulty }}</strong> difficulty. <br />Click the button below to add
-          the first question!
+          at <strong>{{ filterDifficulty }}</strong> difficulty.
         </p>
         <p *ngIf="!selectedCourseName || !filterDifficulty">
           Please select both a course and difficulty to view questions.
         </p>
-        <button class="btn add-btn" (click)="addQuestion()" [disabled]="isAddDisabled()">
-          Add First Question
-        </button>
       </div>
     </ng-template>
   </div>

@@ -165,8 +165,7 @@ export class AdminDashboard {
         firstName: this.userData.firstName,
         lastName: this.userData.lastName,
         email: this.userData.email,
-        role: this.userData.role,
-        password: ''
+        role: this.userData.role
       };
       this.isProfileModalOpen = true;
     }
@@ -177,17 +176,12 @@ export class AdminDashboard {
     }
 
     saveProfile() {
-      // apply changes to local userData
       this.userData.firstName = this.profileEdit.firstName || this.userData.firstName;
       this.userData.lastName = this.profileEdit.lastName || this.userData.lastName;
-      // Update password in userService if provided
-      if (this.profileEdit.password) {
-        const user = this.userService.getUserByEmail(this.userData.email);
-        if (user) {
-          user.firstname = this.userData.firstName;
-          user.lastname = this.userData.lastName;
-          user.password = this.profileEdit.password;
-        }
+      const user = this.userService.getUserByEmail(this.userData.email);
+      if (user) {
+        user.firstname = this.userData.firstName;
+        user.lastname = this.userData.lastName;
       }
       this.closeProfileModal();
     }
