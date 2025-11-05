@@ -1,6 +1,19 @@
 <div class="analysis-section">
   <h3>Exam-wise Analysis</h3>
-  <div *ngFor="let q of examStats" class="items">
-    {{ q.exam }} - {{ q.correct }}%
+
+  <div class="chart-container">
+    <canvas id="examScoresChart"></canvas>
   </div>
+
+  <div class="exam-list">
+  <div *ngFor="let q of examStats" class="items">
+    <strong>{{ q.exam }}</strong>
+    <div class="levels">
+      <span>Basic: {{ q.basic }}%</span>
+      <span>Intermediate: {{ q.intermediate }}%</span>
+      <span>Advanced: {{ q.advanced }}%</span>
+    </div>
+  </div>
+</div>
+
 </div>

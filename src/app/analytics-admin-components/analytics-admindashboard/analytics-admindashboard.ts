@@ -1,65 +1,42 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AdminReportServices } from '../../Services/admin-report-services';
-import { ScoreAnalytics } from '../../Models/scoreAnalysis';
-
-import { StudentReportService } from '../../Services/student-report-service';
 
 @Component({
   selector: 'app-analytics-admindashboard',
+  standalone: true,
   imports: [CommonModule],
   templateUrl: './analytics-admindashboard.html',
-  styleUrl: './analytics-admindashboard.css'
+  styleUrls: ['./analytics-admindashboard.css']
 })
-export class AnalyticsAdmindashboard implements OnInit{
+export class AnalyticsAdmindashboard implements OnInit {
+
   
 
-  constructor(private adminreportservices: AdminReportServices,
-    private studentreportservice:StudentReportService
-  ){}
+  totalStudents = 120;
+  totalExams = 350;
+  passRate = 68;
 
-  exams?:any;
-  noOfExams: number=0;
-  totalStudents!:number;
-  totalExams!:number;
-  avgScore!:number;
-  passRate=85;
-  students:ScoreAnalytics[] = [];
+  students = [
+    { name: "Sai Nishanth", avgScore: 72, passRate: 80 },
+    { name: "Ayesha Khan", avgScore: 85, passRate: 90 },
+    { name: "Ravi Sharma", avgScore: 65, passRate: 60 },
+  ];
 
-  ngOnInit(): void {
-    this.numberOfStudents();
-    this.numberOfExams();
-    this.totalAverage();
-    this.studentScoreAnalysis();
-    this.exams=this.adminreportservices.examsScore;
-    this.noOfExams=this.studentreportservice.getExam();
+  subjects = [
+    { subjectName: "Mathematics", avgScore: 71 },
+    { subjectName: "Science", avgScore: 67 },
+    { subjectName: "English", avgScore: 80 },
+  ];
+
+  selectedStudent: any = null;
+
+  ngOnInit(): void {}
+
+  selectStudent(student: any) {
+    this.selectedStudent = student;
   }
 
-  numberOfStudents(){
-    this.totalStudents=this.adminreportservices.numberOfStudents();
+  closeModal() {
+    this.selectedStudent = null;
   }
-
-  numberOfExams(){
-    this.totalExams=this.adminreportservices.numberOfExamsAvailable();
-  }
-
-  totalAverage(){
-    this.avgScore=this.adminreportservices.averageScore();
-  }
-
-  studentScoreAnalysis(){
-    this.students=this.adminreportservices.getScoreAnalytics();
-  }
-
-
-  
-  
-  
-  
- 
-
-
-
-  // Student-wise Performance
-  
 }
