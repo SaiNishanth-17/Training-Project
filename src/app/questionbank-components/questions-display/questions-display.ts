@@ -141,12 +141,7 @@ export class QuestionsDisplay implements OnInit {
     if (q.correctAnswer === undefined ) {
       alert('A correct answer must be entered.');
       return false;
-    }
-    if (!q.options.includes(q.correctAnswer)) {
-      alert('The Correct Answer text must exactly match one of the four options provided (A, B, C, or D).');
-      return false;
-    }
-       
+    }       
     return true;
   }
 
