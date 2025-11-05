@@ -5,13 +5,13 @@ import { ExamTopicType } from '../../Models/examTopicType';
 import { ExamTopicService } from '../../Services/exam-topic-service';
 import { QuestionbankServices } from '../../Services/questionbank-services';
 @Component({
-  selector: 'app-topics',
+  selector: 'app-exam-subjects',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './topics.html',
-  styleUrls: ['./topics.css'],
+  templateUrl: './exam-subjects.html',
+  styleUrls: ['./exam-subjects.css'],
 })
-export class Topics implements OnInit {
+export class ExamSubjects implements OnInit {
   exams: ExamTopicType[] = [];
   showModal = false;
   editModal = false;
@@ -23,7 +23,12 @@ export class Topics implements OnInit {
     subtopics: [],
   };
 
-  editExamData: ExamTopicType = { name: '', isActive: true, Description: '', subtopics: [] };
+  editExamData: ExamTopicType = {
+    name: '',
+    isActive: true,
+    Description: '',
+    subtopics: [],
+  };
 
   constructor(
     private examTopicService: ExamTopicService,
@@ -36,10 +41,8 @@ export class Topics implements OnInit {
 
   addExam() {
     if (this.newExam.name.trim()) {
-      // ensure subtopics exists
       if (!this.newExam.subtopics) this.newExam.subtopics = [];
       this.examTopicService.addExam({ ...this.newExam });
-      // ensure question bank has the new course as well
       this.questionbank.addCourse(this.newExam.name);
       this.exams = this.examTopicService.getExams();
       this.newExam = {
@@ -47,14 +50,13 @@ export class Topics implements OnInit {
         isActive: true,
         Description: '',
         subtopics: [],
-      } as ExamTopicType;
+      };
       this.showModal = false;
     }
   }
 
   openEditModal(exam: ExamTopicType) {
     this.editExamData = { ...exam };
-    // store original name for update
     (this.editExamData as any).__originalName = exam.name;
     this.editModal = true;
   }
@@ -64,7 +66,6 @@ export class Topics implements OnInit {
     const originalName = (this.editExamData as any).__originalName || this.editExamData.name;
     if (!this.editExamData.subtopics) this.editExamData.subtopics = [];
     this.examTopicService.updateExam(this.editExamData, originalName);
-    // if name changed, update question bank course name: delete old and add new
     if (originalName !== this.editExamData.name) {
       this.questionbank.deleteCourse(originalName);
       this.questionbank.addCourse(this.editExamData.name);
