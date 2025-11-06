@@ -87,7 +87,10 @@
                             <td>{{ record.email }}</td>
                             <td>
                               <ng-container *ngIf="editingEmail !== record.email">
-                                {{ record.role }}
+                                <span class="status" [ngClass]="record.role?.toLowerCase() === 'student' ? 'passed' : 'failed'">
+                                  <i class="fas" [ngClass]="record.role?.toLowerCase() === 'student' ? 'fa-user-graduate' : 'fa-user-shield'"></i>
+                                  {{ record.role }}
+                                </span>
                               </ng-container>
                               <ng-container *ngIf="editingEmail === record.email">
                                 <select [(ngModel)]="editRoleValue">
@@ -98,10 +101,9 @@
                             </td>
                             <td>
                               <ng-container *ngIf="editingEmail !== record.email">
-                                <!-- Only allow editing/deleting students -->
-                                <button *ngIf="record.role === 'Student'" class="btn btn-sm" (click)="startEdit(record)">Edit Role</button>
-                                <button *ngIf="record.role === 'Student'" class="btn btn-sm btn-danger" (click)="deleteRecord(record)">Delete</button>
-                                <span *ngIf="record.role === 'Admin'">-</span>
+                                <button *ngIf="record.role?.toLowerCase() === 'student'" class="btn btn-sm" (click)="startEdit(record)">Edit Role</button>
+                                <button *ngIf="record.role?.toLowerCase() === 'student'" class="btn btn-sm btn-danger" (click)="deleteRecord(record)">Delete</button>
+                                <span *ngIf="record.role?.toLowerCase() === 'admin'">-</span>
                               </ng-container>
                               <ng-container *ngIf="editingEmail === record.email">
                                 <button class="btn btn-sm" (click)="saveRole(record)">Save</button>

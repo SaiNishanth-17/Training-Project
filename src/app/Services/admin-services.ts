@@ -9,44 +9,20 @@ import { tap } from 'rxjs/operators';
 })
 export class AdminServices {
   private apiUrl = 'http://localhost:8001/api/auth';
-  private records: any[] = [
-    { 
-        firstName: 'John',
-        lastName: 'Smith',
-        email: 'john@smith.com',
-        role: 'Student',
-    },
-    { 
-        firstName: 'Emma',
-        lastName: 'Johnson',
-        email: 'emma@johnson.com',
-        role: 'Student',
-    },
-    { 
-        firstName: 'Michael',
-        lastName: 'Brown',
-        email: 'michael@brown.com',
-        role: 'Student',
-    },
-    { 
-        firstName: 'Passah',
-        lastName: 'Davis',
-        email: 'passah@davis.com',
-        role: 'Admin',
-    },
-    { 
-        firstName: 'David',
-        lastName: 'Wilson',
-        email: 'david@wilson.com',
-        role: 'Admin',
-    }  
-  ];
+  private subjectsApiUrl = 'http://localhost:8001/api/subjects';
+  private totalSubjects: number = 0;
+  private records: any[] = [];
 
 constructor(private noOfExams: ExamTopicService, private http: HttpClient){}
 
   loadUsers(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/allUsers`).pipe(
-      tap(data => this.records = data)
+      tap(data => {
+        this.records = data.map(user => ({
+          ...user,
+          email: user.credentialId?.email || 'N/A'
+        }));
+      })
     );
   }
 
@@ -71,11 +47,23 @@ constructor(private noOfExams: ExamTopicService, private http: HttpClient){}
   }
 
   getTotalStudents(): number {
-    return this.records.filter(r => r.role === 'Student').length;
+    const count = this.records.filter(r => r.role?.toLowerCase() === 'student').length;
+    console.log('getTotalStudents:', count, 'records:', this.records.length);
+    return count;
+  }
+
+  loadSubjects(): Observable<any[]> {
+    return this.http.get<any[]>(this.subjectsApiUrl).pipe(
+      tap(data => {
+        this.totalSubjects = data.length;
+        console.log('Subjects loaded:', data.length);
+      })
+    );
   }
 
   getTotalExams(): number {
-    return this.noOfExams.exams.length;
+    console.log('getTotalExams called, totalSubjects:', this.totalSubjects);
+    return this.totalSubjects;
   }
 
 

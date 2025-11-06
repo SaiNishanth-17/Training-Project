@@ -22,12 +22,14 @@ interface UserData {
   styleUrl: './admin-dashboard.css'
 })
 export class AdminDashboard {
-
-
     searchText: string = '';
     isTableVisible=false;
     records:any[]=[];
     stats:any[]=[];
+
+    ngOnChanges(): void {
+      this.stats = this.adminService.getStats();
+    }
     
   constructor(private adminService: AdminServices, private userService: UserRegisteringService){}
   editingEmail: string | null = null;
@@ -51,28 +53,45 @@ export class AdminDashboard {
     
     
     ngOnInit(): void {
-        this.loadUsers();
-
         const current = this.userService.getCurrentUser();
         if (current) {
           this.userData.firstName = current.firstname || this.userData.firstName;
           this.userData.lastName = current.lastname || this.userData.lastName;
           this.userData.email = current.email || this.userData.email;
         }
+        
+        this.loadData();
       }
+
+    loadData() {
+      this.adminService.loadSubjects().subscribe({
+        next: () => {
+          console.log('Subjects loaded successfully');
+          this.loadUsers();
+        },
+        error: (err) => {
+          console.error('Error fetching subjects', err);
+          this.loadUsers();
+        }
+      });
+    }
 
     loadUsers() {
       this.adminService.loadUsers().subscribe({
         next: () => {
           this.records = this.adminService.getrecords();
-          this.stats = this.adminService.getStats();
+          this.updateStats();
         },
         error: (err) => {
           console.error('Error fetching users', err);
           this.records = this.adminService.getrecords();
-          this.stats = this.adminService.getStats();
+          this.updateStats();
         }
       });
+    }
+
+    updateStats() {
+      this.stats = this.adminService.getStats();
     }
 
 
@@ -93,7 +112,7 @@ export class AdminDashboard {
       const success = this.adminService.updateUserRole(record.email, this.editRoleValue);
       if (success) {
         this.records = this.adminService.getrecords();
-        this.stats = this.adminService.getStats();
+        this.updateStats();
       }
       this.cancelEdit();
     }
@@ -106,7 +125,7 @@ export class AdminDashboard {
       const success = this.adminService.deleteUserByEmail(record.email);
       if (success) {
         this.records = this.adminService.getrecords();
-        this.stats = this.adminService.getStats();
+        this.updateStats();
       }
     }
   
