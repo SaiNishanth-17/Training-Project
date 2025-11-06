@@ -30,7 +30,7 @@ export class ExamTopicService {
     },
   ];
   getSubjects(): Observable<ExamTopicType[]> {
-    return this.http.get<ExamTopicType[]>('http://localhost:5000/api/subjects');
+    return this.http.get<any[]>('http://localhost:8001/api/subjects');
   }
   getExams(): ExamTopicType[] {
     return this.exams;

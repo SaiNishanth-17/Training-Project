@@ -8,19 +8,17 @@ import { QuestionbankServices } from '../../Services/questionbank-services';
 import { ExamDataService } from '../../Services/exam-data-service';
 import { Router } from '@angular/router';
 import { examQuestionType } from '../../Models/examQuestionType';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Student } from '../../Models/student-data';
+import { HttpClientModule } from '@angular/common/http';
+
 @Component({
   selector: 'app-display-exams',
   standalone: true,
-  imports: [CommonModule, ExamCard, FormsModule],
+  imports: [CommonModule, ExamCard, FormsModule,HttpClientModule],
   templateUrl: './display-exams.html',
   styleUrls: ['./display-exams.css'],
 })
 export class DisplayExams implements OnInit {
-  exams!: examType[];
-  exams2!:any;
+  exams: any[] = [];
   modalOpen = false;
   selectedExam: examType | null = null;
   chosenLevel: string = 'basic';
@@ -30,30 +28,19 @@ export class DisplayExams implements OnInit {
     private questionBank: QuestionbankServices,
     private examData: ExamDataService,
     private router: Router,
-    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
-    // Map admin-managed ExamTopicType to the examType shape used by ExamCard
-   
-    this.exams2=this.examTopicService.getSubjects().subscribe((data) => {
-    const activeSubjects = data.filter((t) => t.isActive);
-    this.exams = activeSubjects.map((t, idx) => ({
-      id: idx + 1,
-      name: t.name,
-      noOfTopics: t.subtopics?.length || 0,
-      noOfStudents: 0,
-      time: 30,
-    }));
-  });
-    const topics = this.examTopicService.getExams().filter((t) => t.isActive);
-    this.exams = topics.map((t, idx) => ({
-      id: idx + 1,
-      name: t.name,
-      noOfTopics: t.subtopics ? t.subtopics.length : 0,
-      noOfStudents: 0,
-      time: 30, // default time; student selects level which will override via ExamDataService
-    }));
+    this.examTopicService.getSubjects().subscribe((data) => {
+      const activeSubjects = data.filter((t) => t.isActive);
+      this.exams = activeSubjects.map((t, idx) => ({
+        id: idx + 1,
+        name: t.name,
+        noOfTopics: t.subtopics?.length || 0, 
+        noOfStudents: 0,
+        time: 30,
+      }));
+    });
   }
 
   onOpenExam(exam: examType) {
