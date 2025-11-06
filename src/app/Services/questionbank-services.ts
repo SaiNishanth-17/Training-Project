@@ -88,8 +88,6 @@ export class QuestionbankServices {
       options: updatedQuestion.options,
       correctAnswer: updatedQuestion.correctAnswer,
     };
-console.log('updated quesstion',payload)
-
     return this.http.put(url, payload);
   }
 
