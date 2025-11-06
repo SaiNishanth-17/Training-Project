@@ -1,49 +1,106 @@
 import { Injectable } from '@angular/core';
-
+import { HttpClient } from '@angular/common/http';
 import { User } from '../Models/userService';
-
+import { Observable } from 'rxjs';
+interface AuthResponse{
+  token:string;
+  role:string
+}
 @Injectable({
   providedIn: 'root'
 })
 export class UserRegisteringService {
-  private users: User[] = [];
-
-  addUser(user: User): boolean {
-    const exists = this.users.some(u => u.email === user.email);
-    if (exists) return false;
-
-    this.users.push(user);
-    return true;
+ 
+  private firstname: string = '';
+ 
+    setFirstName(name: string) {
+      this.firstname = name;
+    }
+ 
+    getFirstName(): string {
+      return this.firstname;
+    }
+   
+private tokenKey = 'authToken';
+ 
+  constructor(private http: HttpClient) {}
+ 
+  authenticateUser(email: string, password: string): Observable<AuthResponse> {
+    console.log('Sending login payload:', { email, password });
+    return this.http.post<AuthResponse>('http://localhost:8001/api/auth/login', { email, password });
   }
-
-  validateUser(email: string, password: string): boolean {
-    return this.users.some(
-      user => user.email === email && user.password === password
+ 
+  registerUser(payload: {
+    email: string;
+    firstname: string;
+    lastname: string;
+    password: string;
+   
+  }): Observable<{ success: boolean; message: string }> {
+    return this.http.post<{ success: boolean; message: string }>(
+      'http://localhost:8001/api/auth/signup',
+      payload
     );
   }
-  
-  private firstName: string = '';
-
-    setFirstName(name: string) {
-      this.firstName = name;
-    }
-
-    getFirstName(): string {
-      return this.firstName;
-    }
-    getUserByEmail(email: string): User | undefined {
-    return this.users.find(user => user.email === email);
+ 
+  storeToken(token: string): void {
+    sessionStorage.setItem(this.tokenKey, token);
   }
-
-  // Current logged-in user
-  private currentUser: User | null = null;
-
-  setCurrentUser(user: User) {
-    this.currentUser = user;
-    this.setFirstName(user.firstname);
+ 
+  getToken(): string | null {
+    return sessionStorage.getItem(this.tokenKey);
   }
-
-  getCurrentUser(): User | null {
-    return this.currentUser;
+ 
+  clearToken(): void {
+    sessionStorage.removeItem(this.tokenKey);
+  }
+ 
+decodeToken(): any {
+  const token = this.getToken();
+  if (!token) return null;
+  const payload = token.split('.')[1];
+  if (!payload) return null;
+  try {
+    const decodedPayload = atob(payload); // base64 decode
+    return JSON.parse(decodedPayload);
+  } catch (err) {
+    console.error('Token decoding failed:', err);
+    return null;
   }
 }
+ 
+  logout(): void {
+    this.clearToken();
+  }
+ 
+  getCurrentUserRole(): string {
+    const decoded = this.decodeToken();
+    return decoded?.role || '';
+  }
+ 
+  getCurrentUserEmail(): string {
+    const decoded = this.decodeToken();
+    return decoded?.email || '';
+  }
+  getCurrentUserName():string{
+    const decoded= this.decodeToken();
+     return decoded?.firstname || '';
+  }
+  getUserByEmail(email: string): User | undefined {
+    return this.decodeToken();
+  }
+}
+ 
+  // Current logged-in user
+//   const currentUser: User | null = null;
+ 
+//   setCurrentUser(user: User) {
+//     this.currentUser = user;
+//     this.setFirstName(user.firstname);
+//   }
+ 
+//   getCurrentUser(): User | null {
+//     return this.currentUser;
+//   }
+// }
+ 
