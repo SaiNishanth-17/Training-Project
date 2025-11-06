@@ -1,115 +1,90 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { ExamDataService } from '../../Services/exam-data-service';
-import { ExamQuestionsService } from '../../Services/exam-questions-service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { examQuestionType } from '../../Models/examQuestionType';
-import { NgZone, ChangeDetectorRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { CompletedExamService } from '../../Services/completed-exam-service';
-
+import { ExamDataService } from '../../Services/exam-data-service';
+import { UserRegisteringService } from '../../Services/user-registering-service';
 @Component({
   selector: 'app-exam-page',
-  imports: [CommonModule, FormsModule],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './exam-page.html',
-  styleUrl: './exam-page.css',
+  styleUrls: ['./exam-page.css']
 })
 export class ExamPage implements OnInit {
-  currentExamId: string | null = null;
-  currentExamQuestions: examQuestionType[] = [];
-  currentQuestionIndex: number = 1;
-  answerOptions = ['A', 'B', 'C', 'D'];
+  examName = '';
+  level = '';
+  duration = 0;
+  subjectId = '';
+  currentExamQuestions: any[] = [];
   selectedAnswers: string[] = [];
-  examTime: number = 0;
-  examDurationMinutes: number = 0;
-  timeLeft: number = 0;
-  examName!: string;
-  completedExams: any;
+  answerOptions = ['A', 'B', 'C', 'D'];
+  timeLeft = 0;
+  timerDisplay = '';
+  userId:any;
+  private timerInterval: any;
 
   constructor(
-    private completedexamservice: CompletedExamService,
     private route: ActivatedRoute,
     private router: Router,
-    private questionService: ExamQuestionsService,
-    private dataService: ExamDataService,
-    private ngZone: NgZone,
-    private cdr: ChangeDetectorRef
+    private completedExamService: CompletedExamService,
+    private examDataService: ExamDataService,
+    private userRegisteringService: UserRegisteringService
   ) {}
 
-  getQuestionsByExamName(examName: string): any[] {
-    if (!examName) return [];
-    if (examName.toLowerCase() === 'html') return this.questionService.getHtmlQuestions();
-    if (examName.toLowerCase() === 'css') return this.questionService.getCssQuestions();
-    if (examName.toLowerCase() === 'javascript')
-      return this.questionService.getJavascriptQuestions();
-    if (examName.toLowerCase() === 'bootstrap') return this.questionService.getBootstrapQuestions();
-    return [];
-  }
-
   ngOnInit(): void {
-    this.examName = this.route.snapshot.paramMap.get('name')!;
-    this.examTime = this.dataService.getTime();
-    this.examDurationMinutes = this.dataService.getTime();
-    this.timeLeft = this.examDurationMinutes * 60;
-
-    const routeParam = this.route.snapshot.paramMap.get('name');
-    this.currentExamId = routeParam ? routeParam.toLowerCase() : null;
-
-    // Prefer questions passed through ExamDataService (set by Attempt flow)
-    const questionsFromData = this.dataService.getQuestions();
-    if (questionsFromData && Array.isArray(questionsFromData) && questionsFromData.length > 0) {
-      this.currentExamQuestions = questionsFromData as examQuestionType[];
-    } else {
-      // fallback to existing service-based retrieval
-      this.currentExamQuestions = this.getQuestionsByExamName(this.currentExamId!);
-    }
-
-    if (this.currentExamQuestions.length === 0) {
-      alert('No questions available for this topic yet.');
-      this.router.navigate(['/student-dashboard/exam']);
-      return;
-    }
-
+    this.examName = this.route.snapshot.paramMap.get('examName') || '';
+    this.level = this.route.snapshot.queryParamMap.get('level') || 'basic';
+    this.duration = this.examDataService.getTime(); // in minutes
+    this.subjectId = this.examDataService.getSubjectId(); // now valid
+    this.currentExamQuestions = this.examDataService.getQuestions();
     this.selectedAnswers = new Array(this.currentExamQuestions.length).fill('');
-    this.startTimer();
+    this.userId =this.userRegisteringService.decodeToken()?.id || '';
+    this.startTimer(this.duration * 60);
   }
 
-  selectAnswer(questionIndex: number, chosenOption: string) {
-    this.selectedAnswers[questionIndex] = chosenOption;
+  selectAnswer(questionIndex: number, option: string): void {
+    this.selectedAnswers[questionIndex] = option;
   }
-  timerDisplay: string = '00:00';
-  intervalId: any;
-  startTimer() {
+
+  startTimer(seconds: number): void {
+    this.timeLeft = seconds;
     this.updateTimerDisplay();
-    this.ngZone.runOutsideAngular(() => {
-      this.intervalId = setInterval(() => {
-        this.ngZone.run(() => {
-          if (this.timeLeft > 0) {
-            this.timeLeft--;
-            this.updateTimerDisplay();
-            this.cdr.detectChanges();
-          } else {
-            clearInterval(this.intervalId);
-            this.submitExam();
-          }
-        });
-      }, 1000);
-    });
+
+    this.timerInterval = setInterval(() => {
+      this.timeLeft--;
+      this.updateTimerDisplay();
+
+      if (this.timeLeft <= 0) {
+        clearInterval(this.timerInterval);
+        this.submitExam();
+      }
+    }, 1000);
   }
 
-  updateTimerDisplay() {
+  updateTimerDisplay(): void {
     const minutes = Math.floor(this.timeLeft / 60);
     const seconds = this.timeLeft % 60;
-    this.timerDisplay = `${this.pad(minutes)}:${this.pad(seconds)}`;
+    this.timerDisplay = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   }
 
-  pad(num: number): string {
-    return num < 10 ? '0' + num : num.toString();
-  }
-  submitExam() {
-    let dateVal = new Date();
-    this.dataService.setData(this.selectedAnswers, this.currentExamQuestions);
-    this.completedexamservice.addCompletedExam(this.examName, this.examDurationMinutes);
-    this.router.navigate([`student-dashboard/exam`, this.examName, 'result']);
+  submitExam(): void {
+    clearInterval(this.timerInterval);
+
+    this.examDataService.setAnswers(this.selectedAnswers);
+    this.completedExamService.addCompletedExam(this.examName, this.duration);
+
+    this.completedExamService
+      .submitExamToBackend(this.userId, this.subjectId, this.level) // userId left blank intentionally
+      .subscribe({
+        next: (res: any) => {
+          alert(` Exam submitted! Score: ${res.score}%`);
+          this.router.navigateByUrl('/student-dashboard/results');
+        },
+        error: err => {
+          alert(' Submission failed. Try again.');
+          console.error(err);
+        }
+      });
   }
 }
