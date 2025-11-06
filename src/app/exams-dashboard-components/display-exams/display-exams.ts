@@ -8,7 +8,9 @@ import { QuestionbankServices } from '../../Services/questionbank-services';
 import { ExamDataService } from '../../Services/exam-data-service';
 import { Router } from '@angular/router';
 import { examQuestionType } from '../../Models/examQuestionType';
-
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Student } from '../../Models/student-data';
 @Component({
   selector: 'app-display-exams',
   standalone: true,
@@ -18,6 +20,7 @@ import { examQuestionType } from '../../Models/examQuestionType';
 })
 export class DisplayExams implements OnInit {
   exams!: examType[];
+  exams2!:any;
   modalOpen = false;
   selectedExam: examType | null = null;
   chosenLevel: string = 'basic';
@@ -26,11 +29,23 @@ export class DisplayExams implements OnInit {
     private examTopicService: ExamTopicService,
     private questionBank: QuestionbankServices,
     private examData: ExamDataService,
-    private router: Router
+    private router: Router,
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
     // Map admin-managed ExamTopicType to the examType shape used by ExamCard
+   
+    this.exams2=this.examTopicService.getSubjects().subscribe((data) => {
+    const activeSubjects = data.filter((t) => t.isActive);
+    this.exams = activeSubjects.map((t, idx) => ({
+      id: idx + 1,
+      name: t.name,
+      noOfTopics: t.subtopics?.length || 0,
+      noOfStudents: 0,
+      time: 30,
+    }));
+  });
     const topics = this.examTopicService.getExams().filter((t) => t.isActive);
     this.exams = topics.map((t, idx) => ({
       id: idx + 1,
