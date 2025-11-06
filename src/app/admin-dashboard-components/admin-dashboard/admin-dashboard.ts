@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AdminServices } from '../../Services/admin-services';
 import { UserRegisteringService } from '../../Services/user-registering-service';
-
+ 
 interface UserData {
   firstName: string;
   lastName: string;
@@ -14,7 +14,7 @@ interface UserData {
   readonly initials: string;
   readonly name: string;
 }
-
+ 
 @Component({
   selector: 'app-admin-dashboard',
   imports: [CommonModule, FormsModule, SearchFilterPipePipe, RouterModule],
@@ -26,18 +26,18 @@ export class AdminDashboard {
     isTableVisible=false;
     records:any[]=[];
     stats:any[]=[];
-
+ 
     ngOnChanges(): void {
       this.stats = this.adminService.getStats();
     }
-    
+   
   constructor(private adminService: AdminServices, private userService: UserRegisteringService){}
   editingEmail: string | null = null;
   editRoleValue: string = '';
-  
+ 
     isProfileModalOpen: boolean = false;
     profileEdit: any = { password: '' };
-
+ 
     userData: UserData={
       firstName: 'Admin',
       lastName: 'User',
@@ -50,19 +50,19 @@ export class AdminDashboard {
         return `${this.firstName} ${this.lastName}`.trim();
       }
     }
-    
-    
+   
+   
     ngOnInit(): void {
-        const current = this.userService.getCurrentUser();
+        const current = this.userService.decodeToken();
         if (current) {
           this.userData.firstName = current.firstname || this.userData.firstName;
           this.userData.lastName = current.lastname || this.userData.lastName;
           this.userData.email = current.email || this.userData.email;
         }
-        
+       
         this.loadData();
       }
-
+ 
     loadData() {
       this.adminService.loadSubjects().subscribe({
         next: () => {
@@ -75,7 +75,7 @@ export class AdminDashboard {
         }
       });
     }
-
+ 
     loadUsers() {
       this.adminService.loadUsers().subscribe({
         next: () => {
@@ -89,24 +89,24 @@ export class AdminDashboard {
         }
       });
     }
-
+ 
     updateStats() {
       this.stats = this.adminService.getStats();
     }
-
-
-
-
+ 
+ 
+ 
+ 
     startEdit(record: any) {
       this.editingEmail = record.email;
       this.editRoleValue = record.role;
     }
-
+ 
     cancelEdit() {
       this.editingEmail = null;
       this.editRoleValue = '';
     }
-
+ 
     saveRole(record: any) {
       if (!this.editingEmail) return;
       const success = this.adminService.updateUserRole(record.email, this.editRoleValue);
@@ -116,7 +116,7 @@ export class AdminDashboard {
       }
       this.cancelEdit();
     }
-
+ 
     deleteRecord(record: any) {
       const firstName = record.firstname || record.firstName;
       const lastName = record.lastname || record.lastName;
@@ -128,25 +128,25 @@ export class AdminDashboard {
         this.updateStats();
       }
     }
-  
-
-    
-
-
+ 
+ 
+   
+ 
+ 
     onViewAll(){
       this.isTableVisible=!this.isTableVisible;
     }
-  
+ 
     onSearch(event: Event){
       this.searchText=(event.target as HTMLInputElement).value;
     }
-  
-
-
-
-
+ 
+ 
+ 
+ 
+ 
     openProfileModal() {
-      this.profileEdit = { 
+      this.profileEdit = {
         firstName: this.userData.firstName,
         lastName: this.userData.lastName,
         email: this.userData.email,
@@ -154,12 +154,12 @@ export class AdminDashboard {
       };
       this.isProfileModalOpen = true;
     }
-
+ 
     closeProfileModal() {
       this.isProfileModalOpen = false;
       this.profileEdit = {};
     }
-
+ 
     saveProfile() {
       this.userData.firstName = this.profileEdit.firstName || this.userData.firstName;
       this.userData.lastName = this.profileEdit.lastName || this.userData.lastName;

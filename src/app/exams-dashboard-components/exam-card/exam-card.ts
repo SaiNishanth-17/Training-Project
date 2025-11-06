@@ -6,7 +6,7 @@ import { examType } from '../../Models/examType';
 import { QuestionbankServices } from '../../Services/questionbank-services';
 import { ExamDataService } from '../../Services/exam-data-service';
 import { examQuestionType } from '../../Models/examQuestionType';
-
+ 
 @Component({
   selector: 'app-exam-card',
   standalone: true,
@@ -16,21 +16,21 @@ import { examQuestionType } from '../../Models/examQuestionType';
 })
 export class ExamCard {
   @Input() exams: examType[] = [];
-
+ 
   levels: { [examName: string]: string } = {};
-
+ 
   constructor(
     private questionBank: QuestionbankServices,
     private examData: ExamDataService,
     private router: Router
   ) {}
-
+ 
   ngOnInit() {
     this.exams.forEach(exam => {
       this.levels[exam.name] = '';
     });
   }
-
+ 
   getDurationForLevel(level: string) {
     switch (level) {
       case 'basic':
@@ -43,17 +43,18 @@ export class ExamCard {
         return 30;
     }
   }
-
+ 
   attemptExam(exam: examType) {
     const chosenLevel = this.levels[exam.name] || 'basic';
     const examName = exam.name;
     const duration = this.getDurationForLevel(chosenLevel);
-
+ 
     this.examData.setTime(duration);
-
+ 
     this.questionBank
       .getQuestionsForExamLevel(examName, chosenLevel)
       .subscribe((questions: any[]) => {
+        console.log(JSON.stringify(questions));
         if (!questions || questions.length !== 10) {
           alert(`Exam requires exactly 10 questions. Current: ${questions ? questions.length : 0}`);
           return;
@@ -64,16 +65,18 @@ export class ExamCard {
           );
           return {
             id: q._id || idx + 1,
-            question: q.qName || '',
+            question: q.text || '',
             options: q.options || [],
             answer: q.correctAnswer || '',
             difficulty: q.difficulty || 'basic',
           };
         });
-
+ 
         this.examData.setData([], examQuestions);
         // navigate to start route using dynamic exam name
         this.router.navigateByUrl(`/student-dashboard/exam/${examName}?level=${chosenLevel}`);
       });
   }
 }
+ 
+ 
