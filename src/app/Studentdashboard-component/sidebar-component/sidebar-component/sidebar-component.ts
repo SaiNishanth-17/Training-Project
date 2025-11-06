@@ -10,9 +10,10 @@ import { RouterModule } from '@angular/router';
 })
 export class SidebarComponent {
   @Output() sendItem = new EventEmitter<string>();
-    activeItem: string='Dashboard';
-    setActiveItem(item: string) {
+  activeItem: string='Dashboard';
+  
+  setActiveItem(item: string) {
     this.activeItem = item;
     this.sendItem.emit(item);
-} 
+  }
 }

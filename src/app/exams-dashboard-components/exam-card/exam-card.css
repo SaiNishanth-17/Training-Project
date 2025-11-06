@@ -9,10 +9,9 @@
   border: 1px solid #e6e6e6;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
   margin: 12px auto;
-  width: 320px;
+  width: 80%;
   box-sizing: border-box;
-  cursor: default; /* No pointer */
-  /* ❌ Removed transition */
+  cursor: default;
 }
 
 /* ❌ No hover effect on cards */

@@ -1,17 +1,19 @@
 import { Injectable } from '@angular/core';
 import { ExamTopicService } from './exam-topic-service';
-import { first } from 'rxjs-compat/operator/first';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminServices {
-  constructor(private noOfExams: ExamTopicService){}
-  private records = [
+  private apiUrl = 'http://localhost:8001/api/auth';
+  private records: any[] = [
     { 
         firstName: 'John',
         lastName: 'Smith',
-        email: 'john@smaith.com',
+        email: 'john@smith.com',
         role: 'Student',
     },
     { 
@@ -40,7 +42,15 @@ export class AdminServices {
     }  
   ];
 
-getrecords() {
+constructor(private noOfExams: ExamTopicService, private http: HttpClient){}
+
+  loadUsers(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/allUsers`).pipe(
+      tap(data => this.records = data)
+    );
+  }
+
+  getrecords() {
     return this.records;
   }
 
@@ -61,47 +71,31 @@ getrecords() {
   }
 
   getTotalStudents(): number {
-    return this.records.filter(r=>r.role==='student').length;
+    return this.records.filter(r => r.role === 'Student').length;
   }
 
   getTotalExams(): number {
     return this.noOfExams.exams.length;
   }
 
-  // getFailedStudents(): number {
-  //   return this.records.filter(exam => exam.status === 'Failed').length;
-  // }
 
-  private examStat=[
-          {
-            label: 'Total Students',
-            value: this.getTotalStudents(),
-            icon: 'fas fa-users',
-            color: 'purple',
-            change: '12.5% from last month',
-            trend: 'positive'
-          },
-          {
-            label: 'Total Exam Topics',
-            value: 20, //this.getTotalExams(),
-            icon: 'fa-solid fa-user-pen',
-            color: 'blue',
-            change: 'No change from last month',
-            trend: 'positive'
-          },
-          {
-            label: 'Failed Students',
-            // value: this.getFailedStudents(),
-            icon: 'fas fa-shopping-cart',
-            color: 'green',
-            change: '10% from last month',
-            trend: 'negative'
-          }
-        ];
 
-        getExamStats(){
-          return this.examStat;
-        }
+  getStats() {
+    return [
+      {
+        label: 'Total Students',
+        value: this.getTotalStudents(),
+        icon: 'fas fa-users',
+        color: 'purple',
+      },
+      {
+        label: 'Total Subjects',
+        value: this.getTotalExams(),
+        icon: 'fa-solid fa-user-pen',
+        color: 'blue',
+      },
+    ];
+  }
 
 
 }

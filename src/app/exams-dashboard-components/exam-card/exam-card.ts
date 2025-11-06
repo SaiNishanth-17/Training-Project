@@ -17,7 +17,6 @@ import { examQuestionType } from '../../Models/examQuestionType';
 export class ExamCard {
   @Input() exams: examType[] = [];
 
-  // per-exam chosen level map used by the inline dropdowns
   levels: { [examName: string]: string } = {};
 
   constructor(
@@ -25,6 +24,12 @@ export class ExamCard {
     private examData: ExamDataService,
     private router: Router
   ) {}
+
+  ngOnInit() {
+    this.exams.forEach(exam => {
+      this.levels[exam.name] = '';
+    });
+  }
 
   getDurationForLevel(level: string) {
     switch (level) {
