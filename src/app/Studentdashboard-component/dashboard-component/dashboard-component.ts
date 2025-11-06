@@ -47,13 +47,12 @@ export class DashboardComponent {
     this.availableCount = this.examtopicservice.exams.filter(exam=>exam.isActive).length;
     this.completedCount = this.completedService.getCompletedExams().length;
     this.progress = this.studentReportService.getProgress();
-    // populate current user profile if available
+    
     const current = this.userService.getCurrentUser();
     if (current) {
       this.studentProfile.firstName = current.firstname || this.studentProfile.firstName;
       this.studentProfile.lastName = current.lastname || this.studentProfile.lastName;
       this.studentProfile.email = current.email || this.studentProfile.email;
-      // keep role as-is (student)
       this.firstname = current.firstname || this.userService.getFirstName();
     } else {
       this.firstname = this.userService.getFirstName();
