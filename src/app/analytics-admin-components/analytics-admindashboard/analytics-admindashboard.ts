@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {  Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdminReportServices } from '../../Services/admin-report-services';
 
@@ -25,23 +25,39 @@ export class AnalyticsAdmindashboard implements OnInit {
     await this.loadData();
   }
 
-  private async loadData(): Promise<void> {
-    try {
-      this.isLoading = true;
-      const stats = await this.adminReportServices.getAdminStats();
-      
+  private loadData(): void {
+  this.isLoading = true;
+
+  // 1) Load Admin Stats
+  this.adminReportServices.getAdminStats().subscribe({
+    next: (stats) => {
       this.totalStudents = stats.totalStudents;
       this.totalExams = stats.totalExams;
       this.passRate = stats.passRate;
-      
-      this.students = this.adminReportServices.getStudentPerformance();
-      this.subjects = this.adminReportServices.getSubjectPerformance();
-    } catch (error) {
-      console.error('Error loading dashboard data:', error);
-    } finally {
+    }
+  });
+
+  // 2) Load Student Performance Table
+  this.adminReportServices.getStudentPerformance().subscribe({
+    next: (data) => {
+      this.students = data;
+    }
+  });
+
+  // 3) Load Subject Performance Table
+  this.adminReportServices.getSubjectPerformance().subscribe({
+    next: (data) => {
+      this.subjects = data;
+      this.isLoading = false; // ✅ End loading after last call
+    },
+    error: () => {
       this.isLoading = false;
     }
-  }
+  });
+}
+
+
+
 
   selectStudent(student: any): void {
     this.selectedStudent = student;

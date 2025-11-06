@@ -1,89 +1,36 @@
 import { Injectable } from '@angular/core';
-import { Student } from '../Models/student-data';
-import { CompletedExamService } from './completed-exam-service';
-import { ExamQuestionsService } from './exam-questions-service';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class StudentReportService  {
+@Injectable({ providedIn: 'root' })
+export class StudentReportService {
+  private readonly BASE = 'http://localhost:8001/api/analytics/student';
 
-  constructor(private completedExamService:CompletedExamService,
-    private examQuestionService:ExamQuestionsService
-  ){}
-  getExam():number{
-    return this.examQuestionService.exams.length;
-  }
-  
-  studentScoreDetails:Student[] = [
-    { name:"Harini", scores:[90,100,100]},
-    { name: 'Alice', scores: [96,98,45 ]},
-    { name: 'Bob', scores: [92,89,78] },
-    { name: 'Charlie', scores: [89,87,98] },
-    { name: 'Diana', scores: [87,78,55] },
-    { name: 'Ethan', scores: [99,87,67 ]}
-  ];
-getExamWiseScores() {
-  return [
-    { name: 'Math', score: 85 },
-    { name: 'Science', score: 92 },
-    { name: 'English', score: 78 },
-    { name: 'History', score: 88 },
-    { name: 'Geography', score: 91 }
-  ];
-}
+  constructor(private http: HttpClient) {}
 
-
-  getLeaderboard():{name:string; score:number;}[]{
-    return this.studentScoreDetails.map(student => {
-      const total = student.scores.reduce((sum, score) => sum + score, 0);
-      
-      return {
-        name: student.name,
-        score: total
-      };
-    })
-    .sort((a, b) => b.score - a.score).slice(0,3); 
+  // Top cards
+  getOverallStats(userId: string): Observable<{ totalExams: number; avgScore: number; passingRate: number }> {
+    return this.http.get<{ totalExams: number; avgScore: number; passingRate: number }>(`${this.BASE}/overall/${userId}`);
   }
 
-  
-  // private studentScores: Student[] = [
-  //   { name: 'Alice', scores: [95, 88, 92] },
-  //   { name: 'Bob', scores: [85, 90, 87] }
-  // ];
-
-
- 
-
-  getStudentAverage(): number {
-    let completedExams=this.completedExamService.completedExamList;
-    let scoredExams = completedExams.filter(exam => typeof exam.score === 'number');
-    if (scoredExams.length === 0) {
-      return 0;
-    }
-
-    let totalScore = scoredExams.reduce((sum, exam) => sum + exam.score!, 0);
-    let averageScore = totalScore / scoredExams.length;
-
-    return parseFloat(averageScore.toFixed(2));
-    
+  // Progress bar
+  getProgress(userId: string): Observable<{ progress: number }> {
+    return this.http.get<{ progress: number }>(`${this.BASE}/progress/${userId}`);
   }
 
+  // Difficulty analytics (used by exam-wise analysis chart below)
+  getDifficultyAnalytics(userId: string): Observable<Array<{ _id: 'basic'|'intermediate'|'advanced'; avgScore: number; attempts: number }>> {
+    return this.http.get<Array<{ _id: 'basic'|'intermediate'|'advanced'; avgScore: number; attempts: number }>>(
+      `${this.BASE}/difficulty/${userId}`
+    );
+  }
 
-  
-
-  getProgress():number{
-    let completed_exams=this.completedExamService.getCompletedExams().length;
-    // console.log(completed_exams);
-    let total_exams=this.examQuestionService.exams.length;
-    // console.log(total_exams);
-    
-    let completedPercentage=(completed_exams/total_exams)*100;
-    // console.log(completedPercentage);
-    return parseFloat(completedPercentage.toFixed(2));
-
+  // Leaderboard (global)
+  getLeaderboard(): Observable<Array<{ name: string; avgScore?: number; totalExams?: number; score?: number }>> {
+    // If you prefer the student-specific leaderboard, keep this.
+    // If you want admin leaderboard instead, point to /api/analytics/admin/students
+    return this.http.get<Array<{ name: string; avgScore?: number; totalExams?: number; score?: number }>>(
+      `${this.BASE}/leaderboard`
+    );
   }
 }
-
-
-

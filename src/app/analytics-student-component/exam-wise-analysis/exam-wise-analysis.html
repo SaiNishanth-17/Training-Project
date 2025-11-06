@@ -6,14 +6,13 @@
   </div>
 
   <div class="exam-list">
-  <div *ngFor="let q of examStats" class="items">
-    <strong>{{ q.exam }}</strong>
-    <div class="levels">
-      <span>Basic: {{ q.basic }}%</span>
-      <span>Intermediate: {{ q.intermediate }}%</span>
-      <span>Advanced: {{ q.advanced }}%</span>
+    <div *ngFor="let q of examStats" class="items">
+      <strong>{{ q.exam }}</strong>
+      <div class="levels">
+        <span>Basic: {{ q.basic }}%</span>
+        <span>Intermediate: {{ q.intermediate }}%</span>
+        <span>Advanced: {{ q.advanced }}%</span>
+      </div>
     </div>
   </div>
-</div>
-
 </div>

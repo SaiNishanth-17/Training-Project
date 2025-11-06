@@ -1,18 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StudentReportService } from '../../Services/student-report-service';
+
 @Component({
   selector: 'app-leaderboard',
+  standalone: true,
   imports: [CommonModule],
   templateUrl: './leaderboard.html',
-  styleUrl: './leaderboard.css'
+  styleUrls: ['./leaderboard.css']
 })
 export class Leaderboard implements OnInit {
-  topScorers: {name:string, score:number}[]=[];
+  topScorers: Array<{ name: string; avgScore?: number; totalExams?: number; score?: number }> = [];
 
-  constructor(private leaderboardService:StudentReportService){}
+  constructor(private studentService: StudentReportService) {}
+
   ngOnInit(): void {
-    this.topScorers = this.leaderboardService.getLeaderboard();
+    this.studentService.getLeaderboard().subscribe({
+      next: (rows) => (this.topScorers = rows || []),
+      error: (err) => console.error('Leaderboard load failed:', err)
+    });
   }
-
 }

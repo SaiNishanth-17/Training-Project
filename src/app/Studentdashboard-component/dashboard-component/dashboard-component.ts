@@ -44,20 +44,31 @@ export class DashboardComponent {
   ) {}
 
   ngOnInit() {
-    this.availableCount = this.examtopicservice.exams.filter(exam=>exam.isActive).length;
-    this.completedCount = this.completedService.getCompletedExams().length;
-    this.progress = this.studentReportService.getProgress();
-    
-    const current = this.userService.getCurrentUser();
-    if (current) {
-      this.studentProfile.firstName = current.firstname || this.studentProfile.firstName;
-      this.studentProfile.lastName = current.lastname || this.studentProfile.lastName;
-      this.studentProfile.email = current.email || this.studentProfile.email;
-      this.firstname = current.firstname || this.userService.getFirstName();
-    } else {
-      this.firstname = this.userService.getFirstName();
-    }
+  this.availableCount = this.examtopicservice.exams.filter(exam => exam.isActive).length;
+  this.completedCount = this.completedService.getCompletedExams().length;
+
+  const userId = localStorage.getItem('userId');
+  if (userId) {
+    this.studentReportService.getProgress(userId).subscribe({
+      next: (res) => {
+        this.progress = Math.round(res.progress || 0);
+      },
+      error: (err) => console.error("Progress load failed:", err)
+    });
   }
+
+  const current = this.userService.getCurrentUser();
+  if (current) {
+    this.studentProfile.firstName = current.firstname || this.studentProfile.firstName;
+    this.studentProfile.lastName = current.lastname || this.studentProfile.lastName;
+    this.studentProfile.email = current.email || this.studentProfile.email;
+    this.firstname = current.firstname || this.userService.getFirstName();
+  } else {
+    this.firstname = this.userService.getFirstName();
+  }
+}
+
+
 
   openProfileModal() {
     this.profileEdit = { ...this.studentProfile };
