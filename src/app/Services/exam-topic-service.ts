@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { ExamTopicType } from '../Models/examTopicType';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
 export class ExamTopicService {
+   constructor(private http: HttpClient) {}
   exams: ExamTopicType[] = [
     {
       name: 'Maths',
@@ -26,7 +29,9 @@ export class ExamTopicService {
       Description: 'English language and grammar, comprehension and writing skills',
     },
   ];
-
+  getSubjects(): Observable<any[]> {
+    return this.http.get<any[]>('http://localhost:8001/api/subjects');
+  }
   getExams(): ExamTopicType[] {
     return this.exams;
   }
