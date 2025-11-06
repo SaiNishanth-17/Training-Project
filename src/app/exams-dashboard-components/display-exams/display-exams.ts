@@ -31,17 +31,15 @@ export class DisplayExams implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.examTopicService.getSubjects().subscribe((data) => {
-      const activeSubjects = data.filter((t) => t.isActive);
-      this.exams = activeSubjects.map((t, idx) => ({
-        id: idx + 1,
-        name: t.name,
-        noOfTopics: t.subtopics?.length || 0, 
-        noOfStudents: 0,
-        time: 30,
-      }));
-    });
-  }
+  this.examTopicService.getSubjects().subscribe((data) => {
+    const activeSubjects = data.filter((t) => t.isActive);
+    this.exams = activeSubjects.map((t) => ({
+      name: t.subjectName,       
+      description: t.description,
+    }));
+  });
+}
+
 
   onOpenExam(exam: examType) {
     this.selectedExam = exam;

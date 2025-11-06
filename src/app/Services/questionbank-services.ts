@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { QuestionGroup, Question } from '../Models/question-interface';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
 export class QuestionbankServices {
+    constructor(private http: HttpClient) {}
   courses: { name: string }[] = [
     { name: 'Maths' },
     { name: 'Science' },
@@ -620,42 +623,9 @@ export class QuestionbankServices {
     this.questionsByCourse = this.questionsByCourse.filter((g) => g.courseName !== name);
   }
 
-  getQuestionsForExamLevel(examName: string, level: string) {
-    const levelMap: any = { basic: 'Beginner', intermediate: 'Intermediate', advanced: 'Advanced' };
-    const difficulty = levelMap[level] || 'Beginner';
-    const courseGroup = this.questionsByCourse.find((g) => g.courseName === examName);
-    let questions = courseGroup
-      ? courseGroup.questions.filter((q) => q.difficulty === difficulty)
-      : [];
+getQuestionsForExamLevel(subjectName: string, level: string): Observable<any[]> {
+  return this.http.get<any[]>(`http://localhost:8001/api/questions/${subjectName}/${level}`);
+}
 
-    questions = questions.map((q) => {
-      // Temporarily calculate correctAnswerIndex for compatibility with consuming components
-      const index = q.options.findIndex(
-        (opt) => opt.toLowerCase() === q.correctAnswer.toLowerCase()
-      );
-      return {
-        ...q,
-        correctAnswerIndex: index !== -1 ? index : 0,
-      };
-    });
 
-    if (questions.length > 10) {
-      questions = questions.slice(0, 10);
-    } else if (questions.length > 0 && questions.length < 10) {
-      const result: Question[] = [];
-      let i = 0;
-      while (result.length < 10) {
-        result.push({
-          ...questions[i % questions.length],
-          id: questions[i % questions.length].id + Math.floor(i / questions.length) * 1000,
-        });
-        i++;
-      }
-      questions = result;
-    }
-
-    return {
-      subscribe: (cb: (qs: Question[]) => void) => cb(questions),
-    };
-  }
 }

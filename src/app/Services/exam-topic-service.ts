@@ -29,7 +29,7 @@ export class ExamTopicService {
       Description: 'English language and grammar, comprehension and writing skills',
     },
   ];
-  getSubjects(): Observable<ExamTopicType[]> {
+  getSubjects(): Observable<any[]> {
     return this.http.get<any[]>('http://localhost:8001/api/subjects');
   }
   getExams(): ExamTopicType[] {
