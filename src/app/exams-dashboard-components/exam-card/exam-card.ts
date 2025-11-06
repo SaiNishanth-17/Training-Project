@@ -54,6 +54,7 @@ export class ExamCard {
     this.questionBank
       .getQuestionsForExamLevel(examName, chosenLevel)
       .subscribe((questions: any[]) => {
+        console.log(JSON.stringify(questions));
         if (!questions || questions.length !== 10) {
           alert(`Exam requires exactly 10 questions. Current: ${questions ? questions.length : 0}`);
           return;
@@ -64,7 +65,7 @@ export class ExamCard {
           );
           return {
             id: q._id || idx + 1,
-            question: q.qName || '',
+            question: q.text || '',
             options: q.options || [],
             answer: q.correctAnswer || '',
             difficulty: q.difficulty || 'basic',

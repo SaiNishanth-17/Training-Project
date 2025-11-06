@@ -17,8 +17,8 @@ type Difficulty = 'basic' | 'intermediate' | 'advanced';
 })
 export class QuestionbankServices {
 
-  private apiUrl = 'http://localhost:5000/api/questions'; 
-  private apiUrlCourses = 'http://localhost:5000/api/subjects';
+  private apiUrl = 'http://localhost:8001/api/questions'; 
+  private apiUrlCourses = 'http://localhost:8001/api/subjects';
   courses: any[] = [];  
 
   constructor(private http: HttpClient) {}
