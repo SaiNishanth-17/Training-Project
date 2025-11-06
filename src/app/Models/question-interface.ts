@@ -1,7 +1,7 @@
 export interface Question {
   id: number;
   text: string;
-  difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
+  difficulty: 'basic' | 'intermediate' | 'advanced';
   options:string[];
   correctAnswer:string;
 }
