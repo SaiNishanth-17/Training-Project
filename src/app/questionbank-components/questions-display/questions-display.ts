@@ -37,7 +37,6 @@ isAddingNew: boolean =false;
     this.serviceQuestion.getCourses().subscribe({
       next: (data) => {
         this.courses = data.map(sub=>sub.subjectName);
-        // console.log(this.courses)
       },
       error: (err) => {
         console.error('API Error fetching subjects:', err);

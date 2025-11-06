@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { map,tap } from 'rxjs/operators';
 import { Question } from '../Models/question-interface';
 
-// Interface matching the required backend request body structure
 export interface QuestionPayload {
   qName: string; 
   options: string[];
@@ -17,13 +16,10 @@ type Difficulty = 'basic' | 'intermediate' | 'advanced';
   providedIn: 'root',
 })
 export class QuestionbankServices {
-  // Using port 5000 as per your app.js configuration
+
   private apiUrl = 'http://localhost:5000/api/questions'; 
   private apiUrlCourses = 'http://localhost:5000/api/subjects';
-
-  // Keeping course list local to support 'exam-subjects' component
-  courses: any[] = [];
-  
+  courses: any[] = [];  
 
   constructor(private http: HttpClient) {}
    
@@ -31,10 +27,8 @@ export class QuestionbankServices {
     const url = `${this.apiUrlCourses}`;
     return this.http.get<any[]>(url).pipe(
       tap(data => {
-        // ASSIGNMENT HAPPENS HERE: Service stores the fetched data internally
-        this.courses = data.map(sub=>sub.subjectName); 
+        this.courses = data; 
         // console.log('Courses fetched from API:', this.courses)
-        // console.log('Courses loaded and stored in service:', this.courses.length);
       })
     );
   }
@@ -94,7 +88,6 @@ export class QuestionbankServices {
       options: updatedQuestion.options,
       correctAnswer: updatedQuestion.correctAnswer,
     };
-
     return this.http.put(url, payload);
   }
 
