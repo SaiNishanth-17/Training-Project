@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AdminServices } from '../../Services/admin-services';
 import { UserRegisteringService } from '../../Services/user-registering-service';
-
+ 
 interface UserData {
   firstName: string;
   lastName: string;
@@ -14,7 +14,7 @@ interface UserData {
   readonly initials: string;
   readonly name: string;
 }
-
+ 
 @Component({
   selector: 'app-admin-dashboard',
   imports: [CommonModule, FormsModule, SearchFilterPipePipe, RouterModule],
@@ -48,7 +48,7 @@ export class AdminDashboard {
   constructor(private adminService: AdminServices, private userService: UserRegisteringService) {}
 
   ngOnInit(): void {
-    const current = this.userService.getCurrentUser();
+    const current = this.userService.decodeToken();
     if (current) {
       this.userData.firstName = current.firstname || this.userData.firstName;
       this.userData.lastName = current.lastname || this.userData.lastName;

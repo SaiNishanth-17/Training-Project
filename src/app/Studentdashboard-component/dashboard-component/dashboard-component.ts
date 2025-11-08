@@ -1,4 +1,4 @@
-
+ 
 import { Component, Output, EventEmitter } from '@angular/core';
 import { StudentServices } from '../../Services/AvailableExamService';
 import { CompletedExamService } from '../../Services/completed-exam-service';
@@ -8,9 +8,9 @@ import { FormsModule } from '@angular/forms';
 import { StudentReportService } from '../../Services/student-report-service';
 import { UserRegisteringService } from '../../Services/user-registering-service';
 import { ExamTopicService } from '../../Services/exam-topic-service';
-
+ 
 // import { LoginComponent } from '../../login-component/login-component';
-
+ 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard-component.html',
@@ -19,7 +19,7 @@ import { ExamTopicService } from '../../Services/exam-topic-service';
 })
 export class DashboardComponent {
   @Output() cardClicked = new EventEmitter<'available' | 'completed' | 'progress'>();
-
+ 
   availableCount = 0;
   completedCount = 0;
   progress = 0;
@@ -34,7 +34,7 @@ export class DashboardComponent {
   };
   isProfileModalOpen = false;
   profileEdit: any = {};
-
+ 
   constructor(
     private availableService: StudentServices,
     private completedService: CompletedExamService,
@@ -42,7 +42,7 @@ export class DashboardComponent {
     private userService:UserRegisteringService,
     private examtopicservice:ExamTopicService
   ) {}
-
+ 
   ngOnInit() {
   this.availableCount = this.examtopicservice.exams.filter(exam => exam.isActive).length;
   this.completedCount = this.completedService.getCompletedExams().length;
@@ -57,7 +57,7 @@ export class DashboardComponent {
     });
   }
 
-  const current = this.userService.getCurrentUser();
+  const current = this.userService.decodeToken();
   if (current) {
     this.studentProfile.firstName = current.firstname || this.studentProfile.firstName;
     this.studentProfile.lastName = current.lastname || this.studentProfile.lastName;
@@ -74,27 +74,35 @@ export class DashboardComponent {
     this.profileEdit = { ...this.studentProfile };
     this.isProfileModalOpen = true;
   }
-
+ 
   closeProfileModal() {
     this.isProfileModalOpen = false;
     this.profileEdit = {};
   }
-
+ 
   saveStudentProfile() {
+ 
+    // only firstName, lastName, password can be changed; email & role are read-only here
+//     this.studentProfile.firstName = this.profileEdit.firstname || this.studentProfile.firstName;
+//     this.studentProfile.lastName = this.profileEdit.lastname || this.studentProfile.lastName;
+//     this.studentProfile.password = this.profileEdit.password || this.studentProfile.password;
+// =======
     this.studentProfile.firstName = this.profileEdit.firstName || this.studentProfile.firstName;
     this.studentProfile.lastName = this.profileEdit.lastName || this.studentProfile.lastName;
     const user = this.userService.getUserByEmail(this.studentProfile.email);
     if (user) {
       user.firstname = this.studentProfile.firstName;
       user.lastname = this.studentProfile.lastName;
-      this.userService.setCurrentUser(user);
+      this.userService.decodeToken();
     }
     this.firstname = this.studentProfile.firstName;
+ 
     this.closeProfileModal();
   }
-
+ 
   emitCard(section: 'available' | 'completed' | 'progress') {
     this.cardClicked.emit(section);
   }
  
 }
+ 
