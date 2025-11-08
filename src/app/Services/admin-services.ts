@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { ExamTopicService } from './exam-topic-service';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -13,7 +12,7 @@ export class AdminServices {
   private totalSubjects: number = 0;
   private records: any[] = [];
 
-constructor(private noOfExams: ExamTopicService, private http: HttpClient){}
+  constructor(private http: HttpClient) {}
 
   loadUsers(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/allUsers`).pipe(
@@ -26,64 +25,38 @@ constructor(private noOfExams: ExamTopicService, private http: HttpClient){}
     );
   }
 
-  getrecords() {
-    return this.records;
-  }
-
-  /** Update a user's role by email. Returns true if updated, false if not found. */
-  updateUserRole(email: string, newRole: string): boolean {
-    const idx = this.records.findIndex(r => r.email === email);
-    if (idx === -1) return false;
-    this.records[idx].role = newRole;
-    return true;
-  }
-
-  /** Delete a user record by email. Returns true if deleted. */
-  deleteUserByEmail(email: string): boolean {
-    const idx = this.records.findIndex(r => r.email === email);
-    if (idx === -1) return false;
-    this.records.splice(idx, 1);
-    return true;
-  }
-
-  getTotalStudents(): number {
-    const count = this.records.filter(r => r.role?.toLowerCase() === 'student').length;
-    console.log('getTotalStudents:', count, 'records:', this.records.length);
-    return count;
-  }
-
   loadSubjects(): Observable<any[]> {
     return this.http.get<any[]>(this.subjectsApiUrl).pipe(
-      tap(data => {
-        this.totalSubjects = data.length;
-        console.log('Subjects loaded:', data.length);
-      })
+      tap(data => this.totalSubjects = data.length)
     );
   }
 
-  getTotalExams(): number {
-    console.log('getTotalExams called, totalSubjects:', this.totalSubjects);
-    return this.totalSubjects;
+  updateUserRole(userId: string, newRole: string): Observable<any> {
+    return this.http.put(`${this.apiUrl}/student/role/${userId}`, { role: newRole });
   }
 
+  deleteUserById(userId: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/student/${userId}`);
+  }
 
+  getRecords() {
+    return this.records;
+  }
 
   getStats() {
     return [
       {
         label: 'Total Students',
-        value: this.getTotalStudents(),
+        value: this.records.filter(r => r.role?.toLowerCase() === 'student').length,
         icon: 'fas fa-users',
         color: 'purple',
       },
       {
         label: 'Total Subjects',
-        value: this.getTotalExams(),
+        value: this.totalSubjects,
         icon: 'fa-solid fa-user-pen',
         color: 'blue',
       },
     ];
   }
-
-
 }
