@@ -17,24 +17,24 @@ export class AdminReportServices {
 
     exams: ExamTopicType[] = [
         {
-          name: "HTML",
+          subjectName: "HTML",
           isActive: true,
-          Description: "Structure and semantics of web pages using HTML",
+          description: "Structure and semantics of web pages using HTML",
         },
         {
-          name: "CSS",
+          subjectName: "CSS",
           isActive: true,
-          Description: "Styling and layout techniques using Cascading Style Sheets",
+          description: "Styling and layout techniques using Cascading Style Sheets",
         },
         {
-          name: "JavaScript",
+          subjectName: "JavaScript",
           isActive: true,
-          Description: "Client-side scripting and dynamic web interactions",
+          description: "Client-side scripting and dynamic web interactions",
         },
         {
-          name: "Bootstrap",
+          subjectName: "Bootstrap",
           isActive: true,
-          Description: "Responsive design and UI components using Bootstrap framework",
+          description: "Responsive design and UI components using Bootstrap framework",
         }
       ];
   avgScore: any;

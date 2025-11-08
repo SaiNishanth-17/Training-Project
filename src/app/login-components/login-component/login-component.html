@@ -19,8 +19,9 @@
 <input type="password" name="password" [(ngModel)]="lpassword" placeholder="Password" ngModel required #password="ngModel">
 <small *ngIf="password.invalid && password.touched">Please enter valid password</small>
 <button type="submit">Login</button>
-<p>Not Registered? <a routerLink="/signup"><span>Register</span></a></p>
+<p class="line">Not Registered? <a routerLink="/signup" class="line"><span>Register</span></a></p>
 </form>
+
 </ng-container>
 </div>
  
