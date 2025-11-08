@@ -16,12 +16,12 @@ type Difficulty = 'basic' | 'intermediate' | 'advanced';
   providedIn: 'root',
 })
 export class QuestionbankServices {
-
-  private apiUrl = 'http://localhost:8001/api/questions'; 
+ 
+  private apiUrl = 'http://localhost:8001/api/questions';
   private apiUrlCourses = 'http://localhost:8001/api/subjects';
-  courses: any[] = [];  
-
-  constructor(private http: HttpClient) {}
+  courses: any[] = [];  
+ 
+  constructor(private http: HttpClient) {}
    
   getCourses(): Observable<any[]> {
     const url = `${this.apiUrlCourses}`;
