@@ -8,27 +8,44 @@ export class StudentReportService {
 
   constructor(private http: HttpClient) {}
 
-  // Top cards
-  getOverallStats(userId: string): Observable<{ totalExams: number; avgScore: number; passingRate: number }> {
-    return this.http.get<{ totalExams: number; avgScore: number; passingRate: number }>(`${this.BASE}/overall/${userId}`);
+  private getUserId(): string | null {
+    const token = sessionStorage.getItem('authToken');
+    if (!token) return null;
+
+    const part = token.split('.')[1];
+    if (!part) return null;
+
+    try {
+      const decoded = JSON.parse(atob(part));
+      return decoded.id || null;  // ✅ important
+    } catch (err) {
+      console.error('JWT decode failed:', err);
+      return null;
+    }
   }
 
-  // Progress bar
-  getProgress(userId: string): Observable<{ progress: number }> {
-    return this.http.get<{ progress: number }>(`${this.BASE}/progress/${userId}`);
+  getOverallStats(): Observable<{ totalExams: number; avgScore: number; passingRate: number }> {
+    const userId = this.getUserId();
+    return this.http.get<{ totalExams: number; avgScore: number; passingRate: number }>(
+      `${this.BASE}/overall/${userId}`
+    );
   }
 
-  // Difficulty analytics (used by exam-wise analysis chart below)
-  getDifficultyAnalytics(userId: string): Observable<Array<{ _id: 'basic'|'intermediate'|'advanced'; avgScore: number; attempts: number }>> {
+  getProgress(): Observable<{ progress: number }> {
+    const userId = this.getUserId();
+    return this.http.get<{ progress: number }>(
+      `${this.BASE}/progress/${userId}`
+    );
+  }
+
+  getDifficultyAnalytics(): Observable<Array<{ _id: 'basic'|'intermediate'|'advanced'; avgScore: number; attempts: number }>> {
+    const userId = this.getUserId();
     return this.http.get<Array<{ _id: 'basic'|'intermediate'|'advanced'; avgScore: number; attempts: number }>>(
       `${this.BASE}/difficulty/${userId}`
     );
   }
 
-  // Leaderboard (global)
   getLeaderboard(): Observable<Array<{ name: string; avgScore?: number; totalExams?: number; score?: number }>> {
-    // If you prefer the student-specific leaderboard, keep this.
-    // If you want admin leaderboard instead, point to /api/analytics/admin/students
     return this.http.get<Array<{ name: string; avgScore?: number; totalExams?: number; score?: number }>>(
       `${this.BASE}/leaderboard`
     );

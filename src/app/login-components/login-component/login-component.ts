@@ -66,6 +66,7 @@ export class LoginComponent {
           console.log(JSON.stringify(res.token));
            const role=this.userService.getCurrentUserRole()
           console.log(JSON.stringify(res));
+          
           if (role === 'admin') {
             this.router.navigate(['admin-dashboard']);
             console.log('Navigating to admin dashboard');
@@ -86,6 +87,7 @@ export class LoginComponent {
     console.warn('Form is invalid');
   }
 }
+
 }
 // const isValid = this.userService.validateUser(loginEmail, loginPassword);
 //   if (isValid) {

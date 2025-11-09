@@ -17,16 +17,14 @@ export class ExamWiseAnalysis implements AfterViewInit, OnDestroy {
   constructor(private studentService: StudentReportService) {}
 
   ngAfterViewInit(): void {
-    const userId = localStorage.getItem('userId');
-    if (!userId) return;
-
-    this.studentService.getDifficultyAnalytics(userId).subscribe({
+    this.studentService.getDifficultyAnalytics().subscribe({
       next: (rows) => {
         // rows looks like: [ { _id: 'basic', avgScore: 60, attempts: 5 }, ... ]
         const lookup: Record<string, number> = { basic: 0, intermediate: 0, advanced: 0 };
         rows.forEach(r => { lookup[r._id] = Math.round(r.avgScore || 0); });
 
-        // Keep your UI shape: one synthetic "All Exams" item
+        const examName = rows.length>0 ? (rows[0] as any).examName || 'Exam' : 'Exam';
+
         this.examStats = [{
           exam: 'All Exams',
           basic: lookup['basic'] || 0,

@@ -15,10 +15,7 @@ export class Progress implements OnInit {
   constructor(private studentService: StudentReportService) {}
 
   ngOnInit(): void {
-    const userId = localStorage.getItem('userId');
-    if (!userId) return;
-
-    this.studentService.getProgress(userId).subscribe({
+    this.studentService.getProgress().subscribe({
       next: (res) => (this.progress = Math.round(res.progress || 0)),
       error: (err) => console.error('Progress load failed:', err)
     });

@@ -13,10 +13,7 @@ export class StudentprogressComponent implements OnInit {
   constructor(private studentreportservice: StudentReportService) {}
 
   ngOnInit(): void {
-    const userId = localStorage.getItem('userId');
-    if (!userId) return;
-
-    this.studentreportservice.getProgress(userId).subscribe({
+    this.studentreportservice.getProgress().subscribe({
       next: res => {
         this.progress = Math.round(res.progress || 0);
       },

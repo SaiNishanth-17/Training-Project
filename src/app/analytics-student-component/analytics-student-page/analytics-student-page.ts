@@ -3,13 +3,12 @@ import { StatCard } from "../stat-card/stat-card";
 import { Progress } from "../progress/progress";
 import { Leaderboard } from "../leaderboard/leaderboard";
 import { ExamWiseAnalysis } from "../exam-wise-analysis/exam-wise-analysis";
-import { UsernameNav } from "../username-nav/username-nav";
 import { StudentReportService } from '../../Services/student-report-service';
 
 @Component({
   selector: 'app-analytics-student-page',
   standalone: true,
-  imports: [StatCard, Progress, Leaderboard, ExamWiseAnalysis, UsernameNav],
+  imports: [StatCard, Progress, Leaderboard, ExamWiseAnalysis],
   templateUrl: './analytics-student-page.html',
   styleUrls: ['./analytics-student-page.css']
 })
@@ -24,11 +23,7 @@ export class AnalyticsStudentPage implements OnInit {
 
   
   ngOnInit(): void {
-    const userId = localStorage.getItem('userId');
-    console.log(localStorage.getItem('userId'));
-    if (!userId) return;
-
-    this.studentService.getOverallStats(userId).subscribe({
+    this.studentService.getOverallStats().subscribe({
       next: (data) => {
         this.noOfExams = data.totalExams || 0;
         this.averageScore = Math.round(data.avgScore || 0);
