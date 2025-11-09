@@ -43,20 +43,33 @@ const payload = {
 };
 console.log('Register payload:', payload);
    this.userService.registerUser(payload).subscribe({
-  next: (res) => {
-    if (res.success) {
-      alert(res.message || 'Registration successful!');
-      form.resetForm();
-      this.router.navigate(['/login']);
-    } else {
-      alert(res.message || 'Registration failed.');
-    }
-  },
-  error: (err) => {
-    console.error('Unexpected error:', err);
-    alert('Something went wrong. Please try again.');
-  }
-});
+      next: (res) => {
+        if (res.success) {
+          alert(res.message || 'Registration successful!');
+          form.resetForm();
+          this.router.navigate(['/login']);
+        // } else {
+          // if (res.message === 'User already exists') {
+            // alert(res.message||"User already exists");
+          }
+          else {
+            alert(res.message ||'Registration failed.');
+         }
+       
+      },
+     
+error: (err) => {
+        console.error('Unexpected error:', err);
+ 
+       
+        if (err.error && err.error.message === 'User already exists') {
+          alert('User already exists');
+        } else {
+          alert(err.error?.message || 'Something went wrong. Please try again.');
+        }
+      }
+ 
+    });
   } else {
     alert('Please complete all fields correctly.');
   }

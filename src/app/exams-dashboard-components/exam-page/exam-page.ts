@@ -75,7 +75,7 @@ export class ExamPage implements OnInit {
     this.completedExamService.addCompletedExam(this.examName, this.duration);
 
     this.completedExamService
-      .submitExamToBackend(this.userId, this.subjectId, this.level) // userId left blank intentionally
+      .submitExamToBackend(this.userId, this.examName, this.level) // userId left blank intentionally
       .subscribe({
         next: (res: any) => {
           alert(` Exam submitted! Score: ${res.score}%`);

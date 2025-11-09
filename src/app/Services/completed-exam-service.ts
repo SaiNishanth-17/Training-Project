@@ -50,7 +50,7 @@ export class CompletedExamService {
     this.completedExamList.push(completedExam);
   }
 
-  submitExamToBackend(userId: string, subjectId: string, difficulty: string) {
+  submitExamToBackend(userId: string, examName: string, difficulty: string) {
     this.initializeExamData();
 
     const answers = this.examQuestions.map((q, i) => ({
@@ -61,7 +61,7 @@ export class CompletedExamService {
 
     const payload = {
       userId,
-      subjectId,
+      examName,
       difficulty,
       answers
     };

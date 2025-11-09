@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ExamTopicType } from '../../Models/examTopicType';
 import { ExamTopicService } from '../../Services/exam-topic-service';
 import { QuestionbankServices } from '../../Services/questionbank-services';
+
 @Component({
   selector: 'app-exam-subjects',
   standalone: true,
@@ -17,16 +18,16 @@ export class ExamSubjects implements OnInit {
   editModal = false;
 
   newExam: ExamTopicType = {
-    name: '',
+    subjectName: '',
     isActive: true,
-    Description: '',
+    description: '',
     subtopics: [],
   };
 
   editExamData: ExamTopicType = {
-    name: '',
+    subjectName: '',
     isActive: true,
-    Description: '',
+    description: '',
     subtopics: [],
   };
 
@@ -36,49 +37,56 @@ export class ExamSubjects implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.exams = this.examTopicService.getExams();
+    this.loadSubjects();
+  }
+
+  loadSubjects() {
+    this.examTopicService.getSubjects().subscribe((data) => {
+      this.exams = data;
+    });
   }
 
   addExam() {
-    if (this.newExam.name.trim()) {
-      if (!this.newExam.subtopics) this.newExam.subtopics = [];
-      this.examTopicService.addExam({ ...this.newExam });
-      this.questionbank.addCourse(this.newExam.name);
-      this.exams = this.examTopicService.getExams();
-      this.newExam = {
-        name: '',
-        isActive: true,
-        Description: '',
-        subtopics: [],
-      };
-      this.showModal = false;
+    if (this.newExam.subjectName.trim()) {
+      this.examTopicService.addExam(this.newExam).subscribe(() => {
+        this.questionbank.addCourse(this.newExam.subjectName);
+        this.loadSubjects();
+        this.newExam = {
+          subjectName: '',
+          isActive: true,
+          description: '',
+          subtopics: [],
+        };
+        this.showModal = false;
+      });
     }
   }
 
   openEditModal(exam: ExamTopicType) {
     this.editExamData = { ...exam };
-    (this.editExamData as any).__originalName = exam.name;
+    (this.editExamData as any).__originalName = exam.subjectName;
     this.editModal = true;
   }
 
   updateExam() {
-    if (!this.editExamData.name.trim()) return;
-    const originalName = (this.editExamData as any).__originalName || this.editExamData.name;
-    if (!this.editExamData.subtopics) this.editExamData.subtopics = [];
-    this.examTopicService.updateExam(this.editExamData, originalName);
-    if (originalName !== this.editExamData.name) {
-      this.questionbank.deleteCourse(originalName);
-      this.questionbank.addCourse(this.editExamData.name);
-    }
-    this.exams = this.examTopicService.getExams();
-    this.editModal = false;
+    if (!this.editExamData.subjectName.trim()) return;
+    const originalName = (this.editExamData as any).__originalName || this.editExamData.subjectName;
+    this.examTopicService.updateExam(this.editExamData, originalName).subscribe(() => {
+      if (originalName !== this.editExamData.subjectName) {
+        this.questionbank.deleteCourse(originalName);
+        this.questionbank.addCourse(this.editExamData.subjectName);
+      }
+      this.loadSubjects();
+      this.editModal = false;
+    });
   }
 
   confirmDelete(exam: ExamTopicType) {
-    if (confirm(`Delete subject '${exam.name}'? This will also remove related questions.`)) {
-      this.examTopicService.deleteExam(exam.name);
-      this.questionbank.deleteCourse(exam.name);
-      this.exams = this.examTopicService.getExams();
+    if (confirm(`Delete subject '${exam.subjectName}'? This will also remove related questions.`)) {
+      this.examTopicService.deleteExam(exam.subjectName).subscribe(() => {
+        this.questionbank.deleteCourse(exam.subjectName);
+        this.loadSubjects();
+      });
     }
   }
 }

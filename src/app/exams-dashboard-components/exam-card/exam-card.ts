@@ -73,7 +73,8 @@ export class ExamCard {
         });
  
         this.examData.setData([], examQuestions);
-        // navigate to start route using dynamic exam name
+        // navigate to start route using dynamic exam name 
+        console.log(this.levels[exam.name]);
         this.router.navigateByUrl(`/student-dashboard/exam/${examName}?level=${chosenLevel}`);
       });
   }

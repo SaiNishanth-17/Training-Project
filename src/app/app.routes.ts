@@ -14,14 +14,14 @@ import { StudentdashboardComponent } from './Studentdashboard-component/Studentd
 import { ResultComponent } from './exams-dashboard-components/result-component/result-component';
 import { ExamSubjects } from './exams-admin-components/exam-subjects/exam-subjects';
 import { StudentPage } from './Studentdashboard-component/student-page/student-page';
-
+import { authGuard, roleGuard } from './Services/authgaurd';
 
 export const routes: Routes = [
   { path: '', component: LandingPage },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: RegisterComponent },
   {
-    path: 'admin-dashboard',
+    path: 'admin-dashboard',canActivate:[authGuard,roleGuard('admin')],canActivateChild:[authGuard,roleGuard('student')],
     component: AdminDashboardPage,
     children: [
       { path: '', component: AdminDashboard },
@@ -31,7 +31,7 @@ export const routes: Routes = [
     ],
   },
   {
-    path: 'student-dashboard',
+    path: 'student-dashboard',canActivate:[authGuard,roleGuard('student')],canActivateChild:[authGuard,roleGuard('student')],
     component: StudentPage,
     children: [
       { path: '', component: StudentdashboardComponent },
