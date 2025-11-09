@@ -171,3 +171,8 @@
 .back-button:hover .back-button-text {
   color: white;
 }
+.line {
+  text-decoration: none;
+  color: inherit;
+}
+ 

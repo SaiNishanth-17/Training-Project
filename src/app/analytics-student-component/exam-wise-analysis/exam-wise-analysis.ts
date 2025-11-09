@@ -1,86 +1,84 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import Chart from 'chart.js/auto';
+import Chart, { Chart as ChartInstance } from 'chart.js/auto';
+import { StudentReportService } from '../../Services/student-report-service';
 
 @Component({
   selector: 'app-exam-wise-analysis',
+  standalone: true,
   imports: [CommonModule],
   templateUrl: './exam-wise-analysis.html',
-  styleUrl: './exam-wise-analysis.css'
+  styleUrls: ['./exam-wise-analysis.css']
 })
-export class ExamWiseAnalysis implements AfterViewInit {
-  examStats = [
-    { exam: 'E1', basic: 25, intermediate: 0, advanced: 20 },
-    { exam: 'E2', basic: 30, intermediate: 25, advanced: 10 },
-    { exam: 'E3', basic: 15, intermediate: 40, advanced: 35 },
-    { exam: 'E4', basic: 20, intermediate: 30, advanced: 25 },
-    { exam: 'E5', basic: 10, intermediate: 50, advanced: 25 }
-  ];
+export class ExamWiseAnalysis implements AfterViewInit, OnDestroy {
+  examStats: Array<{ exam: string; basic: number; intermediate: number; advanced: number }> = [];
+  private chart?: ChartInstance;
 
-  ngAfterViewInit() {
-    const ctx = document.getElementById('examScoresChart') as HTMLCanvasElement;
+  constructor(private studentService: StudentReportService) {}
 
-    new Chart(ctx, {
+  ngAfterViewInit(): void {
+    this.studentService.getDifficultyAnalytics().subscribe({
+      next: (rows) => {
+        // rows looks like: [ { _id: 'basic', avgScore: 60, attempts: 5 }, ... ]
+        const lookup: Record<string, number> = { basic: 0, intermediate: 0, advanced: 0 };
+        rows.forEach(r => { lookup[r._id] = Math.round(r.avgScore || 0); });
+
+        const examName = rows.length>0 ? (rows[0] as any).examName || 'Exam' : 'Exam';
+
+        this.examStats = [{
+          exam: 'All Exams',
+          basic: lookup['basic'] || 0,
+          intermediate: lookup['intermediate'] || 0,
+          advanced: lookup['advanced'] || 0
+        }];
+
+        this.renderChart();
+      },
+      error: (err) => console.error('Difficulty analytics load failed:', err)
+    });
+  }
+
+  private renderChart(): void {
+    const el = document.getElementById('examScoresChart') as HTMLCanvasElement | null;
+    if (!el) return;
+
+    // Destroy old chart if any (prevents duplicates when navigating)
+    if (this.chart) {
+      this.chart.destroy();
+    }
+
+    const labels = this.examStats.map(e => e.exam);
+    const basic = this.examStats.map(e => e.basic);
+    const interm = this.examStats.map(e => e.intermediate);
+    const adv = this.examStats.map(e => e.advanced);
+
+    this.chart = new Chart(el, {
       type: 'bar',
       data: {
-        labels: this.examStats.map(e => e.exam),
+        labels,
         datasets: [
-          {
-            label: 'Basic',
-            data: this.examStats.map(e => e.basic),
-            backgroundColor: 'rgba(135, 76, 175, 0.85)',
-            borderRadius: 6,
-            borderSkipped: false,
-            barThickness: 18
-          },
-          {
-            label: 'Intermediate',
-            data: this.examStats.map(e => e.intermediate),
-            backgroundColor: 'rgba(136, 77, 219, 0.6)',
-            borderRadius: 6,
-            borderSkipped: false,
-            barThickness: 18
-          },
-          {
-            label: 'Advanced',
-            data: this.examStats.map(e => e.advanced),
-            backgroundColor: 'rgba(54, 162, 235, 0.9)',
-            borderRadius: 6,
-            borderSkipped: false,
-            barThickness: 18
-          }
+          { label: 'Basic', data: basic, backgroundColor: 'rgba(135, 76, 175, 0.85)', borderRadius: 6, borderSkipped: false, barThickness: 18 },
+          { label: 'Intermediate', data: interm, backgroundColor: 'rgba(136, 77, 219, 0.6)', borderRadius: 6, borderSkipped: false, barThickness: 18 },
+          { label: 'Advanced', data: adv, backgroundColor: 'rgba(54, 162, 235, 0.9)', borderRadius: 6, borderSkipped: false, barThickness: 18 }
         ]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
         scales: {
-          x: {
-            grid: { display: false },
-            ticks: { color: '#444' },
-            
-          },
-          y: {
-            grid: { display: false },
-            beginAtZero: true,
-            max: 100,
-            ticks: { color: '#444' }
-          }
+          x: { grid: { display: false }, ticks: { color: '#444' } },
+          y: { grid: { display: false }, beginAtZero: true, max: 100, ticks: { color: '#444' } }
         },
         plugins: {
           legend: { display: true, position: 'top', labels: { color: '#444' } },
-          tooltip: {
-            backgroundColor: '#ffffff',
-            titleColor: '#000',
-            bodyColor: '#000',
-            borderColor: '#ddd',
-            borderWidth: 1
-          }
+          tooltip: { backgroundColor: '#fff', titleColor: '#000', bodyColor: '#000', borderColor: '#ddd', borderWidth: 1 }
         },
-        layout: {
-          padding: { left: 10, right: 10, top: 20, bottom: 10 }
-        }
+        layout: { padding: { left: 10, right: 10, top: 20, bottom: 10 } }
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.chart) this.chart.destroy();
   }
 }

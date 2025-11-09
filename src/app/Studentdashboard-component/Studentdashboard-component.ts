@@ -22,6 +22,5 @@ selectedSection: 'available' | 'completed' | 'progress' | null = null;
     this.selectedSection = this.selectedSection === section ? null : section;
   }
 
-  // ...existing code...
 
 }

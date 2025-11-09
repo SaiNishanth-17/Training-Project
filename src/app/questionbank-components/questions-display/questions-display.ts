@@ -1,161 +1,221 @@
 import { Component, OnInit } from '@angular/core';
-import { Question } from '../../Models/question';
+import { Question } from '../../Models/question-interface';
 import { QuestionbankServices } from '../../Services/questionbank-services';
 
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { QuestionGroup } from '../../Models/question-interface';
 
 @Component({
-  selector: 'app-questions-display',
-  imports: [FormsModule, CommonModule],
-  templateUrl: './questions-display.html',
-  styleUrl: './questions-display.css',
+  selector: 'app-questions-display',
+  imports: [FormsModule, CommonModule],
+  templateUrl: './questions-display.html',
+  styleUrl: './questions-display.css',
 })
 export class QuestionsDisplay implements OnInit {
-  selectedCourseName: string = ''; 
-  courses: { name: string }[] = [];
-  filterDifficulty: string = ''; 
-  correctAnswer: string = '';
-  isAddingNew: boolean = false;
-  editingQuestion: Question | null | undefined;
-  displayedQuestions: Question[] = [];
-  newQuestion!: QuestionGroup;
-  isAddingModalOpen: boolean = false;
-  newQuestionItem: Question = {
-    id: 0,
-    text: '',
-    options: ['', '', '', ''],
-    correctAnswer: '',
-    difficulty: 'Beginner', 
-  };
+  selectedCourseName: string = '';
+  courses: { subjectName: string }[] = [];
+  filterDifficulty: 'basic' | 'intermediate' | 'advanced' | '' = '';
+  
+  apiErrorMessage: string | null = null;
+  editingQuestion: Question | null | undefined;
+  displayedQuestions: Question[] = [];
+  isAddingModalOpen: boolean = false;
+  correctAnswer: string = ''; 
+  
+  newQuestionItem: Question = {
+    id: 0, 
+    text: '',
+    options: ['', '', '', ''],
+    correctAnswer: '',
+    difficulty: 'basic'
+  };
+isAddingNew: boolean =false;
 
-  constructor(private serviceQuestion: QuestionbankServices) {}
+  constructor(private serviceQuestion: QuestionbankServices) {}
 
-  ngOnInit(): void {
-    this.courses = this.serviceQuestion.courses;
-  }
+  ngOnInit(): void {
+    this.serviceQuestion.getCourses().subscribe({
+      next: (data) => {
+        this.courses = data.map(sub=>sub.subjectName);
+      },
+      error: (err) => {
+        console.error('API Error fetching subjects:', err);
+        this.apiErrorMessage = 'Failed to fetch courses. Check API server status.';
+      }
+    });
+  }
 
-  onCourseChange(selectedCourseName: string): void {
-    this.selectedCourseName = selectedCourseName;
-    this.displayedQuestions = [];
-    this.filterDifficulty = '';
-  }
+  onCourseChange(selectedCourseName: string): void {
+    this.selectedCourseName = selectedCourseName;
+    this.displayedQuestions = [];
+    this.filterDifficulty = '';
+    this.apiErrorMessage = null;
+  }
 
-  onDifficultyChange(level: string) {
-    this.filterDifficulty = level;
-    if (this.selectedCourseName && this.filterDifficulty) {
-      const questions = this.serviceQuestion.getQuestionsForCourse(this.selectedCourseName);
-      this.displayedQuestions = questions.filter((q) => q.difficulty === this.filterDifficulty);
-    } else {
-      this.displayedQuestions = [];
-    }
-  }
+  // READ (GET) OPERATION
+  onDifficultyChange(level: 'basic' | 'intermediate' | 'advanced' | ''): void {
+    this.filterDifficulty = level;
+    this.displayedQuestions = [];
+    this.apiErrorMessage = null;
 
-  getFilteredQuestions(): Question[] {
-    if (!this.selectedCourseName || !this.filterDifficulty) return [];
-    return this.displayedQuestions;
-  }
+    if (!this.selectedCourseName || !this.filterDifficulty) return;
 
-  getCharFromIndex(i: number): string {
-    return String.fromCharCode(65 + i);
-  }
+    this.serviceQuestion.getQuestions(this.selectedCourseName, this.filterDifficulty).subscribe({
+      next: (questions) => {
+        this.displayedQuestions = questions;
+        return this.displayedQuestions;
+      },
+      error: (err) => {
+        console.error('API Error fetching questions:', err);
+        if (err.status === 404) {
+          this.apiErrorMessage = `Error: The subject '${this.selectedCourseName}' might not exist.`;
+        } else {
+          this.apiErrorMessage = 'Failed to load questions. Please check the API status.';
+        }
+      },
+    });
+  }
 
-  editQuestion(question: Question): void {
-    this.editingQuestion = this.serviceQuestion.deepCloneQuestion(question);
-    this.correctAnswer = this.editingQuestion.correctAnswer;
-    this.isAddingNew = false;
-  }
+  getFilteredQuestions(): Question[] {
+    return this.displayedQuestions;
+  }
+  
+  getCharFromIndex(i: number): string {
+    return String.fromCharCode(65 + i);
+  }
 
-  saveQuestion(): void {
-    if (!this.editingQuestion) return;
-    this.serviceQuestion.saveQuestion(this.editingQuestion, this.selectedCourseName);
-    this.editingQuestion = null;
-    this.onDifficultyChange(this.filterDifficulty);
-  }
+  // CREATE (POST) SETUP/VALIDATION
+  addQuestion() {
+    this.isAddingNew = true;
+    this.editingQuestion = null;
+    this.cancelAdd(); 
+    
+    this.newQuestionItem.difficulty = (this.filterDifficulty || 'basic') as 'basic' | 'intermediate' | 'advanced';
 
-  cancelEdit(): void {
-    this.correctAnswer = '';
-    this.isAddingNew = false;
-    this.editingQuestion = null;
-  }
+    this.isAddingModalOpen = true;
+  }
+  
+  private validateNewQuestion(): boolean {
+    const q = this.newQuestionItem;
+    
+    if (!q.text || q.text.trim() === '') {
+      alert('Please enter the Question Text.');
+      return false;
+    }
+    
+    for (let i = 0; i < q.options.length; i++) {
+      if (!q.options[i] || q.options[i].trim() === '') {
+        alert(`Please enter Option ${this.getCharFromIndex(i)}.`);
+        return false;
+      }
+    }
+    
+    if (!this.correctAnswer || !q.options.includes(this.correctAnswer)) {
+      alert('The Correct Answer must exactly match one of the provided Options.');
+      return false;
+    }
+    return true;
+  }
 
-  deleteQuestion(id: number): void {
-    this.serviceQuestion.deleteQuestion(id, this.selectedCourseName);
-    this.onDifficultyChange(this.filterDifficulty);
-  }
-  trackByOptions(index: number, option: string): number {
-    return index;
-  }
-
-  addQuestion() {
-    this.editingQuestion = null;
-    this.cancelAdd();
-
-    if (this.filterDifficulty) {
-        this.newQuestionItem.difficulty = this.filterDifficulty as 'Beginner' | 'Intermediate' | 'Advanced';
-    } else {
-        this.newQuestionItem.difficulty = 'Beginner';
+  // CREATE (POST) EXECUTION
+  saveNewQuestion(): void {
+    if (!this.validateNewQuestion() || !this.selectedCourseName) {
+      return;
     }
 
-    this.isAddingModalOpen = true;
-  }
+    this.apiErrorMessage = null;
+    this.newQuestionItem.correctAnswer = this.correctAnswer;
+    
+    delete (this.newQuestionItem as any).id; 
 
-  cancelAdd(): void {
-    this.isAddingModalOpen = false;
-    this.correctAnswer = '';
-    this.newQuestionItem = {
-      id: 0,
-      text: '',
-      options: ['', '', '', ''],
-      correctAnswer: '',
-      difficulty: 'Beginner',
-    };
-  }
+    this.serviceQuestion.createQuestion(this.newQuestionItem, this.selectedCourseName).subscribe({
+      next: () => {
+        alert('Question created successfully!');
+        this.cancelAdd();
+        this.onDifficultyChange(this.filterDifficulty);
+      },
+      error: (err) => {
+        console.error('API Error creating question:', err);
+        if (err.status === 400 && err.error?.error) {
+          this.apiErrorMessage = `Creation Failed: ${err.error.error}`;
+        } else {
+          this.apiErrorMessage = 'An unexpected error occurred during question creation.';
+        }
+      },
+    });
+  }
+  
+  cancelAdd(): void {
+    this.isAddingModalOpen = false;
+    this.correctAnswer = '';
+    this.newQuestionItem = { id: 0, text: '', options: ['', '', '', ''], correctAnswer: '', difficulty: 'basic', };
+  }
 
-  private validateNewQuestion(): boolean {
-    const q = this.newQuestionItem;
-    if (!q.text || q.text.trim() === '') {
-      alert('Please enter the Question Text.');
-      return false;
-    }
-    if (!q.difficulty) {
-      alert('Please select the Difficulty level.');
-      return false;
-    }
-    for (let i = 0; i < q.options.length; i++) {
-      if (!q.options[i] || q.options[i].trim() === '') {
-        alert(`Please enter Option ${this.getCharFromIndex(i)}.`);
-        return false;
-      }
-    }
-    if (q.correctAnswer === undefined ) {
-      alert('A correct answer must be entered.');
-      return false;
-    }       
-    return true;
-  }
+  // UPDATE (PUT) SETUP
+  editQuestion(question: Question): void {
+    this.editingQuestion = {...question};
+    this.correctAnswer = this.editingQuestion.correctAnswer;
+  }
 
-  saveNewQuestion(): void {
-    if (!this.validateNewQuestion()) {
-      return;
-    }
-    
-    this.newQuestionItem.correctAnswer = this.correctAnswer;
-    const questionToAdd: Question = this.serviceQuestion.deepCloneQuestion(this.newQuestionItem);
-    this.serviceQuestion.addQuestion(questionToAdd, this.selectedCourseName);
-    this.cancelAdd();
-    this.onDifficultyChange(this.filterDifficulty);
-  }
+  // UPDATE (PUT) EXECUTION
+  saveQuestion(): void {
+    if (!this.editingQuestion || !this.selectedCourseName) return;
+    
+    if (!this.editingQuestion.options.includes(this.correctAnswer)) {
+      alert('The Correct Answer must exactly match one of the provided Options.');
+      return;
+    }
+    this.editingQuestion.correctAnswer = this.correctAnswer;
 
-  questionsCountForSelectedDifficulty(): number {
-    if (!this.selectedCourseName || !this.filterDifficulty) return 0;
-    const questions = this.serviceQuestion.getQuestionsForCourse(this.selectedCourseName);
-    return questions.filter((q) => q.difficulty === this.filterDifficulty).length;
-  }
+    this.serviceQuestion.updateQuestion(this.editingQuestion, this.selectedCourseName).subscribe({
+      next: () => {
+        alert('Question updated successfully!');
+        this.editingQuestion = null;
+        this.onDifficultyChange(this.filterDifficulty); 
+      },
+      error: (err) => {
+        console.error('API Error updating question:', err);
+        this.apiErrorMessage = 'An error occurred while updating the question.';
+      },
+    });
+  }
 
-  isAddDisabled(): boolean {
-    if (!this.selectedCourseName || !this.filterDifficulty) return true;
-    return this.questionsCountForSelectedDifficulty() >= 10;
-  }
+  cancelEdit(): void {
+    this.correctAnswer = '';
+    this.editingQuestion = null;
+  }
+
+  // DELETE OPERATION
+  deleteQuestion(id: number | string): void {
+    if (!confirm('Are you sure you want to delete this question?')) return;
+    this.apiErrorMessage = null;
+    
+    if (!this.selectedCourseName || !this.filterDifficulty) return;
+
+    this.serviceQuestion.deleteQuestion(id, this.selectedCourseName, this.filterDifficulty).subscribe({
+      next: () => {
+        alert('Question deleted successfully!');
+        this.onDifficultyChange(this.filterDifficulty); 
+      },
+      error: (err) => {
+        console.error('API Error deleting question:', err);
+        this.apiErrorMessage = 'An error occurred while deleting the question.';
+      },
+    });
+  }
+
+  // UI Helpers
+  questionsCountForSelectedDifficulty(): number {
+    return this.displayedQuestions.length;
+  }
+
+  isAddDisabled(): boolean {
+    if (!this.selectedCourseName || !this.filterDifficulty) return true;
+    return this.questionsCountForSelectedDifficulty() >= 10;
+  }
+
+  trackByOptions(index: number, option: string): number {
+    return index;
+  }
+  
 }

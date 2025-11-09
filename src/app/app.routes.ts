@@ -12,33 +12,32 @@ import { DisplayExams } from './exams-dashboard-components/display-exams/display
 import { AnalyticsAdmindashboard } from './analytics-admin-components/analytics-admindashboard/analytics-admindashboard';
 import { StudentdashboardComponent } from './Studentdashboard-component/Studentdashboard-component';
 import { ResultComponent } from './exams-dashboard-components/result-component/result-component';
-import { Topics } from './exams-admin-components/topics/topics';
+import { ExamSubjects } from './exams-admin-components/exam-subjects/exam-subjects';
 import { StudentPage } from './Studentdashboard-component/student-page/student-page';
-import { ExamSubtopicManagerComponent } from './exams-admin-components/exam-subtopic-manager/exam-subtopic-manager';
+import { authGuard, roleGuard } from './Services/authgaurd';
 
 export const routes: Routes = [
   { path: '', component: LandingPage },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: RegisterComponent },
   {
-    path: 'admin-dashboard',
+    path: 'admin-dashboard',canActivate:[authGuard,roleGuard('admin')],canActivateChild:[authGuard,roleGuard('student')],
     component: AdminDashboardPage,
     children: [
       { path: '', component: AdminDashboard },
       { path: 'questionbank', component: QuestionsDisplay },
-      { path: 'exam', component: Topics },
+      { path: 'exam', component: ExamSubjects },
       { path: 'analytics', component: AnalyticsAdmindashboard },
-      { path: 'manage-subtopics/:examName', component: ExamSubtopicManagerComponent },
     ],
   },
   {
-    path: 'student-dashboard',
+    path: 'student-dashboard',canActivate:[authGuard,roleGuard('student')],canActivateChild:[authGuard,roleGuard('student')],
     component: StudentPage,
     children: [
       { path: '', component: StudentdashboardComponent },
       { path: 'exam', component: DisplayExams },
       // route to actually start the exam (ExamPage expects route param :name)
-      { path: 'exam/:name/start', component: ExamPage },
+      { path: 'exam/:name', component: ExamPage },
       { path: 'exam/:name/result', component: ResultComponent },
       { path: 'analytics', component: AnalyticsStudentPage },
     ],

@@ -2,11 +2,7 @@
 <div class="exam-list">
  
   <div class="exam-card" *ngFor="let exam of available" >
-    
     <h4>{{ exam.name }}</h4>
     <small>{{exam.Description}}</small>
-    <p>Duration: {{ exam.TimeLimit }}</p>
-    <small>No. of Questions: {{ exam.noOfQuestions }}</small><br>
-    <!-- <button [disabled]="exam.status === 'completed'">Start Exam</button> -->
-     </div>
+  </div>
   </div>

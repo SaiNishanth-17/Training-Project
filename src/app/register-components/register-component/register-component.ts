@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { User } from '../../Models/userService';
 import { UserRegisteringService } from '../../Services/user-registering-service';
-
+ 
 @Component({
   selector: 'app-register-component',
   standalone: true,
@@ -14,63 +14,64 @@ import { UserRegisteringService } from '../../Services/user-registering-service'
 })
 export class RegisterComponent {
   showLogin = false;
-
+ 
   // Registration fields
   firstname: string = '';
   lastname: string = '';
   email: string = '';
   password: string = '';
   confirmPassword: string = '';
-
-  // Login fields
-  lemail: string = '';
-  lpassword: string = '';
-
+ 
   constructor(private router: Router, private userService: UserRegisteringService) {}
-
-  register() {
-    const email = this.email.trim().toLowerCase();
-    const password = this.password;
-    const firstname = this.firstname.trim();
-    const lastname = this.lastname.trim();
-
-    if (password !== this.confirmPassword) {
-      alert('Passwords do not match');
+register(form: any) {
+    if (form.valid) {
+      if (!this.password) {
+        alert('Password must be at least 8 characters long and include uppercase, lowercase, and a number.');
+        return;
+    }
+    if (this.password !== this.confirmPassword) {
+      alert('Password and Confirm Password do not match.');
       return;
     }
-
-    const newUser: User = { firstname, lastname, email, password };
-    const success = this.userService.addUser(newUser);
-
-    if (!success) {
-      alert('Email already registered');
-      return;
-    }
-
-    alert('Registered successfully! Please log in.');
-    this.showLogin = true;
-  }
-
-  login() {
-    const loginEmail = this.lemail.trim().toLowerCase();
-    const loginPassword = this.lpassword;
-
-    if (loginEmail === 'admin@gmail.com' && loginPassword === '123456') {
-      this.router.navigate(['/admin-dashboard']);
-      return;
-    }
-
-    const isValid = this.userService.validateUser(loginEmail, loginPassword);
-    if (isValid) {
-      // Get the user object
-      const user = this.userService.getUserByEmail(loginEmail);
-      if (user) {
-        this.userService.setFirstName(user.firstname); // Set the first name
+    // Create payload without confirmPassword
+const payload = {
+  email: this.email,
+  firstname: this.firstname,
+  lastname: this.lastname,
+  password: this.password,
+  confirmPassword: this.confirmPassword
+};
+console.log('Register payload:', payload);
+   this.userService.registerUser(payload).subscribe({
+      next: (res) => {
+        if (res.success) {
+          alert(res.message || 'Registration successful!');
+          form.resetForm();
+          this.router.navigate(['/login']);
+        // } else {
+          // if (res.message === 'User already exists') {
+            // alert(res.message||"User already exists");
+          }
+          else {
+            alert(res.message ||'Registration failed.');
+         }
+       
+      },
+     
+error: (err) => {
+        console.error('Unexpected error:', err);
+ 
+       
+        if (err.error && err.error.message === 'User already exists') {
+          alert('User already exists');
+        } else {
+          alert(err.error?.message || 'Something went wrong. Please try again.');
+        }
       }
-
-      this.router.navigate(['/student-dashboard']);
-    } else {
-      alert('invalid credentials');
-    }
+ 
+    });
+  } else {
+    alert('Please complete all fields correctly.');
   }
+}
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {  Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 
@@ -17,19 +17,39 @@ export class AnalyticsAdmindashboard implements OnInit {
   totalExams: number = 0;
   passRate: number = 0;
 
-  students = [
-    { name: "Sai Nishanth", avgScore: 72, passRate: 80 },
-    { name: "Ayesha Khan", avgScore: 85, passRate: 90 },
-    { name: "Ravi Sharma", avgScore: 65, passRate: 60 },
-  ];
+  async ngOnInit(): Promise<void> {
+    await this.loadData();
+  }
 
-  subjects = [
-    { subjectName: "Mathematics", avgScore: 71 },
-    { subjectName: "Science", avgScore: 67 },
-    { subjectName: "English", avgScore: 80 },
-  ];
+  private loadData(): void {
+  this.isLoading = true;
 
-  selectedStudent: any = null;
+  this.adminReportServices.getAdminStats().subscribe({
+    next: (stats) => {
+      this.totalStudents = stats.totalStudents;
+      this.totalExams = stats.totalExams;
+      this.passRate = stats.passRate;
+    }
+  });
+
+  this.adminReportServices.getStudentPerformance().subscribe({
+    next: (data) => {
+      this.students = data;
+    }
+  });
+
+  this.adminReportServices.getSubjectPerformance().subscribe({
+    next: (data) => {
+      this.subjects = data;
+      
+      this.isLoading = false; 
+    },
+    error: () => {
+      this.isLoading = false;
+    }
+  });
+}
+
 
   ngOnInit(): void {
     this.loadAdminStats();
@@ -50,11 +70,12 @@ export class AnalyticsAdmindashboard implements OnInit {
     });
   }
 
-  selectStudent(student: any) {
+
+  selectStudent(student: any): void {
     this.selectedStudent = student;
   }
 
-  closeModal() {
+  closeModal(): void {
     this.selectedStudent = null;
   }
 }

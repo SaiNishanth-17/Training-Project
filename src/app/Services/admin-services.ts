@@ -1,107 +1,62 @@
 import { Injectable } from '@angular/core';
-import { ExamTopicService } from './exam-topic-service';
-import { first } from 'rxjs-compat/operator/first';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminServices {
-  constructor(private noOfExams: ExamTopicService){}
-  private records = [
-    { 
-        firstName: 'John',
-        lastName: 'Smith',
-        email: 'john@smaith.com',
-        role: 'Student',
-    },
-    { 
-        firstName: 'Emma',
-        lastName: 'Johnson',
-        email: 'emma@johnson.com',
-        role: 'Student',
-    },
-    { 
-        firstName: 'Michael',
-        lastName: 'Brown',
-        email: 'michael@brown.com',
-        role: 'Student',
-    },
-    { 
-        firstName: 'Passah',
-        lastName: 'Davis',
-        email: 'passah@davis.com',
-        role: 'Admin',
-    },
-    { 
-        firstName: 'David',
-        lastName: 'Wilson',
-        email: 'david@wilson.com',
-        role: 'Admin',
-    }  
-  ];
+  private apiUrl = 'http://localhost:8001/api/auth';
+  private subjectsApiUrl = 'http://localhost:8001/api/subjects';
+  private totalSubjects: number = 0;
+  private records: any[] = [];
 
-getrecords() {
+  constructor(private http: HttpClient) {}
+
+  loadUsers(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/allUsers`).pipe(
+      tap(data => {
+        this.records = data.map(user => ({
+          ...user,
+          email: user.credentialId?.email || 'N/A'
+        }));
+      })
+    );
+  }
+
+  loadSubjects(): Observable<any[]> {
+    return this.http.get<any[]>(this.subjectsApiUrl).pipe(
+      tap(data => this.totalSubjects = data.length)
+    );
+  }
+
+  updateUserRole(userId: string, newRole: string): Observable<any> {
+    return this.http.put(`${this.apiUrl}/student/role/${userId}`, { role: newRole });
+  }
+
+  deleteUserById(userId: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/student/${userId}`);
+  }
+
+  getRecords() {
     return this.records;
   }
 
-  /** Update a user's role by email. Returns true if updated, false if not found. */
-  updateUserRole(email: string, newRole: string): boolean {
-    const idx = this.records.findIndex(r => r.email === email);
-    if (idx === -1) return false;
-    this.records[idx].role = newRole;
-    return true;
+  getStats() {
+    return [
+      {
+        label: 'Total Students',
+        value: this.records.filter(r => r.role?.toLowerCase() === 'student').length,
+        icon: 'fas fa-users',
+        color: 'purple',
+      },
+      {
+        label: 'Total Subjects',
+        value: this.totalSubjects,
+        icon: 'fa-solid fa-user-pen',
+        color: 'blue',
+      },
+    ];
   }
-
-  /** Delete a user record by email. Returns true if deleted. */
-  deleteUserByEmail(email: string): boolean {
-    const idx = this.records.findIndex(r => r.email === email);
-    if (idx === -1) return false;
-    this.records.splice(idx, 1);
-    return true;
-  }
-
-  getTotalStudents(): number {
-    return this.records.filter(r=>r.role==='student').length;
-  }
-
-  getTotalExams(): number {
-    return this.noOfExams.exams.length;
-  }
-
-  // getFailedStudents(): number {
-  //   return this.records.filter(exam => exam.status === 'Failed').length;
-  // }
-
-  private examStat=[
-          {
-            label: 'Total Students',
-            value: this.getTotalStudents(),
-            icon: 'fas fa-users',
-            color: 'purple',
-            change: '12.5% from last month',
-            trend: 'positive'
-          },
-          {
-            label: 'Total Exam Topics',
-            value: 20, //this.getTotalExams(),
-            icon: 'fa-solid fa-user-pen',
-            color: 'blue',
-            change: 'No change from last month',
-            trend: 'positive'
-          },
-          {
-            label: 'Failed Students',
-            // value: this.getFailedStudents(),
-            icon: 'fas fa-shopping-cart',
-            color: 'green',
-            change: '10% from last month',
-            trend: 'negative'
-          }
-        ];
-
-        getExamStats(){
-          return this.examStat;
-        }
-
-
 }

@@ -82,12 +82,15 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let record of records | searchFilterPipe:searchText">
-                            <td>{{ record.firstName }}</td>
-                            <td>{{ record.lastName }}</td>
+                            <td>{{ record.firstname || record.firstName }}</td>
+                            <td>{{ record.lastname || record.lastName }}</td>
                             <td>{{ record.email }}</td>
                             <td>
                               <ng-container *ngIf="editingEmail !== record.email">
-                                {{ record.role }}
+                                <span class="status" [ngClass]="record.role?.toLowerCase() === 'student' ? 'passed' : 'failed'">
+                                  <i class="fas" [ngClass]="record.role?.toLowerCase() === 'student' ? 'fa-user-graduate' : 'fa-user-shield'"></i>
+                                  {{ record.role }}
+                                </span>
                               </ng-container>
                               <ng-container *ngIf="editingEmail === record.email">
                                 <select [(ngModel)]="editRoleValue">
@@ -98,9 +101,9 @@
                             </td>
                             <td>
                               <ng-container *ngIf="editingEmail !== record.email">
-                                <!-- prevent editing own role from here -->
-                                <button *ngIf="record.email !== userData.email" class="btn btn-sm" (click)="startEdit(record)">Edit Role</button>
-                                <button class="btn btn-sm btn-danger" (click)="deleteRecord(record)">Delete</button>
+                                <button *ngIf="record.role?.toLowerCase() === 'student'" class="btn btn-sm" (click)="startEdit(record)">Edit Role</button>
+                                <button *ngIf="record.role?.toLowerCase() === 'student'" class="btn btn-sm btn-danger" (click)="deleteRecord(record)">Delete</button>
+                                <span *ngIf="record.role?.toLowerCase() === 'admin'">-</span>
                               </ng-container>
                               <ng-container *ngIf="editingEmail === record.email">
                                 <button class="btn btn-sm" (click)="saveRole(record)">Save</button>
@@ -112,11 +115,6 @@
                 </table>
             </div>
         </div>
-        <app-exam-details-modal
-            [isOpen]="isModalOpen"
-            [examDetails]="selectedExamDetails"
-            (closeModal)="closeExamDetails()">
-        </app-exam-details-modal>
         <!-- Profile Modal -->
         <div class="modal fade" tabindex="-1" [class.show]="isProfileModalOpen" [style.display]="isProfileModalOpen ? 'block' : 'none'">
           <div class="modal-dialog modal-dialog-centered modal-md">
@@ -140,11 +138,10 @@
                   </div>
                   <div class="mb-3">
                     <label>Email</label>
-                    <input type="email" class="form-control" [(ngModel)]="profileEdit.email" name="email" required>
+                    <input type="email" class="form-control" [value]="profileEdit.email" disabled>
                   </div>
                   <div class="mb-3">
                     <label>Role</label>
-                    <!-- Role is not editable from admin profile modal -->
                     <input type="text" class="form-control" [value]="profileEdit.role" disabled>
                   </div>
                 </div>

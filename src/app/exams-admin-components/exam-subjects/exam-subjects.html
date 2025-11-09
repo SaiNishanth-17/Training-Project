@@ -13,13 +13,13 @@
           <form>
             <div class="mb-2">
               <label>Subject Name</label>
-              <input class="form-control" [(ngModel)]="newExam.name" name="name" />
+              <input class="form-control" [(ngModel)]="newExam.subjectName" name="name" />
             </div>
             <div class="mb-2">
               <label>Description</label>
               <textarea
                 class="form-control"
-                [(ngModel)]="newExam.Description"
+                [(ngModel)]="newExam.description"
                 name="desc"
               ></textarea>
             </div>
@@ -49,13 +49,13 @@
           <form>
             <div class="mb-2">
               <label>Subject Name</label>
-              <input class="form-control" [(ngModel)]="editExamData.name" name="editName" />
+              <input class="form-control" [(ngModel)]="editExamData.subjectName" name="editName" />
             </div>
             <div class="mb-2">
               <label>Description</label>
               <textarea
                 class="form-control"
-                [(ngModel)]="editExamData.Description"
+                [(ngModel)]="editExamData.description"
                 name="editDesc"
               ></textarea>
             </div>
@@ -78,12 +78,12 @@
     <div class="topic-card card-border" *ngFor="let exam of exams">
       <div class="topic-info">
         <div class="topic-header">
-          <span class="topic-name">{{ exam.name }}</span>
+          <span class="topic-name">{{ exam.subjectName }}</span>
           <span class="status" [class.inactive]="!exam.isActive">{{
             exam.isActive ? 'Active' : 'Inactive'
           }}</span>
         </div>
-        <div class="topic-desc">{{ exam.Description }}</div>
+        <div class="topic-desc">{{ exam.description }}</div>
       </div>
       <div class="topic-actions">
         <button class="btn btn-sm btn-outline-primary" (click)="openEditModal(exam)">Edit</button>

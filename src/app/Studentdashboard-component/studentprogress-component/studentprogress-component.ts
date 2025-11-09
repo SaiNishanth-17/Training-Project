@@ -1,21 +1,23 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { StudentReportService } from '../../Services/student-report-service';
+
 @Component({
   selector: 'app-studentprogress-component',
-  imports: [],
   templateUrl: './studentprogress-component.html',
-  styleUrl: './studentprogress-component.css'
+  styleUrls: ['./studentprogress-component.css']
 })
-export class StudentprogressComponent {
-   
-  progress: number | null = null;
-  // progressData: any;
+export class StudentprogressComponent implements OnInit {
 
-  constructor(private studentreportservice:StudentReportService) {}
+  progress: number = 0;
 
-  ngOnInit() {
-    this.progress = this.studentreportservice.getProgress();
-    // this.progressData = this.studentprogress.getProgressPercentage();
+  constructor(private studentreportservice: StudentReportService) {}
+
+  ngOnInit(): void {
+    this.studentreportservice.getProgress().subscribe({
+      next: res => {
+        this.progress = Math.round(res.progress || 0);
+      },
+      error: err => console.error('Progress load failed:', err)
+    });
   }
-
 }

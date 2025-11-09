@@ -1,4 +1,3 @@
-
 import { Component, Output, EventEmitter } from '@angular/core';
 import { StudentServices } from '../../Services/AvailableExamService';
 import { CompletedExamService } from '../../Services/completed-exam-service';
@@ -8,8 +7,6 @@ import { FormsModule } from '@angular/forms';
 import { StudentReportService } from '../../Services/student-report-service';
 import { UserRegisteringService } from '../../Services/user-registering-service';
 import { ExamTopicService } from '../../Services/exam-topic-service';
-
-// import { LoginComponent } from '../../login-component/login-component';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,8 +20,8 @@ export class DashboardComponent {
   availableCount = 0;
   completedCount = 0;
   progress = 0;
-  firstname:string='';
-  // student profile state for header modal
+  firstname: string = '';
+
   studentProfile = {
     firstName: 'Student',
     lastName: 'User',
@@ -38,27 +35,46 @@ export class DashboardComponent {
   constructor(
     private availableService: StudentServices,
     private completedService: CompletedExamService,
-    private studentReportService:StudentReportService,
-    private userService:UserRegisteringService,
-    private examtopicservice:ExamTopicService
+    private studentReportService: StudentReportService,
+    private userService: UserRegisteringService,
+    private examtopicservice: ExamTopicService
   ) {}
 
   ngOnInit() {
-    this.availableCount = this.examtopicservice.exams.filter(exam=>exam.isActive).length;
-    this.completedCount = this.completedService.getCompletedExams().length;
-    this.progress = this.studentReportService.getProgress();
-    // populate current user profile if available
-    const current = this.userService.getCurrentUser();
-    if (current) {
-      this.studentProfile.firstName = current.firstname || this.studentProfile.firstName;
-      this.studentProfile.lastName = current.lastname || this.studentProfile.lastName;
-      this.studentProfile.email = current.email || this.studentProfile.email;
-      // keep role as-is (student)
-      this.firstname = current.firstname || this.userService.getFirstName();
-    } else {
-      this.firstname = this.userService.getFirstName();
-    }
+  this.examtopicservice.getSubjects().subscribe((subjects) => {
+    const mapped = subjects.map((s) => ({
+      name: s.subjectName,
+      Description: s.description,
+      isActive: s.isActive,
+    }));
+    this.availableCount = mapped.filter((exam) => exam.isActive).length;
+  });
+
+  this.completedCount = this.completedService.getCompletedExams().length;
+
+  const user = this.userService.decodeToken();
+
+  if (user && user.id) {
+    this.studentReportService.getProgress().subscribe({
+      next: (res) => {
+        this.progress = res.progress;
+      },
+      error: () => {
+        this.progress = 0;
+      }
+    });
   }
+
+  if (user) {
+    this.studentProfile.firstName = user.firstname || 'Student';
+    this.studentProfile.lastName = user.lastname || 'User';
+    this.studentProfile.email = user.email || 'student@example.com';
+    this.firstname = user.firstname || this.userService.getCurrentUserName();
+  } else {
+    this.firstname = this.userService.getCurrentUserName();
+  }
+}
+
 
   openProfileModal() {
     this.profileEdit = { ...this.studentProfile };
@@ -71,15 +87,19 @@ export class DashboardComponent {
   }
 
   saveStudentProfile() {
-    // only firstName, lastName, password can be changed; email & role are read-only here
     this.studentProfile.firstName = this.profileEdit.firstName || this.studentProfile.firstName;
     this.studentProfile.lastName = this.profileEdit.lastName || this.studentProfile.lastName;
-    this.studentProfile.password = this.profileEdit.password || this.studentProfile.password;
+    const user = this.userService.getUserByEmail(this.studentProfile.email);
+    if (user) {
+      user.firstname = this.studentProfile.firstName;
+      user.lastname = this.studentProfile.lastName;
+      this.userService.decodeToken();
+    }
+    this.firstname = this.studentProfile.firstName;
     this.closeProfileModal();
   }
 
   emitCard(section: 'available' | 'completed' | 'progress') {
     this.cardClicked.emit(section);
   }
- 
 }
