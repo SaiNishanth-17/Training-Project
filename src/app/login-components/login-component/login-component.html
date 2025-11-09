@@ -16,7 +16,7 @@
 <h2>Login</h2>
 <input type="email" name="email" [(ngModel)]="lemail" placeholder="Email" ngModel required #email="ngModel">
 <small *ngIf="email.invalid && email.touched">Please enter valid mail</small>
-<input type="password" name="password" [(ngModel)]="lpassword" placeholder="Password" ngModel required #password="ngModel">
+<input type="password" name="password" [(ngModel)]="lpassword" placeholder="Password" ngModel required #password="ngModel" autocomplete="new-password">
 <small *ngIf="password.invalid && password.touched">Please enter valid password</small>
 <button type="submit">Login</button>
 <p class="line">Not Registered? <a routerLink="/signup" class="line"><span>Register</span></a></p>

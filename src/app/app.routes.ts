@@ -21,7 +21,7 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: RegisterComponent },
   {
-    path: 'admin-dashboard',canActivate:[authGuard,roleGuard('admin')],
+    path: 'admin-dashboard',canActivate:[authGuard,roleGuard('admin')],canActivateChild:[authGuard,roleGuard('student')],
     component: AdminDashboardPage,
     children: [
       { path: '', component: AdminDashboard },
@@ -31,7 +31,7 @@ export const routes: Routes = [
     ],
   },
   {
-    path: 'student-dashboard',canActivate:[authGuard,roleGuard('student')],
+    path: 'student-dashboard',canActivate:[authGuard,roleGuard('student')],canActivateChild:[authGuard,roleGuard('student')],
     component: StudentPage,
     children: [
       { path: '', component: StudentdashboardComponent },

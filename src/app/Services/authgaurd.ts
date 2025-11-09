@@ -1,5 +1,5 @@
 import { inject } from '@angular/core';
-import { CanActivateFn } from '@angular/router';
+import { CanActivateFn,CanActivateChildFn } from '@angular/router';
 import { UserRegisteringService } from '../Services/user-registering-service';
 import { Router } from '@angular/router';
  
@@ -30,4 +30,16 @@ export const roleGuard = (expectedRole: string): CanActivateFn => {
     return true;
   };
 };
+export const roleChildGuard = (expectedRole: string): CanActivateChildFn => {
+  return () => {
+    const authService = inject(UserRegisteringService);
+    const router = inject(Router);
  
+    const role = authService.getCurrentUserRole();
+    if (role !== expectedRole) {
+      router.navigate(['/login']);
+      return false;
+    }
+ 
+    return true;
+  }};

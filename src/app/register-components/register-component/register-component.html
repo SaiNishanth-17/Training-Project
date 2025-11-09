@@ -45,7 +45,7 @@
         Enter a valid email address
 </div>
 <label>Password:</label>
-<input type="password" name="password" [(ngModel)]="password" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" placeholder="Password" #passwordField="ngModel" minlength="6">
+<input type="password" name="password" [(ngModel)]="password" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" placeholder="Password" #passwordField="ngModel" minlength="6" autocomplete="new-password">
 <div *ngIf="passwordField.errors?.['required'] && passwordField.touched" class="error">
 
         Password can't be empty
@@ -61,7 +61,7 @@
         Passwords do not match
 </div>
 <button type="submit" [disabled]="!regForm.valid">Register</button>
-<p class="line">Not Registered? <a routerLink="/signup" class="line"><span>Register</span></a></p>
+<p class="line">Registered? <a routerLink="/login" class="line"><span>Login</span></a></p>
 </form>
 </ng-container>
  
