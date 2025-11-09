@@ -34,10 +34,12 @@
     <tr>
       <th>Subject</th>
       <th>Avg Score</th>
+      <th>Submissions</th>
     </tr>
     <tr *ngFor="let sub of subjects">
-      <td>{{ sub.subjectName }}</td>
+      <td>{{ sub.examName }}</td>
       <td>{{ sub.avgScore }}%</td>
+      <td>{{sub.attempts}}</td>
     </tr>
   </table>
 

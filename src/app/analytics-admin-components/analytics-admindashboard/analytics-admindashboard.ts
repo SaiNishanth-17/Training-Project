@@ -28,7 +28,6 @@ export class AnalyticsAdmindashboard implements OnInit {
   private loadData(): void {
   this.isLoading = true;
 
-  // 1) Load Admin Stats
   this.adminReportServices.getAdminStats().subscribe({
     next: (stats) => {
       this.totalStudents = stats.totalStudents;
@@ -37,18 +36,17 @@ export class AnalyticsAdmindashboard implements OnInit {
     }
   });
 
-  // 2) Load Student Performance Table
   this.adminReportServices.getStudentPerformance().subscribe({
     next: (data) => {
       this.students = data;
     }
   });
 
-  // 3) Load Subject Performance Table
   this.adminReportServices.getSubjectPerformance().subscribe({
     next: (data) => {
       this.subjects = data;
-      this.isLoading = false; // ✅ End loading after last call
+      
+      this.isLoading = false; 
     },
     error: () => {
       this.isLoading = false;
