@@ -41,29 +41,40 @@ export class DashboardComponent {
   ) {}
 
   ngOnInit() {
-    this.examtopicservice.getSubjects().subscribe((subjects) => {
-      const mapped = subjects.map((s) => ({
-        name: s.subjectName,
-        Description: s.description,
-        isActive: s.isActive,
-        subtopics: [],
-      }));
-      this.availableCount = mapped.filter((exam) => exam.isActive).length;
+  this.examtopicservice.getSubjects().subscribe((subjects) => {
+    const mapped = subjects.map((s) => ({
+      name: s.subjectName,
+      Description: s.description,
+      isActive: s.isActive,
+    }));
+    this.availableCount = mapped.filter((exam) => exam.isActive).length;
+  });
+
+  this.completedCount = this.completedService.getCompletedExams().length;
+
+  const user = this.userService.decodeToken();
+
+  if (user && user.id) {
+    this.studentReportService.getProgress().subscribe({
+      next: (res) => {
+        this.progress = res.progress;
+      },
+      error: () => {
+        this.progress = 0;
+      }
     });
-
-    this.completedCount = this.completedService.getCompletedExams().length;
-    this.progress = this.studentReportService.getProgress();
-
-    const current = this.userService.decodeToken().firstname;
-    if (current) {
-      this.studentProfile.firstName = current.firstname || this.studentProfile.firstName;
-      this.studentProfile.lastName = current.lastname || this.studentProfile.lastName;
-      this.studentProfile.email = current.email || this.studentProfile.email;
-      this.firstname = current.firstname || this.userService.getCurrentUserName();
-    } else {
-      this.firstname = this.userService.getCurrentUserName();
-    }
   }
+
+  if (user) {
+    this.studentProfile.firstName = user.firstname || 'Student';
+    this.studentProfile.lastName = user.lastname || 'User';
+    this.studentProfile.email = user.email || 'student@example.com';
+    this.firstname = user.firstname || this.userService.getCurrentUserName();
+  } else {
+    this.firstname = this.userService.getCurrentUserName();
+  }
+}
+
 
   openProfileModal() {
     this.profileEdit = { ...this.studentProfile };

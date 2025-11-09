@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {  Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AdminReportServices } from '../../Services/admin-report-services';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-analytics-admindashboard',
@@ -10,38 +10,66 @@ import { AdminReportServices } from '../../Services/admin-report-services';
   styleUrls: ['./analytics-admindashboard.css']
 })
 export class AnalyticsAdmindashboard implements OnInit {
+
+  constructor(private http: HttpClient) {}
+
   totalStudents: number = 0;
   totalExams: number = 0;
   passRate: number = 0;
-  isLoading: boolean = true;
-  
-  students: any[] = [];
-  subjects: any[] = [];
-  selectedStudent: any = null;
-
-  constructor(private adminReportServices: AdminReportServices) {}
 
   async ngOnInit(): Promise<void> {
     await this.loadData();
   }
 
-  private async loadData(): Promise<void> {
-    try {
-      this.isLoading = true;
-      const stats = await this.adminReportServices.getAdminStats();
-      
+  private loadData(): void {
+  this.isLoading = true;
+
+  this.adminReportServices.getAdminStats().subscribe({
+    next: (stats) => {
       this.totalStudents = stats.totalStudents;
       this.totalExams = stats.totalExams;
       this.passRate = stats.passRate;
+    }
+  });
+
+  this.adminReportServices.getStudentPerformance().subscribe({
+    next: (data) => {
+      this.students = data;
+    }
+  });
+
+  this.adminReportServices.getSubjectPerformance().subscribe({
+    next: (data) => {
+      this.subjects = data;
       
-      this.students = this.adminReportServices.getStudentPerformance();
-      this.subjects = this.adminReportServices.getSubjectPerformance();
-    } catch (error) {
-      console.error('Error loading dashboard data:', error);
-    } finally {
+      this.isLoading = false; 
+    },
+    error: () => {
       this.isLoading = false;
     }
+  });
+}
+
+
+  ngOnInit(): void {
+    this.loadAdminStats();
   }
+
+  loadAdminStats(){
+    this.http.get<any>('http://localhost:8001/api/analytics/admin/stats').subscribe(
+      { next: (data) =>{
+        console.log(JSON.stringify(data));
+        // console.log.(data);
+      this.totalStudents = data.totalStudents;
+      this.totalExams = data.totalExams;
+      this.passRate = data.passRate;
+    },
+    error: (err) => {
+      console.error('Error fetching admin analytics data', err);
+    }
+    });
+  }
+
 
   selectStudent(student: any): void {
     this.selectedStudent = student;

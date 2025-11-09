@@ -1,10 +1,13 @@
 <div class="leaderboard-container">
   <h3>🏆 Leaderboard</h3>
-  <div class="leaderboard-card"  *ngFor="let student of topScorers; let i = index">
+  <div class="leaderboard-card" *ngFor="let student of topScorers; let i = index">
     <div class="rank">#{{ i + 1 }}</div>
     <div class="info">
       <div class="name">{{ student.name }}</div>
-      <div class="score">{{ student.score }} pts</div>
+      <div class="score">
+        <!-- Prefer avgScore if present, else score fallback -->
+        {{ (student.avgScore ?? student.score) | number:'1.0-0' }} pts
+      </div>
     </div>
   </div>
 </div>
