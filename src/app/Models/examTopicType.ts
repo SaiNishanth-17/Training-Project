@@ -6,8 +6,9 @@ export interface Subtopic {
 
 
 export interface ExamTopicType {
-  name: string;
+  subjectName: string;
+  description: string;
   isActive: boolean;
-  Description: string;
-  subtopics?: Subtopic[]; 
+  subtopics?: any[];
 }
+

@@ -13,7 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 @Component({
   selector: 'app-display-exams',
   standalone: true,
-  imports: [CommonModule, ExamCard, FormsModule,HttpClientModule],
+  imports: [CommonModule, ExamCard, FormsModule, HttpClientModule],
   templateUrl: './display-exams.html',
   styleUrls: ['./display-exams.css'],
 })
@@ -27,19 +27,18 @@ export class DisplayExams implements OnInit {
     private examTopicService: ExamTopicService,
     private questionBank: QuestionbankServices,
     private examData: ExamDataService,
-    private router: Router,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-  this.examTopicService.getSubjects().subscribe((data) => {
-    const activeSubjects = data.filter((t) => t.isActive);
-    this.exams = activeSubjects.map((t) => ({
-      name: t.subjectName,       
-      description: t.description,
-    }));
-  });
-}
-
+    this.examTopicService.getSubjects().subscribe((data) => {
+      const activeSubjects = data.filter((t) => t.isActive);
+      this.exams = activeSubjects.map((t) => ({
+        name: t.subjectName,
+        description: t.description,
+      }));
+    });
+  }
 
   onOpenExam(exam: examType) {
     this.selectedExam = exam;

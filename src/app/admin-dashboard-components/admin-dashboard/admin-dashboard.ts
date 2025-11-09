@@ -48,7 +48,7 @@ export class AdminDashboard {
   constructor(private adminService: AdminServices, private userService: UserRegisteringService) {}
 
   ngOnInit(): void {
-    const current = this.userService.getCurrentUser();
+    const current = this.userService.decodeToken();
     if (current) {
       this.userData.firstName = current.firstname || this.userData.firstName;
       this.userData.lastName = current.lastname || this.userData.lastName;

@@ -19,7 +19,17 @@ export class AvailableexamsComponent {
   ) {}
 
   ngOnInit() {
-    this.available = this.examtopicservice.exams.filter((exam) => exam.isActive);
+    this.examtopicservice.getSubjects().subscribe((subjects) => {
+  this.available = subjects
+    .map((s) => ({
+      name: s.subjectName,
+      Description: s.description,
+      isActive: s.isActive,
+      subtopics: [],
+    }))
+    .filter((exam) => exam.isActive);
+});
+
 
     // console.log(this.available);
   }
