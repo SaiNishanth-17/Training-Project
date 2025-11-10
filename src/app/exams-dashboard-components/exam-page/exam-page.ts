@@ -33,7 +33,7 @@ export class ExamPage implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.examName = this.route.snapshot.paramMap.get('examName') || '';
+    this.examName = this.route.snapshot.paramMap.get('name') || '';
     this.level = this.route.snapshot.queryParamMap.get('level') || 'basic';
     this.duration = this.examDataService.getTime(); // in minutes
     this.subjectId = this.examDataService.getSubjectId(); // now valid
@@ -70,6 +70,8 @@ export class ExamPage implements OnInit {
 
   submitExam(): void {
     clearInterval(this.timerInterval);
+
+    console.log(this.currentExamQuestions);
 
     this.examDataService.setAnswers(this.selectedAnswers);
     this.completedExamService.addCompletedExam(this.examName, this.duration);

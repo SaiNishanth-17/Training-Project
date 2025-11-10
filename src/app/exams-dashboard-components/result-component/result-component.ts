@@ -13,40 +13,37 @@ import { StudentReportService } from '../../Services/student-report-service';
 })
 export class ResultComponent {
 
-  noOfQuestions:number=0;
-noOfQuestionsAttempted: number = 0;
+  noOfQuestions: number = 0;
+  noOfQuestionsAttempted: number = 0;
   correctAnswersCount: number = 0;
   latestExam?: completedExams;
   showAnalysis: boolean = false;
-examQuestions: any;
-submittedAnswers: any;
+  examQuestions: any;
+  submittedAnswers: any;
 
-  constructor(private completedExamService: CompletedExamService,
-    private examdataservice:ExamDataService,
-    private studentReportService:StudentReportService
+  constructor(
+    private completedExamService: CompletedExamService,
+    private examdataservice: ExamDataService,
+    private studentReportService: StudentReportService
   ) {}
 
   ngOnInit(): void {
-    this.completedExamService.initializeExamData();
-    const [attempted, correct] = this.completedExamService.calculateScore();
-    
-    this.noOfQuestions=this.examdataservice.getQuestions().length;
-    this.noOfQuestionsAttempted=attempted;
-    this.correctAnswersCount=correct;
+    // ✅ Updated: calculateScore now returns an object
+    const scoreData = this.completedExamService.calculateScore();
 
-    this.examQuestions=this.examdataservice.getQuestions();
-    this.submittedAnswers=this.examdataservice.getAnswers();
-    
+    this.noOfQuestions = this.examdataservice.getQuestions().length;
+    this.noOfQuestionsAttempted = scoreData.attempted;
+    this.correctAnswersCount = scoreData.correct;
+
+    this.examQuestions = this.examdataservice.getQuestions();
+    this.submittedAnswers = this.examdataservice.getAnswers();
+
     console.log(this.examQuestions);
     console.log(this.submittedAnswers);
     console.log(this.completedExamService.completedExamList);
-
   }
 
-
-  // showAnalysis: boolean = false;
-  ShowAnalysis():void{
-    this.showAnalysis=true;
+  ShowAnalysis(): void {
+    this.showAnalysis = true;
   }
- 
 }
