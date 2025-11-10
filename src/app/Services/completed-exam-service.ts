@@ -32,7 +32,8 @@ export class CompletedExamService {
 
     for (let i = 0; i < questions.length; i++) {
       if (answers[i] !== '') attempted++;
-      if (answers[i] === questions[i].correctAnswer) correct++; // ✅ FIXED
+      const correctAnswer = questions[i].correctAnswer || questions[i].answer;
+      if (answers[i] === correctAnswer) correct++;
     }
 
     const score = questions.length > 0
@@ -62,16 +63,22 @@ export class CompletedExamService {
   submitExamToBackend(userId: string, examName: string, difficulty: string) {
     const { answers, questions } = this.loadExamData();
 
+    if (!questions || questions.length === 0) {
+      throw new Error('No questions available for submission');
+    }
+
     const payload = {
       userId,
       examName,
       difficulty,
       answers: questions.map((q: any, i: number) => ({
-        questionId: q._id, // ✅ CORRECT FIELD NAME
-        selectedOption: answers[i] ? String(answers[i]) : "", // ✅ to avoid null/undefined
-        correctOption: String(q.correctAnswer) // ✅ CORRECT FIELD NAME
+        questionId: q.id || q._id || i.toString(),
+        selectedOption: answers[i] ? String(answers[i]) : "",
+        correctOption: String(q.answer || q.correctAnswer)
       }))
     };
+
+    console.log('Submission payload:', payload);
 
     return this.http.post(
       `http://localhost:8001/api/exams/${examName}/submitExam`,
@@ -79,8 +86,29 @@ export class CompletedExamService {
     );
   }
 
+  /** Fetch completed exams from backend */
+  fetchCompletedExamsFromBackend(userId: string) {
+    return this.http.get<any[]>(`http://localhost:8001/api/exams/completed/${userId}`);
+  }
+
   /** Return completed exam list */
   getCompletedExams(): completedExams[] {
     return this.completedExamList;
+  }
+
+  /** Load completed exams from backend and update local list */
+  loadCompletedExamsFromBackend(userId: string) {
+    return this.fetchCompletedExamsFromBackend(userId).subscribe({
+      next: (exams) => {
+        this.completedExamList = exams.map((exam, index) => ({
+          id: index + 1,
+          name: exam.examName || 'Unknown Exam',
+          noOfQuestions: exam.totalQuestions || 0,
+          duration: `${exam.duration || 0} minutes`,
+          score: exam.score || 0
+        }));
+      },
+      error: (err) => console.error('Failed to load completed exams:', err)
+    });
   }
 }
