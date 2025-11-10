@@ -10,7 +10,7 @@ export class StudentService {
 
   constructor(private http: HttpClient) {}
 
-  updateProfile(userId: string, firstname: string, lastname: string): Observable<any> {
-    return this.http.put(`${this.apiUrl}/profile`, { userId, firstname, lastname });
+  updateProfile(firstname: string, lastname: string): Observable<any> {
+    return this.http.put(`${this.apiUrl}/profile`, { firstname, lastname });
   }
 }

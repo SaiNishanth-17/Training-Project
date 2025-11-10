@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { StudentReportService } from '../../Services/student-report-service';
 import { UserRegisteringService } from '../../Services/user-registering-service';
 import { ExamTopicService } from '../../Services/exam-topic-service';
+import { StudentService } from '../../Services/student-services';
 
 @Component({
   selector: 'app-dashboard',
@@ -37,7 +38,8 @@ export class DashboardComponent {
     private completedService: CompletedExamService,
     private studentReportService: StudentReportService,
     private userService: UserRegisteringService,
-    private examtopicservice: ExamTopicService
+    private examtopicservice: ExamTopicService,
+    private studentService: StudentService
   ) {}
 
   ngOnInit() {
@@ -92,16 +94,21 @@ export class DashboardComponent {
   }
 
   saveStudentProfile() {
-    this.studentProfile.firstName = this.profileEdit.firstName || this.studentProfile.firstName;
-    this.studentProfile.lastName = this.profileEdit.lastName || this.studentProfile.lastName;
-    const user = this.userService.getUserByEmail(this.studentProfile.email);
-    if (user) {
-      user.firstname = this.studentProfile.firstName;
-      user.lastname = this.studentProfile.lastName;
-      this.userService.decodeToken();
-    }
-    this.firstname = this.studentProfile.firstName;
-    this.closeProfileModal();
+    this.studentService.updateProfile(
+      this.profileEdit.firstName,
+      this.profileEdit.lastName
+    ).subscribe({
+      next: () => {
+        this.studentProfile.firstName = this.profileEdit.firstName;
+        this.studentProfile.lastName = this.profileEdit.lastName;
+        this.firstname = this.profileEdit.firstName;
+        alert('Profile updated successfully');
+        this.closeProfileModal();
+      },
+      error: (err) => {
+        alert(err.error?.message || 'Failed to update profile');
+      }
+    });
   }
 
   emitCard(section: 'available' | 'completed' | 'progress') {
