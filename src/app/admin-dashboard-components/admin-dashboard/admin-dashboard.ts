@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AdminServices } from '../../Services/admin-services';
 import { UserRegisteringService } from '../../Services/user-registering-service';
+import { StudentService } from '../../Services/student-services';
  
 interface UserData {
   firstName: string;
@@ -45,7 +46,11 @@ export class AdminDashboard {
     }
   };
 
-  constructor(private adminService: AdminServices, private userService: UserRegisteringService) {}
+  constructor(
+    private adminService: AdminServices,
+    private userService: UserRegisteringService,
+    private studentService: StudentService
+  ) {}
 
   ngOnInit(): void {
     const current = this.userService.decodeToken();
@@ -138,13 +143,19 @@ export class AdminDashboard {
   }
 
   saveProfile() {
-    this.userData.firstName = this.profileEdit.firstName || this.userData.firstName;
-    this.userData.lastName = this.profileEdit.lastName || this.userData.lastName;
-    const user = this.userService.getUserByEmail(this.userData.email);
-    if (user) {
-      user.firstname = this.userData.firstName;
-      user.lastname = this.userData.lastName;
-    }
-    this.closeProfileModal();
+    this.studentService.updateProfile(
+      this.profileEdit.firstName,
+      this.profileEdit.lastName
+    ).subscribe({
+      next: () => {
+        this.userData.firstName = this.profileEdit.firstName;
+        this.userData.lastName = this.profileEdit.lastName;
+        alert('Profile updated successfully');
+        this.closeProfileModal();
+      },
+      error: (err) => {
+        alert(err.error?.message || 'Failed to update profile');
+      }
+    });
   }
 }
