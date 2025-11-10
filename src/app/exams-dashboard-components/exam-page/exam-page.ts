@@ -90,12 +90,11 @@ export class ExamPage implements OnInit {
       .subscribe({
         next: (res: any) => {
           console.log('Backend response:', res);
-          alert(`Exam submitted successfully! Score: ${res.score || scoreData.score}%`);
           this.router.navigateByUrl('/student-dashboard/results');
         },
         error: err => {
           console.error('Submission error:', err);
-          alert('Cannot submit exam. Please check your connection and try again.');
+          this.router.navigateByUrl('/student-dashboard/results');
         }
       });
   }
