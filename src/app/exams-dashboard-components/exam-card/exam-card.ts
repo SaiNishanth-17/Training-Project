@@ -60,10 +60,11 @@ export class ExamCard {
           return;
         }
         const examQuestions: examQuestionType[] = questions.map((q: any) => ({
-  id: q.id,                  // ✅ use backend "id"
-  question: q.text,          // ✅ backend uses text
+  id: q.id || q._id,
+  question: q.text || q.question,
   options: q.options,
   answer: q.correctAnswer,
+  correctAnswer: q.correctAnswer,
   difficulty: q.difficulty,
 }));
 

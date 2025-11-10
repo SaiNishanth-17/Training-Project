@@ -71,21 +71,31 @@ export class ExamPage implements OnInit {
   submitExam(): void {
     clearInterval(this.timerInterval);
 
-    console.log(this.currentExamQuestions);
+    if (!this.userId) {
+      alert('User not authenticated. Please login again.');
+      return;
+    }
+
+    console.log('Questions:', this.currentExamQuestions);
+    console.log('Selected Answers:', this.selectedAnswers);
 
     this.examDataService.setAnswers(this.selectedAnswers);
-    this.completedExamService.addCompletedExam(this.examName, this.duration);
+    
+    const completedExam = this.completedExamService.addCompletedExam(this.examName, this.duration);
+    const scoreData = this.completedExamService.calculateScore();
+    completedExam.score = scoreData.score;
 
     this.completedExamService
-      .submitExamToBackend(this.userId, this.examName, this.level) // userId left blank intentionally
+      .submitExamToBackend(this.userId, this.examName, this.level)
       .subscribe({
         next: (res: any) => {
-          alert(` Exam submitted! Score: ${res.score}%`);
+          console.log('Backend response:', res);
+          alert(`Exam submitted successfully! Score: ${res.score || scoreData.score}%`);
           this.router.navigateByUrl('/student-dashboard/results');
         },
         error: err => {
-          alert(' Submission failed. Try again.');
-          console.error(err);
+          console.error('Submission error:', err);
+          alert('Cannot submit exam. Please check your connection and try again.');
         }
       });
   }
