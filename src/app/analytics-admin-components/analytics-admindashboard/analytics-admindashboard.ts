@@ -1,6 +1,6 @@
 import {  Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AdminReportServices } from '../../Services/admin-report-services';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-analytics-admindashboard',
@@ -10,16 +10,12 @@ import { AdminReportServices } from '../../Services/admin-report-services';
   styleUrls: ['./analytics-admindashboard.css']
 })
 export class AnalyticsAdmindashboard implements OnInit {
+
+  constructor(private http: HttpClient) {}
+
   totalStudents: number = 0;
   totalExams: number = 0;
   passRate: number = 0;
-  isLoading: boolean = true;
-  
-  students: any[] = [];
-  subjects: any[] = [];
-  selectedStudent: any = null;
-
-  constructor(private adminReportServices: AdminReportServices) {}
 
   async ngOnInit(): Promise<void> {
     await this.loadData();
@@ -55,6 +51,24 @@ export class AnalyticsAdmindashboard implements OnInit {
 }
 
 
+  ngOnInit(): void {
+    this.loadAdminStats();
+  }
+
+  loadAdminStats(){
+    this.http.get<any>('http://localhost:8001/api/analytics/admin/stats').subscribe(
+      { next: (data) =>{
+        console.log(JSON.stringify(data));
+        // console.log.(data);
+      this.totalStudents = data.totalStudents;
+      this.totalExams = data.totalExams;
+      this.passRate = data.passRate;
+    },
+    error: (err) => {
+      console.error('Error fetching admin analytics data', err);
+    }
+    });
+  }
 
 
   selectStudent(student: any): void {
