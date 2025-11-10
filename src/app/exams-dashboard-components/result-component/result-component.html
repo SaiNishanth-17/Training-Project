@@ -1,9 +1,30 @@
-<div class="result-card">
-  <h4 class="summary-title">📝 Exam Summary</h4>
-  <p><strong>Total Number of Questions:</strong> {{ noOfQuestions }}</p>
-  <p><strong>Number of Questions Attempted:</strong> {{ noOfQuestionsAttempted }}</p>
-  <p><strong>Correct Answers:</strong> {{ correctAnswersCount }}</p>
-  <button class="view-analysis-button" (click)="ShowAnalysis()">View Analysis</button>
+<div class="result-container">
+  <div class="result-header">
+    <h2>🎉 Exam Completed!</h2>
+    <div class="score-display" [ngClass]="getScoreClass()">
+      <h1>{{ score }}%</h1>
+      <p>Your Score</p>
+    </div>
+  </div>
+
+  <div class="result-card">
+    <h4 class="summary-title">📝 Exam Summary</h4>
+    <div class="summary-stats">
+      <div class="stat-item">
+        <span class="stat-number">{{ noOfQuestions }}</span>
+        <span class="stat-label">Total Questions</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">{{ noOfQuestionsAttempted }}</span>
+        <span class="stat-label">Attempted</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">{{ correctAnswersCount }}</span>
+        <span class="stat-label">Correct</span>
+      </div>
+    </div>
+    <button class="view-analysis-button" (click)="ShowAnalysis()">View Detailed Analysis</button>
+  </div>
 </div>
  
 <div *ngIf="showAnalysis" class="analysis-section">

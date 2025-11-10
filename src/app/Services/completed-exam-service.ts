@@ -7,8 +7,7 @@ import { completedExams } from '../Models/completedExams';
   providedIn: 'root'
 })
 export class CompletedExamService {
-  submittedAnswers: string[] = [];
-  examQuestions: any[] = [];
+
   completedExamList: completedExams[] = [];
   private examCounter = 1;
 
@@ -17,59 +16,99 @@ export class CompletedExamService {
     private http: HttpClient
   ) {}
 
-  initializeExamData(): void {
-    this.submittedAnswers = this.examDataService.getAnswers();
-    this.examQuestions = this.examDataService.getQuestions();
+  /** Load exam answers & questions */
+  private loadExamData() {
+    const answers = this.examDataService.getAnswers();
+    const questions = this.examDataService.getQuestions();
+    return { answers, questions };
   }
 
-  calculateScore(): [number, number] {
-    this.initializeExamData();
+  /** Local Score Calculation */
+  calculateScore(): { attempted: number; correct: number; score: number } {
+    const { answers, questions } = this.loadExamData();
+
     let attempted = 0;
     let correct = 0;
 
-    for (let i = 0; i < this.examQuestions.length; i++) {
-      const submitted = this.submittedAnswers[i];
-      if (submitted !== '') attempted++;
-      if (submitted === this.examQuestions[i].answer) correct++;
+    for (let i = 0; i < questions.length; i++) {
+      if (answers[i] !== '') attempted++;
+      const correctAnswer = questions[i].correctAnswer || questions[i].answer;
+      if (answers[i] === correctAnswer) correct++;
     }
 
-    return [attempted, correct];
+    const score = questions.length > 0
+      ? Math.round((correct / questions.length) * 100)
+      : 0;
+
+    return { attempted, correct, score };
   }
 
-  addCompletedExam(examName: string, durationMinutes: number): void {
-    this.initializeExamData();
+  /** Add completed exam to local list */
+  addCompletedExam(examName: string, durationMinutes: number): completedExams {
+    const { questions } = this.loadExamData();
 
-    const completedExam: completedExams = {
+    const exam: completedExams = {
       id: this.examCounter++,
       name: examName,
-      noOfQuestions: this.examQuestions.length,
+      noOfQuestions: questions.length,
       duration: `${durationMinutes} minutes`,
-      score: 0 // score will be updated after backend response
+      score: 0 // updated later
     };
 
-    this.completedExamList.push(completedExam);
+    this.completedExamList.push(exam);
+    return exam;
   }
 
+  /** Submit exam to backend */
   submitExamToBackend(userId: string, examName: string, difficulty: string) {
-    this.initializeExamData();
+    const { answers, questions } = this.loadExamData();
 
-    const answers = this.examQuestions.map((q, i) => ({
-      questionId: q.id,
-      selectedOption: this.submittedAnswers[i],
-      correctOption: q.answer
-    }));
+    if (!questions || questions.length === 0) {
+      throw new Error('No questions available for submission');
+    }
 
     const payload = {
       userId,
       examName,
       difficulty,
-      answers
+      answers: questions.map((q: any, i: number) => ({
+        questionId: q.id || q._id || i.toString(),
+        selectedOption: answers[i] ? String(answers[i]) : "",
+        correctOption: String(q.answer || q.correctAnswer)
+      }))
     };
 
-    return this.http.post('http://localhost:8001/api/exams/submitExam', payload);
+    console.log('Submission payload:', payload);
+
+    return this.http.post(
+      `http://localhost:8001/api/exams/${examName}/submitExam`,
+      payload
+    );
   }
 
+  /** Fetch completed exams from backend */
+  fetchCompletedExamsFromBackend(userId: string) {
+    return this.http.get<any[]>(`http://localhost:8001/api/exams/completed/${userId}`);
+  }
+
+  /** Return completed exam list */
   getCompletedExams(): completedExams[] {
     return this.completedExamList;
+  }
+
+  /** Load completed exams from backend and update local list */
+  loadCompletedExamsFromBackend(userId: string) {
+    return this.fetchCompletedExamsFromBackend(userId).subscribe({
+      next: (exams) => {
+        this.completedExamList = exams.map((exam, index) => ({
+          id: index + 1,
+          name: exam.examName || 'Unknown Exam',
+          noOfQuestions: exam.totalQuestions || 0,
+          duration: `${exam.duration || 0} minutes`,
+          score: exam.score || 0
+        }));
+      },
+      error: (err) => console.error('Failed to load completed exams:', err)
+    });
   }
 }

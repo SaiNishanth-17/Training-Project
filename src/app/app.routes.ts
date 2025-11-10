@@ -21,7 +21,7 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: RegisterComponent },
   {
-    path: 'admin-dashboard',canActivate:[authGuard,roleGuard('admin')],canActivateChild:[authGuard,roleGuard('student')],
+    path: 'admin-dashboard', canActivate:[authGuard,roleGuard('admin')],
     component: AdminDashboardPage,
     children: [
       { path: '', component: AdminDashboard },
@@ -31,14 +31,14 @@ export const routes: Routes = [
     ],
   },
   {
-    path: 'student-dashboard',canActivate:[authGuard,roleGuard('student')],canActivateChild:[authGuard,roleGuard('student')],
+    path: 'student-dashboard',canActivate:[authGuard,roleGuard('student')],
     component: StudentPage,
     children: [
       { path: '', component: StudentdashboardComponent },
       { path: 'exam', component: DisplayExams },
       // route to actually start the exam (ExamPage expects route param :name)
       { path: 'exam/:name', component: ExamPage },
-      { path: 'exam/:name/result', component: ResultComponent },
+      { path: 'results', component: ResultComponent },
       { path: 'analytics', component: AnalyticsStudentPage },
     ],
   },

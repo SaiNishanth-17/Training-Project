@@ -38,9 +38,9 @@ export class StudentReportService {
     );
   }
 
-  getDifficultyAnalytics(): Observable<Array<{ _id: 'basic'|'intermediate'|'advanced'; avgScore: number; attempts: number }>> {
+  getDifficultyAnalytics(): Observable<Array<{examName:string; difficulty: 'basic'|'intermediate'|'advanced'; avgScore: number; attempts: number }>> {
     const userId = this.getUserId();
-    return this.http.get<Array<{ _id: 'basic'|'intermediate'|'advanced'; avgScore: number; attempts: number }>>(
+    return this.http.get<Array<{ examName:string;difficulty: 'basic'|'intermediate'|'advanced'; avgScore: number; attempts: number}>>(
       `${this.BASE}/difficulty/${userId}`
     );
   }

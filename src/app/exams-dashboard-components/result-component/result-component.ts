@@ -13,40 +13,46 @@ import { StudentReportService } from '../../Services/student-report-service';
 })
 export class ResultComponent {
 
-  noOfQuestions:number=0;
-noOfQuestionsAttempted: number = 0;
+  noOfQuestions: number = 0;
+  noOfQuestionsAttempted: number = 0;
   correctAnswersCount: number = 0;
+  score: number = 0;
   latestExam?: completedExams;
   showAnalysis: boolean = false;
-examQuestions: any;
-submittedAnswers: any;
+  examQuestions: any;
+  submittedAnswers: any;
 
-  constructor(private completedExamService: CompletedExamService,
-    private examdataservice:ExamDataService,
-    private studentReportService:StudentReportService
+  constructor(
+    private completedExamService: CompletedExamService,
+    private examdataservice: ExamDataService,
+    private studentReportService: StudentReportService
   ) {}
 
   ngOnInit(): void {
-    this.completedExamService.initializeExamData();
-    const [attempted, correct] = this.completedExamService.calculateScore();
-    
-    this.noOfQuestions=this.examdataservice.getQuestions().length;
-    this.noOfQuestionsAttempted=attempted;
-    this.correctAnswersCount=correct;
+    const scoreData = this.completedExamService.calculateScore();
 
-    this.examQuestions=this.examdataservice.getQuestions();
-    this.submittedAnswers=this.examdataservice.getAnswers();
-    
-    console.log(this.examQuestions);
-    console.log(this.submittedAnswers);
-    console.log(this.completedExamService.completedExamList);
+    this.noOfQuestions = this.examdataservice.getQuestions().length;
+    this.noOfQuestionsAttempted = scoreData.attempted;
+    this.correctAnswersCount = scoreData.correct;
+    this.score = scoreData.score;
 
+    this.examQuestions = this.examdataservice.getQuestions();
+    this.submittedAnswers = this.examdataservice.getAnswers();
+
+    const completedExams = this.completedExamService.getCompletedExams();
+    if (completedExams.length > 0) {
+      this.latestExam = completedExams[completedExams.length - 1];
+    }
   }
 
-
-  // showAnalysis: boolean = false;
-  ShowAnalysis():void{
-    this.showAnalysis=true;
+  ShowAnalysis(): void {
+    this.showAnalysis = true;
   }
- 
+
+  getScoreClass(): string {
+    if (this.score >= 80) return 'excellent-score';
+    if (this.score >= 60) return 'good-score';
+    if (this.score >= 40) return 'average-score';
+    return 'poor-score';
+  }
 }

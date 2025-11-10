@@ -19,21 +19,32 @@ export class ExamWiseAnalysis implements AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     this.studentService.getDifficultyAnalytics().subscribe({
       next: (rows) => {
-        // rows looks like: [ { _id: 'basic', avgScore: 60, attempts: 5 }, ... ]
-        const lookup: Record<string, number> = { basic: 0, intermediate: 0, advanced: 0 };
-        rows.forEach(r => { lookup[r._id] = Math.round(r.avgScore || 0); });
+        if (!rows || rows.length === 0) return;
 
-        const examName = rows.length>0 ? (rows[0] as any).examName || 'Exam' : 'Exam';
+        const examName = rows[0].examName || "Exam";
 
-        this.examStats = [{
-          exam: 'All Exams',
-          basic: lookup['basic'] || 0,
-          intermediate: lookup['intermediate'] || 0,
-          advanced: lookup['advanced'] || 0
-        }];
+        let basic = 0;
+        let intermediate = 0;
+        let advanced = 0;
+
+        rows.forEach(r => {
+          if (r.difficulty === "basic") basic = Math.round(r.avgScore || 0);
+          if (r.difficulty === "intermediate") intermediate = Math.round(r.avgScore || 0);
+          if (r.difficulty === "advanced") advanced = Math.round(r.avgScore || 0);
+        });
+
+        this.examStats = [
+          {
+            exam: examName,
+            basic,
+            intermediate,
+            advanced
+          }
+        ];
 
         this.renderChart();
       },
+
       error: (err) => console.error('Difficulty analytics load failed:', err)
     });
   }
@@ -42,10 +53,7 @@ export class ExamWiseAnalysis implements AfterViewInit, OnDestroy {
     const el = document.getElementById('examScoresChart') as HTMLCanvasElement | null;
     if (!el) return;
 
-    // Destroy old chart if any (prevents duplicates when navigating)
-    if (this.chart) {
-      this.chart.destroy();
-    }
+    if (this.chart) this.chart.destroy();
 
     const labels = this.examStats.map(e => e.exam);
     const basic = this.examStats.map(e => e.basic);

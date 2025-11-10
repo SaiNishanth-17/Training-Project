@@ -1,47 +1,130 @@
+.result-container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+.result-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.result-header h2 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.score-display {
+  display: inline-block;
+  padding: 30px 40px;
+  border-radius: 12px;
+  margin: 20px;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.score-display h1 {
+  font-size: 3rem;
+  margin: 0;
+  font-weight: bold;
+}
+
+.score-display p {
+  margin: 5px 0 0 0;
+  font-size: 1.1rem;
+}
+
+.excellent-score {
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+  color: white;
+}
+
+.good-score {
+  background: linear-gradient(135deg, #2196F3, #1976D2);
+  color: white;
+}
+
+.average-score {
+  background: linear-gradient(135deg, #FF9800, #F57C00);
+  color: white;
+}
+
+.poor-score {
+  background: linear-gradient(135deg, #f44336, #d32f2f);
+  color: white;
+}
+
 .result-card {
   background-color: #f9f9f9;
   border: 1px solid #ddd;
   border-radius: 10px;
   padding: 20px;
   text-align: center;
-  max-width: 600px;
-  margin: 30px auto;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
- 
+
+.summary-stats {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-number {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #007bff;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 5px;
+}
+
 .summary-title {
   margin-bottom: 20px;
   font-size: 1.5rem;
   color: #333;
 }
- 
+
 .view-analysis-button {
   background-color: #007bff;
   color: white;
   border: none;
-  padding: 10px 20px;
+  padding: 12px 24px;
   margin-top: 20px;
   font-size: 1rem;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
- 
+
 .view-analysis-button:hover {
   background-color: #0056b3;
 }
- 
+
 .analysis-section {
   max-width: 700px;
   margin: 40px auto;
 }
- 
+
 .analysis-title {
   font-size: 1.4rem;
   margin-bottom: 20px;
   color: #444;
+  text-align: center;
 }
- 
+
 .analysis-card {
   background-color: #ffffff;
   border: 1px solid #ccc;
@@ -49,13 +132,14 @@
   padding: 15px;
   margin-bottom: 20px;
 }
- 
+
 .correct-answer {
-  color: green;
+  color: #4CAF50;
   font-weight: bold;
 }
+
 .wrong-answer {
-  color: red;
+  color: #f44336;
   font-weight: bold;
 }
  

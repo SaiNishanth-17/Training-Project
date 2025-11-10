@@ -33,7 +33,7 @@ export class ExamPage implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.examName = this.route.snapshot.paramMap.get('examName') || '';
+    this.examName = this.route.snapshot.paramMap.get('name') || '';
     this.level = this.route.snapshot.queryParamMap.get('level') || 'basic';
     this.duration = this.examDataService.getTime(); // in minutes
     this.subjectId = this.examDataService.getSubjectId(); // now valid
@@ -71,19 +71,30 @@ export class ExamPage implements OnInit {
   submitExam(): void {
     clearInterval(this.timerInterval);
 
+    if (!this.userId) {
+      alert('User not authenticated. Please login again.');
+      return;
+    }
+
+    console.log('Questions:', this.currentExamQuestions);
+    console.log('Selected Answers:', this.selectedAnswers);
+
     this.examDataService.setAnswers(this.selectedAnswers);
-    this.completedExamService.addCompletedExam(this.examName, this.duration);
+    
+    const completedExam = this.completedExamService.addCompletedExam(this.examName, this.duration);
+    const scoreData = this.completedExamService.calculateScore();
+    completedExam.score = scoreData.score;
 
     this.completedExamService
-      .submitExamToBackend(this.userId, this.examName, this.level) // userId left blank intentionally
+      .submitExamToBackend(this.userId, this.examName, this.level)
       .subscribe({
         next: (res: any) => {
-          alert(` Exam submitted! Score: ${res.score}%`);
+          console.log('Backend response:', res);
           this.router.navigateByUrl('/student-dashboard/results');
         },
         error: err => {
-          alert(' Submission failed. Try again.');
-          console.error(err);
+          console.error('Submission error:', err);
+          this.router.navigateByUrl('/student-dashboard/results');
         }
       });
   }
