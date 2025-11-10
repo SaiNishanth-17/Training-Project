@@ -59,19 +59,14 @@ export class ExamCard {
           alert(`Exam requires exactly 10 questions. Current: ${questions ? questions.length : 0}`);
           return;
         }
-        const examQuestions: examQuestionType[] = questions.map((q: any, idx: number) => {
-          const correctIndex = q.options.findIndex(
-            (opt: string) => opt.toLowerCase() === q.correctAnswer.toLowerCase()
-          );
-          return {
-            id: q._id || idx + 1,
-            question: q.text || '',
-            options: q.options || [],
-            answer: q.correctAnswer || '',
-            difficulty: q.difficulty || 'basic',
-          };
-        });
- 
+        const examQuestions: examQuestionType[] = questions.map((q: any) => ({
+  id: q.id,                  // ✅ use backend "id"
+  question: q.text,          // ✅ backend uses text
+  options: q.options,
+  answer: q.correctAnswer,
+  difficulty: q.difficulty,
+}));
+
         this.examData.setData([], examQuestions);
         // navigate to start route using dynamic exam name 
         console.log(this.levels[exam.name]);
