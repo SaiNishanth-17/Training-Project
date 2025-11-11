@@ -19,3 +19,31 @@ app-exam-card {
   box-sizing: border-box;
   display: block;
 }
+
+.no-exams-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  text-align: center;
+}
+
+.message-content {
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+}
+
+.message-content h3 {
+  color: #666;
+  margin-bottom: 16px;
+  font-size: 1.5rem;
+}
+
+.message-content p {
+  color: #888;
+  line-height: 1.6;
+  margin: 0;
+}

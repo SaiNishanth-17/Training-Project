@@ -8,6 +8,7 @@ import { Course } from '../../Models/course';
 
 @Component({
   selector: 'app-header-component',
+  standalone: true,
   imports: [FormsModule,CommonModule,RouterModule],
   templateUrl: './header-component.html',
   styleUrl: './header-component.css'
