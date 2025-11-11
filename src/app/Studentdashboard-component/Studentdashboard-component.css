@@ -96,4 +96,25 @@
 .main {
   flex: 1;
   padding: 10px;
+}
+
+@media (max-width: 768px) {
+  .header {
+    height: 60px;
+    padding: 0 15px;
+    font-size: 1.3rem;
+  }
+  
+  .main-container {
+    width: 100%;
+    flex-direction: column;
+    overflow-x: hidden;
+  }
+  
+  .main {
+    padding: 15px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
 } 

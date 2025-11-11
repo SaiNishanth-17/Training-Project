@@ -19,6 +19,21 @@
   margin-bottom: 30px;
 }
 
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 1.3rem;
+  }
+  
+  .progress-card {
+    padding: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .progress-bar {
+    height: 10px;
+  }
+}
+
 .progress-bar {
   width: 100%;
   height: 12px;
