@@ -33,7 +33,7 @@ register(form: any) {
       alert('Password and Confirm Password do not match.');
       return;
     }
-    // Create payload without confirmPassword
+    
 const payload = {
   email: this.email,
   firstname: this.firstname,
@@ -44,10 +44,16 @@ const payload = {
 console.log('Register payload:', payload);
    this.userService.registerUser(payload).subscribe({
       next: (res) => {
+        console.log(res)
         if (res.success) {
           alert(res.message || 'Registration successful!');
           form.resetForm();
-          this.router.navigate(['/login']);
+          this.firstname = '';
+          this.lastname = '';
+          this.email = '';
+          this.password = '';
+          this.confirmPassword = '';
+          this.router.navigate(['login']);
         // } else {
           // if (res.message === 'User already exists') {
             // alert(res.message||"User already exists");
