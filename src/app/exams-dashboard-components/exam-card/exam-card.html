@@ -16,9 +16,10 @@
       class="attempt-btn"
       type="button"
       (click)="attemptExam(exam)"
-      [disabled]="!levels[exam.name]"
+      [disabled]="!levels[exam.name] || isExamCompleted(exam.name, levels[exam.name])"
+      [class.completed]="isExamCompleted(exam.name, levels[exam.name])"
     >
-      Attempt Now
+      {{ isExamCompleted(exam.name, levels[exam.name]) ? 'Completed' : 'Attempt Now' }}
     </button>
   </div>
 </div>

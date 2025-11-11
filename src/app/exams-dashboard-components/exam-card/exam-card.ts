@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -6,6 +6,7 @@ import { examType } from '../../Models/examType';
 import { QuestionbankServices } from '../../Services/questionbank-services';
 import { ExamDataService } from '../../Services/exam-data-service';
 import { examQuestionType } from '../../Models/examQuestionType';
+import { CompletedExamService } from '../../Services/completed-exam-service';
  
 @Component({
   selector: 'app-exam-card',
@@ -14,21 +15,35 @@ import { examQuestionType } from '../../Models/examQuestionType';
   templateUrl: './exam-card.html',
   styleUrls: ['./exam-card.css'],
 })
-export class ExamCard {
+export class ExamCard implements OnInit {
   @Input() exams: examType[] = [];
  
   levels: { [examName: string]: string } = {};
+  completedExams: Set<string> = new Set();
  
   constructor(
     private questionBank: QuestionbankServices,
     private examData: ExamDataService,
-    private router: Router
+    private router: Router,
+    private completedExamService: CompletedExamService
   ) {}
  
   ngOnInit() {
     this.exams.forEach(exam => {
       this.levels[exam.name] = '';
     });
+    this.loadCompletedExams();
+  }
+
+  private loadCompletedExams() {
+    const completed = this.completedExamService.getCompletedExams();
+    completed.forEach(exam => {
+      this.completedExams.add(exam.name);
+    });
+  }
+
+  isExamCompleted(examName: string, difficulty: string): boolean {
+    return this.completedExams.has(`${examName}-${difficulty}`);
   }
  
   getDurationForLevel(level: string) {
