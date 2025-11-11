@@ -7,6 +7,29 @@
   transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
+@media (max-width: 768px) {
+  .progress-container {
+    padding: 15px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .progress-container h3 {
+    font-size: 18px;
+    margin: 0 0 15px 0;
+  }
+  
+  .progress-bar-wrapper {
+    height: 16px;
+    width: 100%;
+  }
+  
+  .progress-container p {
+    margin: 10px 0 0 0;
+    font-size: 14px;
+  }
+}
+
 .progress-container h3 {
   font-size: 20px;
   color: #9f71e4;

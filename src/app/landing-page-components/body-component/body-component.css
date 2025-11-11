@@ -137,16 +137,43 @@
 @media (max-width: 768px) {
     .body-container {
         flex-direction: column;
+        padding: 20px;
     }
 
     .hero-card,
     .image-cards {
         flex: 1 1 100%;
     }
+    
+    .hero-card {
+        padding: 20px;
+    }
+    
+    .hero-card h2 {
+        font-size: 1.5rem;
+    }
+    
+    .hero-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
 
     .story-cards {
         flex-direction: column;
         align-items: center;
+    }
+    
+    .story-card {
+        width: 100%;
+        max-width: 350px;
+    }
+    
+    .user-stories-container {
+        padding: 20px;
+    }
+    
+    .section-title {
+        font-size: 1.5rem;
     }
 }
 

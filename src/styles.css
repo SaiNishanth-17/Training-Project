@@ -4,3 +4,13 @@ body.modal-open {
   overflow: hidden;
   height: 100%;
 }
+
+* {
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+}

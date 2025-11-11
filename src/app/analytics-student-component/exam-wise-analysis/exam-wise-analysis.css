@@ -19,6 +19,41 @@
   margin-bottom: 20px;
 }
 
+@media (max-width: 768px) {
+  .analysis-section {
+    padding: 15px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .analysis-section h3 {
+    font-size: 18px;
+  }
+  
+  .chart-container {
+    height: 250px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .exam-list {
+    width: 100%;
+  }
+  
+  .items {
+    flex-direction: column;
+    gap: 8px;
+    padding: 8px 12px;
+    word-wrap: break-word;
+  }
+  
+  .levels {
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 12px;
+  }
+}
+
 .exam-list {
   display: flex;
   flex-direction: column;
