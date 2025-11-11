@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Course } from '../Models/course';
- 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -55,20 +55,19 @@ export class LandingPageService {
         ]
     }
 ];
+
   getCourses(): Course[] {
     return this.courses;
   }
- 
+
   filterCourses(searchTerm: string): string[] {
     const term = searchTerm.toLowerCase();
     return this.courses
       .filter(course => course.name.toLowerCase().includes(term))
       .map(course => course.name);
   }
- 
+
   getCourseByName(name: string): Course | null {
     return this.courses.find(course => course.name === name) || null;
   }
 }
- 
- 

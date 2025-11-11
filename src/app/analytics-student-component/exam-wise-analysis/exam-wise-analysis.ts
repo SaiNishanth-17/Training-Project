@@ -28,9 +28,19 @@ export class ExamWiseAnalysis implements AfterViewInit, OnDestroy {
         let advanced = 0;
 
         rows.forEach(r => {
-          if (r.difficulty === "basic") basic = Math.round(r.avgScore || 0);
-          if (r.difficulty === "intermediate") intermediate = Math.round(r.avgScore || 0);
-          if (r.difficulty === "advanced") advanced = Math.round(r.avgScore || 0);
+          const value = Math.round(r.avgScore || 0);
+
+          if (r.difficulty === "basic") {
+            basic = value;
+          }
+
+          if (r.difficulty === "intermediate") {
+            intermediate = value;
+          }
+
+          if (r.difficulty === "advanced") {
+            advanced = value;
+          }
         });
 
         this.examStats = [
@@ -41,6 +51,7 @@ export class ExamWiseAnalysis implements AfterViewInit, OnDestroy {
             advanced
           }
         ];
+
 
         this.renderChart();
       },
