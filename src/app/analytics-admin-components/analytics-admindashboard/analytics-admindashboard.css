@@ -10,6 +10,30 @@
   margin-bottom: 30px;
 }
 
+@media (max-width: 768px) {
+  .summary {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .dashboard {
+    padding: 15px;
+  }
+  
+  table {
+    font-size: 12px;
+  }
+  
+  th, td {
+    padding: 8px 6px;
+  }
+  
+  .modal-content {
+    width: 90%;
+    margin: 0 auto;
+  }
+}
+
 
 
 .card {

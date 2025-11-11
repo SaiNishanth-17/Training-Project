@@ -311,13 +311,117 @@ td:first-child > span.question-text {
 
 /* Responsive adjustment for question and options */
 @media (max-width: 768px) {
-  td:first-child {
-    width: 100%;
-    display: block;
+  :host {
+    padding: 10px;
   }
-
+  
+  .card {
+    padding: 15px;
+    overflow-x: hidden;
+  }
+  
+  h2 {
+    font-size: 1.3em;
+  }
+  
+  .header-controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+  }
+  
+  .control-group {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  
+  select, input[type='text'] {
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .table-container {
+    overflow-x: hidden;
+    width: 100%;
+  }
+  
+  table {
+    width: 100%;
+    min-width: unset;
+    table-layout: fixed;
+  }
+  
+  th, td {
+    padding: 8px 4px;
+    font-size: 0.8em;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  th:first-child, td:first-child {
+    width: 50%;
+  }
+  
+  th:nth-child(2), td:nth-child(2) {
+    width: 25%;
+  }
+  
+  th:last-child, td:last-child {
+    width: 25%;
+  }
+  
   .options-list {
     margin-left: 0;
+    padding: 5px 8px;
+    font-size: 0.75em;
+  }
+  
+  .options-list li {
+    margin-bottom: 2px;
+    word-break: break-word;
+  }
+  
+  .correct-answer {
+    margin-top: 8px;
+    padding: 5px 8px;
+    font-size: 0.75em;
+  }
+  
+  .difficulty-badge {
+    padding: 3px 6px;
+    font-size: 0.7em;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .action-buttons button {
+    width: 100%;
+    padding: 6px 8px;
+    font-size: 0.75em;
+  }
+  
+  .modal {
+    width: 95%;
+    padding: 15px;
+    margin: 10px;
+    max-height: 90vh;
+  }
+  
+  .modal h3 {
+    font-size: 1.4em;
+  }
+  
+  .modal-buttons {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .modal-buttons .btn {
+    width: 100%;
   }
 }
 

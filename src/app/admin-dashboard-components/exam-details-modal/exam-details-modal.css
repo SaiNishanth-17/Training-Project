@@ -46,6 +46,30 @@
   margin-top: 1.5rem;
 }
 
+@media (max-width: 768px) {
+  .modal-content {
+    width: 95%;
+    margin: 20px;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+  
+  .modal-body {
+    padding: 1rem;
+  }
+  
+  .stat-item {
+    padding: 0.8rem;
+  }
+  
+  .value {
+    font-size: 1.3rem;
+  }
+}
+
 .stat-item {
   background: #f8f9fa;
   padding: 1rem;
