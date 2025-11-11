@@ -5,7 +5,7 @@
   </div>
 
   <div class="exam-controls">
-    <select [(ngModel)]="levels[exam.name]" [ngModelOptions]="{ standalone: true }">
+    <select [(ngModel)]="levels[exam.name]" [ngModelOptions]="{ standalone: true }" (change)="onLevelChange(exam)">
       <option value="" disabled selected>Select Difficulty</option>
       <option value="basic">Basic</option>
       <option value="intermediate">Intermediate</option>
@@ -21,5 +21,9 @@
     >
       {{ isExamCompleted(exam.name, levels[exam.name]) ? 'Completed' : 'Attempt Now' }}
     </button>
+  </div>
+  
+  <div *ngIf="insufficientQuestions[exam.name]" class="insufficient-questions">
+    Insufficient questions available for this difficulty level.
   </div>
 </div>

@@ -20,6 +20,7 @@ export class ExamCard implements OnInit {
  
   levels: { [examName: string]: string } = {};
   completedExams: Set<string> = new Set();
+  insufficientQuestions: { [examName: string]: boolean } = {};
  
   constructor(
     private questionBank: QuestionbankServices,
@@ -31,6 +32,7 @@ export class ExamCard implements OnInit {
   ngOnInit() {
     this.exams.forEach(exam => {
       this.levels[exam.name] = '';
+      this.insufficientQuestions[exam.name] = false;
     });
     this.loadCompletedExams();
   }
@@ -59,6 +61,10 @@ export class ExamCard implements OnInit {
     }
   }
  
+  onLevelChange(exam: examType) {
+    this.insufficientQuestions[exam.name] = false;
+  }
+
   attemptExam(exam: examType) {
     const chosenLevel = this.levels[exam.name] || 'basic';
     const examName = exam.name;
@@ -70,8 +76,8 @@ export class ExamCard implements OnInit {
       .getQuestionsForExamLevel(examName, chosenLevel)
       .subscribe((questions: any[]) => {
         console.log(JSON.stringify(questions));
-        if (!questions || questions.length !== 10) {
-          alert(`Exam requires exactly 10 questions. Current: ${questions ? questions.length : 0}`);
+        if (!questions || questions.length < 10) {
+          this.insufficientQuestions[exam.name] = true;
           return;
         }
         const examQuestions: examQuestionType[] = questions.map((q: any) => ({
@@ -84,7 +90,6 @@ export class ExamCard implements OnInit {
 }));
 
         this.examData.setData([], examQuestions);
-        // navigate to start route using dynamic exam name 
         console.log(this.levels[exam.name]);
         this.router.navigateByUrl(`/student-dashboard/exam/${examName}?level=${chosenLevel}`);
       });
