@@ -390,7 +390,6 @@ td:first-child > span.question {
         border-bottom: 1px solid #f0f0f5; 
         position: relative;
         width: auto; 
-        vertical-align: middle;
         font-size: 1em;
     }
 
