@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { AdminServices } from '../../Services/admin-services';
 import { UserRegisteringService } from '../../Services/user-registering-service';
 import { StudentService } from '../../Services/student-services';
- 
+ import { Router } from '@angular/router';
 interface UserData {
   firstName: string;
   lastName: string;
@@ -49,7 +49,8 @@ export class AdminDashboard {
   constructor(
     private adminService: AdminServices,
     private userService: UserRegisteringService,
-    private studentService: StudentService
+    private studentService: StudentService,
+    private router:Router
   ) {}
 
   ngOnInit(): void {
@@ -107,7 +108,12 @@ export class AdminDashboard {
       }
     });
   }
-
+logout(){
+  this.userService.logout();
+  // console.log("logout succesful")
+  this.userService.clearToken();
+  this.router.navigate(['/login'])
+}
   deleteRecord(record: any) {
     const firstName = record.firstname || record.firstName;
     const lastName = record.lastname || record.lastName;
