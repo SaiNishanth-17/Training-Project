@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-body-component',
+  standalone: true,
   imports: [RouterModule,CommonModule],
   templateUrl: './body-component.html',
   styleUrl: './body-component.css'

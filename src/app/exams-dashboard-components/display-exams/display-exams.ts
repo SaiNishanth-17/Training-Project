@@ -22,6 +22,7 @@ export class DisplayExams implements OnInit {
   modalOpen = false;
   selectedExam: examType | null = null;
   chosenLevel: string = 'basic';
+  showInsufficientQuestions = false;
 
   constructor(
     private examTopicService: ExamTopicService,
@@ -43,6 +44,7 @@ export class DisplayExams implements OnInit {
   onOpenExam(exam: examType) {
     this.selectedExam = exam;
     this.chosenLevel = 'basic';
+    this.showInsufficientQuestions = false;
     this.modalOpen = true;
     document.body.classList.add('modal-open');
   }
@@ -50,7 +52,12 @@ export class DisplayExams implements OnInit {
   closeModal() {
     this.modalOpen = false;
     this.selectedExam = null;
+    this.showInsufficientQuestions = false;
     document.body.classList.remove('modal-open');
+  }
+
+  onLevelChange() {
+    this.showInsufficientQuestions = false;
   }
 
   getDurationForLevel(level: string) {
@@ -74,8 +81,8 @@ export class DisplayExams implements OnInit {
     this.questionBank
       .getQuestionsForExamLevel(examName, this.chosenLevel)
       .subscribe((questions: any[]) => {
-        if (!questions || questions.length !== 10) {
-          alert(`Exam requires exactly 10 questions. Current: ${questions ? questions.length : 0}`);
+        if (!questions || questions.length < 10) {
+          this.showInsufficientQuestions = true;
           return;
         }
         const examQuestions: examQuestionType[] = questions.map((q: any, idx: number) => ({

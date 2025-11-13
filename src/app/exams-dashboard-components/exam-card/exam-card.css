@@ -78,6 +78,14 @@
   cursor: not-allowed;
 }
 
+.insufficient-questions {
+  color: #dc3545;
+  font-size: 13px;
+  font-weight: 500;
+  margin-top: 8px;
+  padding: 6px 0;
+}
+
 /* Responsive layout */
 @media (max-width: 720px) {
   .exam-row {

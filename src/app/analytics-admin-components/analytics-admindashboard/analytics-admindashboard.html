@@ -37,7 +37,7 @@
       <th>Submissions</th>
     </tr>
     <tr *ngFor="let sub of subjects">
-      <td>{{ sub.examName }}</td>
+      <td>{{ sub.examName || sub.subjectName || sub.name || 'Unknown Subject' }}</td>
       <td>{{ sub.avgScore }}%</td>
       <td>{{sub.attempts}}</td>
     </tr>

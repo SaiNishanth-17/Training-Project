@@ -10,6 +10,25 @@
   z-index: 1000;
 }
 
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    padding: 15px;
+  }
+  
+  .nav-item {
+    padding: 10px 12px;
+    margin: 3px 0;
+  }
+  
+  .logo h1 {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+}
+
 .logo {
   height: 40px;
   margin-right: 10px;

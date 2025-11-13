@@ -161,6 +161,43 @@
   order: 1;
 }
 
+@media (max-width: 768px) {
+  .main-header {
+    padding: 1rem;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .search-container {
+    margin: 0;
+    max-width: 100%;
+    order: 3;
+  }
+  
+  .search-bar {
+    width: 100%;
+  }
+  
+  .nav-links {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+  
+  .hamburger {
+    display: block;
+  }
+  
+  .site-name {
+    font-size: 1.3rem;
+  }
+  
+  .modal-content {
+    width: 95%;
+    padding: 20px;
+  }
+}
+
 #menu-toggle:checked + .hamburger + .nav-links {
   display: flex;
   flex-direction: column;

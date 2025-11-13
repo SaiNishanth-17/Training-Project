@@ -20,6 +20,28 @@
   text-align: center;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
+
+@media (max-width: 768px) {
+  .stat-card {
+    min-width: 120px;
+    padding: 12px;
+    width: 100%;
+    box-sizing: border-box;
+    color: white;
+  }
+  
+  .stat-card p {
+    font-size: 14px;
+    color: white;
+    margin: 0 0 8px 0;
+  }
+  
+  .stat-card h3 {
+    font-size: 18px;
+    color: white;
+    margin: 0;
+  }
+}
 /* .stat-card {
   background-color: #ffffff;
   padding: 20px;

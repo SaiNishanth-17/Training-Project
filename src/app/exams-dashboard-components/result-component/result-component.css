@@ -73,6 +73,44 @@
   margin: 20px 0;
 }
 
+@media (max-width: 768px) {
+  .result-container {
+    margin: 10px;
+    padding: 15px;
+  }
+  
+  .score-display {
+    padding: 20px 25px;
+    margin: 10px;
+    min-width: 150px;
+  }
+  
+  .score-display h1 {
+    font-size: 2.5rem;
+  }
+  
+  .summary-stats {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .stat-item {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 8px;
+  }
+  
+  .analysis-section {
+    margin: 20px auto;
+  }
+  
+  .analysis-card {
+    padding: 12px;
+  }
+}
+
 .stat-item {
   display: flex;
   flex-direction: column;

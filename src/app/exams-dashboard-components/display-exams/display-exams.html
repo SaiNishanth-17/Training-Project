@@ -1,5 +1,12 @@
 <div class="exam-wrapper">
-  <div class="exam-grid">
+  <div class="exam-grid" *ngIf="exams.length > 0">
     <app-exam-card [exams]="exams"></app-exam-card>
+  </div>
+  
+  <div class="no-exams-message" *ngIf="exams.length === 0">
+    <div class="message-content">
+      <h3>📚 No Exams Available</h3>
+      <p>There are currently no active exams available. Please check back later or contact your administrator.</p>
+    </div>
   </div>
 </div>
