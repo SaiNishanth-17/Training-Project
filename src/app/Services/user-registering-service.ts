@@ -42,7 +42,15 @@ private tokenKey = 'authToken';
       payload
     );
   }
- 
+ logout(): void {
+  const token = this.getToken(); 
+  this.http.post<{ message: string }>('http://localhost:8001/api/auth/logout', {}, {
+    headers: { Authorization: `Bearer ${token}` }
+  }).subscribe({
+    next: () => this.clearToken(),
+    error: err => console.error('Logout failed:', err)
+  });
+}
   storeToken(token: string): void {
     sessionStorage.setItem(this.tokenKey, token);
   }
@@ -68,10 +76,7 @@ decodeToken(): any {
     return null;
   }
 }
- 
-  logout(): void {
-    this.clearToken();
-  }
+
  
   getCurrentUserRole(): string {
     const decoded = this.decodeToken();

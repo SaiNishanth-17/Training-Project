@@ -42,3 +42,21 @@ export const routes: Routes = [
     ],
   },
 ];
+// export const routes: Routes = [
+//   { path: '', component: LandingPage },
+//   { path: 'login', component: LoginComponent },
+//   { path: 'signup', component: RegisterComponent },
+//   {
+//     path: 'admin-dashboard',
+//     loadChildren:()=>
+//       import ('../app/adminRoutes/adminDashboardRoutes').then(i =>i.AdminRoutingModule),
+//     canActivate:[authGuard,roleGuard('admin')],
+//   },
+//   {
+//     path: 'student-dashboard',
+//     loadChildren:()=>
+//       import('../app/adminRoutes/userDashboardRoutes').then(i=>i.UserRoutingModule),
+//     canActivate:[authGuard,roleGuard('student')],
+    
+//   },
+// ];

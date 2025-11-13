@@ -33,7 +33,7 @@ register(form: any) {
       alert('Password and Confirm Password do not match.');
       return;
     }
-    // Create payload without confirmPassword
+    
 const payload = {
   email: this.email,
   firstname: this.firstname,
@@ -44,34 +44,28 @@ const payload = {
 console.log('Register payload:', payload);
    this.userService.registerUser(payload).subscribe({
       next: (res) => {
-        if (res.success) {
-          alert(res.message || 'Registration successful!');
+        console.log(res)
+        if (res.message=== 'User registered successfully') {
           form.resetForm();
-          this.router.navigate(['/login']);
-        // } else {
-          // if (res.message === 'User already exists') {
-            // alert(res.message||"User already exists");
-          }
+          this.router.navigate(['/login'])}
           else {
             alert(res.message ||'Registration failed.');
          }
        
       },
      
-error: (err) => {
-        console.error('Unexpected error:', err);
- 
-       
-        if (err.error && err.error.message === 'User already exists') {
-          alert('User already exists');
-        } else {
-          alert(err.error?.message || 'Something went wrong. Please try again.');
-        }
-      }
- 
-    });
+ error: (err) => {
+  console.error('Unexpected error:', err);
+  const validationErrors = err?.error?.errors;
+  if (Array.isArray(validationErrors)) {
+    const messages = validationErrors.map(e => e.msg).join('\n');
+    alert(messages);
   } else {
-    alert('Please complete all fields correctly.');
+    const fallback = err?.error?.message || 'Registration failed.';
+    alert(fallback);
   }
+}
+})
+}
 }
 }
