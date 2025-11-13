@@ -4,10 +4,8 @@ import { completedExams } from '../Models/completedExams';
 @Injectable({
   providedIn: 'root'
 })
-export class StudentServices{
-  
-
-      private exams: completedExams[] = [
+export class AvailableExamService {
+  private exams: completedExams[] = [
     {
       name: 'HTML', duration: '30 mins', noOfQuestions: 20, 
       id: 1
@@ -29,7 +27,4 @@ export class StudentServices{
   getAllExams(): completedExams[] {
     return this.exams;
   }
-
-  
-
 }

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { StudentServices } from '../../Services/AvailableExamService';
+import { AvailableExamService } from '../../Services/AvailableExamService';
 import { ExamTopicService } from '../../Services/exam-topic-service';
 // import { Topics } from '../../exams-admin-components/topics/topics';
 @Component({
@@ -14,7 +14,7 @@ export class AvailableexamsComponent {
   active: any;
 
   constructor(
-    private availableExams: StudentServices,
+    private availableExams: AvailableExamService,
     private examtopicservice: ExamTopicService
   ) {}
 

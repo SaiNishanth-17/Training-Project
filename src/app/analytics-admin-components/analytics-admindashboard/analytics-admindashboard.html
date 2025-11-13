@@ -1,14 +1,12 @@
 <div class="dashboard">
   <h2>Admin Analytics</h2>
 
-  <!-- Summary Cards -->
   <div class="summary">
     <div class="card">Total Students <span>{{ totalStudents }}</span></div>
     <div class="card">Total Subjects <span>{{ totalExams }}</span></div>
     <div class="card">Pass Rate <span>{{ passRate }}%</span></div>
   </div>
 
-  <!-- Student Performance -->
   <h3>Student-wise Performance</h3>
   <table>
     <tr>
@@ -30,14 +28,17 @@
 
   <!-- Subject-wise Performance -->
   <h3>Subject-wise Performance</h3>
-  <table>
+  <div *ngIf="subjects.length === 0" class="no-data">
+    <p>No subject performance data available. Students need to complete exams first.</p>
+  </div>
+  <table *ngIf="subjects.length > 0">
     <tr>
       <th>Subject</th>
       <th>Avg Score</th>
       <th>Submissions</th>
     </tr>
     <tr *ngFor="let sub of subjects">
-      <td>{{ sub.examName || sub.subjectName || sub.name || 'Unknown Subject' }}</td>
+      <td>{{ sub.subjectName }}</td>
       <td>{{ sub.avgScore }}%</td>
       <td>{{sub.attempts}}</td>
     </tr>

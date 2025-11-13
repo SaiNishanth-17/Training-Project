@@ -78,7 +78,7 @@ export class CompletedExamService {
       }))
     };
 
-    console.log('Submission payload:', payload);
+
 
     return this.http.post(
       `http://localhost:8001/api/exams/${examName}/submitExam`,

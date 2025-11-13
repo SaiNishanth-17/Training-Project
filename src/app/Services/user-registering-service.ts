@@ -26,7 +26,6 @@ private tokenKey = 'authToken';
   constructor(private http: HttpClient) {}
  
   authenticateUser(email: string, password: string): Observable<AuthResponse> {
-    console.log('Sending login payload:', { email, password });
     return this.http.post<AuthResponse>('http://localhost:8001/api/auth/login', { email, password });
   }
  
@@ -90,17 +89,3 @@ decodeToken(): any {
     return this.decodeToken();
   }
 }
- 
-  // Current logged-in user
-//   const currentUser: User | null = null;
- 
-//   setCurrentUser(user: User) {
-//     this.currentUser = user;
-//     this.setFirstName(user.firstname);
-//   }
- 
-//   getCurrentUser(): User | null {
-//     return this.currentUser;
-//   }
-// }
- 

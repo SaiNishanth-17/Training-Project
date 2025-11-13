@@ -282,33 +282,6 @@ export class ExamQuestionsService {
       time: TimeLimit
     })
   }
-//   addNewExam(examName: any) {
-//   this.newExam = examName;
-//   const storedExams = localStorage.getItem('exams');
-//   if (storedExams) {
-//     this.exams = JSON.parse(storedExams);
-//   }
 
-//   const newId = this.exams.length > 0 ? this.exams[this.exams.length - 1].id + 1 : 1;
-//   const newExam = {
-//     id: newId,
-//     name: examName,
-//     noOfTopics: 10,
-//     noOfStudents: 0,
-//     time: 10
-//   };
-
-
-//   this.exams.push(newExam);
-//   localStorage.setItem('exams', JSON.stringify(this.exams)); 
-// }
-
-// getExamTopics() {
-//   const storedExams = localStorage.getItem('exams');
-//   if (storedExams) {
-//     this.exams = JSON.parse(storedExams);
-//   }
-//   return this.exams;
-// }
 
 }

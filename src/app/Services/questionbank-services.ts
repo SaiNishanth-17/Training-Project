@@ -22,16 +22,6 @@ export class QuestionbankServices {
   courses: any[] = [];  
  
   constructor(private http: HttpClient) {}
-   
-  getCourses(): Observable<any[]> {
-    const url = `${this.apiUrlCourses}`;
-    return this.http.get<any[]>(url).pipe(
-      tap(data => {
-        this.courses = data;
-        // console.log('Courses fetched from API:', this.courses)
-      })
-    );
-  }
  
   addCourse(name: string): void {
     if (!this.courses.some(c => c.name === name)) {
@@ -45,6 +35,15 @@ export class QuestionbankServices {
       this.courses.splice(index, 1);
     }
   }
+   
+  getCourses(): Observable<any[]> {
+    const url = `${this.apiUrlCourses}`;
+    return this.http.get<any[]>(url).pipe(
+      tap(data => this.courses = data)
+    );
+  }
+ 
+
  
   getQuestionsForExamLevel(examName: string, level: string): Observable<Question[]> {
       const difficulty = level.toLowerCase() as Difficulty;

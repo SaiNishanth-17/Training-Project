@@ -1,5 +1,5 @@
 import { Component, Output, EventEmitter } from '@angular/core';
-import { StudentServices } from '../../Services/AvailableExamService';
+import { AvailableExamService } from '../../Services/AvailableExamService';
 import { CompletedExamService } from '../../Services/completed-exam-service';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -34,7 +34,7 @@ export class DashboardComponent {
   profileEdit: any = {};
 
   constructor(
-    private availableService: StudentServices,
+    private availableService: AvailableExamService,
     private completedService: CompletedExamService,
     private studentReportService: StudentReportService,
     private userService: UserRegisteringService,
