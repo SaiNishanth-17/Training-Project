@@ -17,7 +17,7 @@ export class StudentReportService {
 
     try {
       const decoded = JSON.parse(atob(part));
-      return decoded.id || null;  // ✅ important
+      return decoded.id || null; 
     } catch (err) {
       console.error('JWT decode failed:', err);
       return null;

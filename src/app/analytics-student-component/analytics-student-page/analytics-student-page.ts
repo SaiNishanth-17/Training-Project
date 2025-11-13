@@ -17,7 +17,7 @@ export class AnalyticsStudentPage implements OnInit {
 
   noOfExams = 0;
   averageScore = 0;
-  passingRate = 0; // add this
+  passingRate = 0; 
 
   constructor(private studentService: StudentReportService) {}
 
