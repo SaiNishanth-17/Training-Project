@@ -16,14 +16,12 @@ export class CompletedExamService {
     private http: HttpClient
   ) {}
 
-  /** Load exam answers & questions */
   private loadExamData() {
     const answers = this.examDataService.getAnswers();
     const questions = this.examDataService.getQuestions();
     return { answers, questions };
   }
 
-  /** Local Score Calculation */
   calculateScore(): { attempted: number; correct: number; score: number } {
     const { answers, questions } = this.loadExamData();
 
@@ -43,7 +41,6 @@ export class CompletedExamService {
     return { attempted, correct, score };
   }
 
-  /** Add completed exam to local list */
   addCompletedExam(examName: string, durationMinutes: number): completedExams {
     const { questions } = this.loadExamData();
 
@@ -59,7 +56,6 @@ export class CompletedExamService {
     return exam;
   }
 
-  /** Submit exam to backend */
   submitExamToBackend(userId: string, examName: string, difficulty: string) {
     const { answers, questions } = this.loadExamData();
 
@@ -86,17 +82,14 @@ export class CompletedExamService {
     );
   }
 
-  /** Fetch completed exams from backend */
   fetchCompletedExamsFromBackend(userId: string) {
     return this.http.get<any[]>(`http://localhost:8001/api/exams/completed/${userId}`);
   }
 
-  /** Return completed exam list */
   getCompletedExams(): completedExams[] {
     return this.completedExamList;
   }
 
-  /** Load completed exams from backend and update local list */
   loadCompletedExamsFromBackend(userId: string) {
     return this.fetchCompletedExamsFromBackend(userId).subscribe({
       next: (exams) => {

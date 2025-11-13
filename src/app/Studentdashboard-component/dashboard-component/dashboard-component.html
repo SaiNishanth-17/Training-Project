@@ -4,7 +4,6 @@
       <h2>Hii {{firstname}}...</h2>
     </div>
     <div style="display:flex; align-items:center; gap:12px;">
-      <!-- student profile pill placed next to logout -->
       <div class="user-profile" style="display:flex; align-items:center; gap:8px; cursor:pointer;" (click)="openProfileModal()">
         <div class="profile-img">{{ (studentProfile.firstName[0] || '') + (studentProfile.lastName[0] || '') }}</div>
         <div class="user-i'nfo" style="display:none;">
@@ -26,11 +25,6 @@
     <div class="card" (click)="emitCard('available')">
       <h3>Available Exams</h3>
       <p>{{ availableCount }}</p>
-    </div>
-
-    <div class="card" (click)="emitCard('completed')">
-      <h3>Completed Exams</h3>
-      <p>{{ completedCount }}</p>
     </div>
 
     <div class="card" (click)="emitCard('progress')">

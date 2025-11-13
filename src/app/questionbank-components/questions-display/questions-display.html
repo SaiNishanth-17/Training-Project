@@ -1,7 +1,5 @@
 <div class="card">
     <h2>Question Management</h2>
-
-    
     <div class="header-controls">
         <div class="control-group">
             <label for="courseSelect">Select Course:</label>
@@ -15,7 +13,7 @@
                 </option>
             </select>
         </div>
-
+ 
         <div class="control-group">
             <label>Filter (Difficulty):</label>
             <select [(ngModel)]="filterDifficulty" (change)="onDifficultyChange(filterDifficulty)">
@@ -25,14 +23,14 @@
                 <option value="advanced">Advanced</option>
             </select>
         </div>
-
+ 
         <button class="btn add-btn dummy-btn" (click)="addQuestion()" [disabled]="isAddDisabled()">
             Add New Question
         </button>
     </div>
-
+ 
     <div class="table-container">
-        <ng-container *ngIf="getFilteredQuestions().length > 0; else noQuestions">
+        <ng-container *ngIf="displayedQuestions.length > 0; else noQuestions">
             <table>
                 <thead>
                     <tr>
@@ -43,10 +41,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let question of getFilteredQuestions()">
+                    <tr *ngFor="let question of displayedQuestions">
                         <td>
                             <span class="question">{{ question.text }}</span>
-
+ 
                             <ul class="options-list">
                                 <li *ngFor="let opt of question.options; let i = index">
                                     {{ getCharFromIndex(i) }}. {{ opt }}
@@ -71,7 +69,7 @@
                 </tbody>
             </table>
         </ng-container>
-
+ 
         <ng-template #noQuestions>
             <div class="no-questions-caution">
                 <p *ngIf="selectedCourseName && filterDifficulty">
@@ -84,13 +82,10 @@
             </div>
             <div *ngIf="apiErrorMessage" class="alert-message error">
                 <p><strong>API Error:</strong> {{ apiErrorMessage }}</p>
-                <button class="btn close-error-btn" (click)="apiErrorMessage = null">
-                  Dismiss
-                </button>
             </div>
         </ng-template>
     </div>
-
+ 
     <div class="modal-overlay" *ngIf="isAddingModalOpen">
         <div class="modal">
             <h3>Add New Question</h3>
@@ -98,8 +93,7 @@
                 <label>Question Text:</label>
                 <input [(ngModel)]="newQuestionItem.text" />
             </div>
-            
-
+ 
             <div class="form-group">
                 <label>Options:</label>
                 <input
@@ -108,46 +102,46 @@
                     placeholder="Option {{ getCharFromIndex(i) }}"
                 />
             </div>
-
+ 
             <div class="form-group">
                 <label>Correct Answer (Exact Text):</label>
                 <input 
                     type="text" 
-                    [(ngModel)]="correctAnswer"  placeholder="Enter the exact text of the correct option"/>
+                    [(ngModel)]="correctAnswer"  placeholder="Enter the exact text of the correct option"/>
             </div>
-
+ 
             <div class="modal-buttons">
                 <button class="btn save-btn" (click)="saveNewQuestion()">Save</button>
                 <button class="btn cancel-btn" (click)="cancelAdd()">Cancel</button>
             </div>
         </div>
     </div>
-
+ 
     <div class="modal-overlay" *ngIf="editingQuestion">
         <div class="modal">
-            <h3>{{ isAddingNew ? 'Add New Question' : 'Edit Question' }}</h3>
-
+            <h3>Edit Question</h3>
+ 
             <div class="form-group">
                 <label>Question Text:</label>
                 <input [(ngModel)]="editingQuestion.text" />
             </div>
-
+ 
             <div class="form-group">
-                <label>Options:</label>
+               <label>Options:</label>
                 <input
                     *ngFor="let opt of editingQuestion.options; let i = index; trackBy: trackByOptions"
                     [(ngModel)]="editingQuestion.options[i]"
                     placeholder="Option {{ getCharFromIndex(i) }}"
                 />
             </div>
-
+ 
             <div class="form-group">
                 <label>Correct Answer (Exact Text):</label>
                 <input 
                     type="text" 
                     [(ngModel)]="correctAnswer" placeholder="Enter the exact text of the correct option"/>
             </div>
-
+ 
             <div class="modal-buttons">
                 <button class="btn save-btn" (click)="saveQuestion()">Save</button>
                 <button class="btn cancel-btn" (click)="cancelEdit()">Cancel</button>
@@ -155,3 +149,4 @@
         </div>
     </div>
 </div>
+ 

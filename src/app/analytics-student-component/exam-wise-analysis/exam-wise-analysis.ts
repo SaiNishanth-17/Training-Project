@@ -2,7 +2,7 @@ import { Component, AfterViewInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import Chart, { Chart as ChartInstance } from 'chart.js/auto';
 import { StudentReportService } from '../../Services/student-report-service';
-
+ 
 @Component({
   selector: 'app-exam-wise-analysis',
   standalone: true,
@@ -13,36 +13,36 @@ import { StudentReportService } from '../../Services/student-report-service';
 export class ExamWiseAnalysis implements AfterViewInit, OnDestroy {
   examStats: Array<{ exam: string; basic: number; intermediate: number; advanced: number }> = [];
   private chart?: ChartInstance;
-
+ 
   constructor(private studentService: StudentReportService) {}
-
+ 
   ngAfterViewInit(): void {
     this.studentService.getDifficultyAnalytics().subscribe({
       next: (rows) => {
         if (!rows || rows.length === 0) return;
-
+ 
         const examName = rows[0].examName || "Exam";
-
+ 
         let basic = 0;
         let intermediate = 0;
         let advanced = 0;
-
+ 
         rows.forEach(r => {
           const value = Math.round(r.avgScore || 0);
-
+ 
           if (r.difficulty === "basic") {
             basic = value;
           }
-
+ 
           if (r.difficulty === "intermediate") {
             intermediate = value;
           }
-
+ 
           if (r.difficulty === "advanced") {
             advanced = value;
           }
         });
-
+ 
         this.examStats = [
           {
             exam: examName,
@@ -51,26 +51,26 @@ export class ExamWiseAnalysis implements AfterViewInit, OnDestroy {
             advanced
           }
         ];
-
-
+ 
+ 
         this.renderChart();
       },
-
+ 
       error: (err) => console.error('Difficulty analytics load failed:', err)
     });
   }
-
+ 
   private renderChart(): void {
     const el = document.getElementById('examScoresChart') as HTMLCanvasElement | null;
     if (!el) return;
-
+ 
     if (this.chart) this.chart.destroy();
-
+ 
     const labels = this.examStats.map(e => e.exam);
     const basic = this.examStats.map(e => e.basic);
     const interm = this.examStats.map(e => e.intermediate);
     const adv = this.examStats.map(e => e.advanced);
-
+ 
     this.chart = new Chart(el, {
       type: 'bar',
       data: {
@@ -96,8 +96,10 @@ export class ExamWiseAnalysis implements AfterViewInit, OnDestroy {
       }
     });
   }
-
+ 
   ngOnDestroy(): void {
     if (this.chart) this.chart.destroy();
   }
 }
+ 
+ 

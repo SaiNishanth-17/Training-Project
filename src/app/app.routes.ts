@@ -36,7 +36,6 @@ export const routes: Routes = [
     children: [
       { path: '', component: StudentdashboardComponent },
       { path: 'exam', component: DisplayExams },
-      // route to actually start the exam (ExamPage expects route param :name)
       { path: 'exam/:name', component: ExamPage },
       { path: 'results', component: ResultComponent },
       { path: 'analytics', component: AnalyticsStudentPage },

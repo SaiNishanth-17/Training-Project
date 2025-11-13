@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Question } from '../../Models/question-interface';
 import { QuestionbankServices } from '../../Services/questionbank-services';
-
+ 
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
+ 
 @Component({
   selector: 'app-questions-display',
   imports: [FormsModule, CommonModule],
@@ -29,10 +29,9 @@ export class QuestionsDisplay implements OnInit {
     correctAnswer: '',
     difficulty: 'basic'
   };
-isAddingNew: boolean =false;
-
+ 
   constructor(private serviceQuestion: QuestionbankServices) {}
-
+ 
   ngOnInit(): void {
     this.serviceQuestion.getCourses().subscribe({
       next: (data) => {
@@ -44,22 +43,22 @@ isAddingNew: boolean =false;
       }
     });
   }
-
+ 
   onCourseChange(selectedCourseName: string): void {
     this.selectedCourseName = selectedCourseName;
     this.displayedQuestions = [];
     this.filterDifficulty = '';
     this.apiErrorMessage = null;
   }
-
+ 
   // READ (GET) OPERATION
   onDifficultyChange(level: 'basic' | 'intermediate' | 'advanced' | ''): void {
     this.filterDifficulty = level;
     this.displayedQuestions = [];
     this.apiErrorMessage = null;
-
+ 
     if (!this.selectedCourseName || !this.filterDifficulty) return;
-
+ 
     this.serviceQuestion.getQuestions(this.selectedCourseName, this.filterDifficulty).subscribe({
       next: (questions) => {
         this.displayedQuestions = questions;
@@ -75,23 +74,18 @@ isAddingNew: boolean =false;
       },
     });
   }
-
-  getFilteredQuestions(): Question[] {
-    return this.displayedQuestions;
-  }
   
   getCharFromIndex(i: number): string {
     return String.fromCharCode(65 + i);
   }
-
+ 
   // CREATE (POST) SETUP/VALIDATION
   addQuestion() {
-    this.isAddingNew = true;
     this.editingQuestion = null;
     this.cancelAdd(); 
     
     this.newQuestionItem.difficulty = (this.filterDifficulty || 'basic') as 'basic' | 'intermediate' | 'advanced';
-
+ 
     this.isAddingModalOpen = true;
   }
   
@@ -116,18 +110,18 @@ isAddingNew: boolean =false;
     }
     return true;
   }
-
+ 
   // CREATE (POST) EXECUTION
   saveNewQuestion(): void {
     if (!this.validateNewQuestion() || !this.selectedCourseName) {
       return;
     }
-
+ 
     this.apiErrorMessage = null;
     this.newQuestionItem.correctAnswer = this.correctAnswer;
     
     delete (this.newQuestionItem as any).id; 
-
+ 
     this.serviceQuestion.createQuestion(this.newQuestionItem, this.selectedCourseName).subscribe({
       next: () => {
         alert('Question created successfully!');
@@ -150,13 +144,13 @@ isAddingNew: boolean =false;
     this.correctAnswer = '';
     this.newQuestionItem = { id: 0, text: '', options: ['', '', '', ''], correctAnswer: '', difficulty: 'basic', };
   }
-
+ 
   // UPDATE (PUT) SETUP
   editQuestion(question: Question): void {
     this.editingQuestion = {...question};
     this.correctAnswer = this.editingQuestion.correctAnswer;
   }
-
+ 
   // UPDATE (PUT) EXECUTION
   saveQuestion(): void {
     if (!this.editingQuestion || !this.selectedCourseName) return;
@@ -166,7 +160,7 @@ isAddingNew: boolean =false;
       return;
     }
     this.editingQuestion.correctAnswer = this.correctAnswer;
-
+ 
     this.serviceQuestion.updateQuestion(this.editingQuestion, this.selectedCourseName).subscribe({
       next: () => {
         alert('Question updated successfully!');
@@ -179,19 +173,19 @@ isAddingNew: boolean =false;
       },
     });
   }
-
+ 
   cancelEdit(): void {
     this.correctAnswer = '';
     this.editingQuestion = null;
   }
-
+ 
   // DELETE OPERATION
   deleteQuestion(id: number | string): void {
     if (!confirm('Are you sure you want to delete this question?')) return;
     this.apiErrorMessage = null;
     
     if (!this.selectedCourseName || !this.filterDifficulty) return;
-
+ 
     this.serviceQuestion.deleteQuestion(id, this.selectedCourseName, this.filterDifficulty).subscribe({
       next: () => {
         alert('Question deleted successfully!');
@@ -203,17 +197,13 @@ isAddingNew: boolean =false;
       },
     });
   }
-
+ 
   // UI Helpers
-  questionsCountForSelectedDifficulty(): number {
-    return this.displayedQuestions.length;
-  }
-
   isAddDisabled(): boolean {
     if (!this.selectedCourseName || !this.filterDifficulty) return true;
-    return this.questionsCountForSelectedDifficulty() >= 10;
+    return this.displayedQuestions.length >= 10;
   }
-
+ 
   trackByOptions(index: number, option: string): number {
     return index;
   }
