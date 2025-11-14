@@ -21,37 +21,26 @@ export class ExamWiseAnalysis implements AfterViewInit, OnDestroy {
       next: (rows) => {
         if (!rows || rows.length === 0) return;
  
-        const examName = rows[0].examName || "Exam";
- 
-        let basic = 0;
-        let intermediate = 0;
-        let advanced = 0;
+        const examMap = new Map<string, { basic: number; intermediate: number; advanced: number }>();
  
         rows.forEach(r => {
+          const examName = r.examName || "Exam";
           const value = Math.round(r.avgScore || 0);
  
-          if (r.difficulty === "basic") {
-            basic = value;
+          if (!examMap.has(examName)) {
+            examMap.set(examName, { basic: 0, intermediate: 0, advanced: 0 });
           }
  
-          if (r.difficulty === "intermediate") {
-            intermediate = value;
-          }
- 
-          if (r.difficulty === "advanced") {
-            advanced = value;
-          }
+          const examData = examMap.get(examName)!;
+          if (r.difficulty === "basic") examData.basic = value;
+          if (r.difficulty === "intermediate") examData.intermediate = value;
+          if (r.difficulty === "advanced") examData.advanced = value;
         });
  
-        this.examStats = [
-          {
-            exam: examName,
-            basic,
-            intermediate,
-            advanced
-          }
-        ];
- 
+        this.examStats = Array.from(examMap.entries()).map(([exam, scores]) => ({
+          exam,
+          ...scores
+        }));
  
         this.renderChart();
       },
@@ -101,5 +90,3 @@ export class ExamWiseAnalysis implements AfterViewInit, OnDestroy {
     if (this.chart) this.chart.destroy();
   }
 }
- 
- 
