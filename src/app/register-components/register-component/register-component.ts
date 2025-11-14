@@ -49,7 +49,7 @@ console.log('Register payload:', payload);
           form.resetForm();
           this.router.navigate(['/login'])}
           else {
-            alert(res.message ||'Registration failed.');
+            alert(res.message||'Registration failed.');
          }
        
       },
