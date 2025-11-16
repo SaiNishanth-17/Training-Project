@@ -1,7 +1,7 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { AvailableExamService } from '../../Services/AvailableExamService';
 import { CompletedExamService } from '../../Services/completed-exam-service';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { StudentReportService } from '../../Services/student-report-service';
@@ -39,7 +39,8 @@ export class DashboardComponent {
     private studentReportService: StudentReportService,
     private userService: UserRegisteringService,
     private examtopicservice: ExamTopicService,
-    private studentService: StudentService
+    private studentService: StudentService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -113,5 +114,12 @@ export class DashboardComponent {
 
   emitCard(section: 'available' | 'completed' | 'progress') {
     this.cardClicked.emit(section);
+  }
+
+  logout(){
+    this.userService.logout();
+    // console.log("logout succesful")
+    this.userService.clearToken();
+    this.router.navigate(['/login']);
   }
 }

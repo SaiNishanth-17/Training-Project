@@ -41,16 +41,13 @@ const payload = {
   password: this.password,
   confirmPassword: this.confirmPassword
 };
-console.log('Register payload:', payload);
+// console.log('Register payload:', payload);
    this.userService.registerUser(payload).subscribe({
       next: (res) => {
-        if (res.success) {
+        if (res.message === 'User registered successfully') {
           alert(res.message || 'Registration successful!');
           form.resetForm();
           this.router.navigate(['/login']);
-        // } else {
-          // if (res.message === 'User already exists') {
-            // alert(res.message||"User already exists");
           }
           else {
             alert(res.message ||'Registration failed.');

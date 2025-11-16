@@ -1,10 +1,9 @@
-import { Component, EventEmitter, NgModule, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { LandingPageService } from '../../Services/landing-page-service';
 import { Course } from '../../Models/course';
-
 
 @Component({
   selector: 'app-header-component',
@@ -13,6 +12,7 @@ import { Course } from '../../Models/course';
   templateUrl: './header-component.html',
   styleUrl: './header-component.css'
 })
+
 export class HeaderComponent {
   
   searchTerm: string = '';

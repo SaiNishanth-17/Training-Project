@@ -68,9 +68,16 @@ decodeToken(): any {
   }
 }
  
-  logout(): void {
-    this.clearToken();
-  }
+logout(): void {
+  const token = this.getToken();
+  this.http.post<{ message: string }>('http://localhost:8001/api/auth/logout', {}, {
+    headers: { Authorization: `Bearer ${token}` }
+  }).subscribe({
+    next: () => this.clearToken(),
+    error: err => console.error('Logout failed:', err)
+  });
+}
+ 
  
   getCurrentUserRole(): string {
     const decoded = this.decodeToken();
