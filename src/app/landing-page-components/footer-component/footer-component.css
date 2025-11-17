@@ -1,9 +1,5 @@
-/* =======================================
-   FOOTER STYLING
-   ======================================= */
 .portal-footer {
     width: 100%;
-    /* Black background */
     background-color: #000000; 
     color: #f0f0f0; 
     padding-top: 40px; 
@@ -11,17 +7,14 @@
 }
 
 .footer-content {
-    /* Revised Grid: Now 3 main columns (Resources, Contact, Social) */
     display: grid;
-    /* Uses roughly equal columns */
     grid-template-columns: 1fr 1.5fr 1fr; 
     gap: 30px;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 30px 20px 30px; /* Added bottom padding here */
+    padding: 0 30px 20px 30px; 
 }
 
-/* --- Section Titles --- */
 .footer-section h4 {
     color: #ffffff;
     font-size: 1.1em;
@@ -32,7 +25,6 @@
     font-weight: 700;
 }
 
-/* --- Links Styling (Vertical Alignment) --- */
 .footer-links-group a {
     display: block; 
     margin: 6px 0;
@@ -44,11 +36,10 @@
 
 .footer-links-group a:hover,
 .footer-contact a:hover {
-    color: #9749db; /* Hover color */
+    color: #9749db; 
     text-decoration: none;
 }
 
-/* Contact Info Styling (Icon Alignment) */
 .footer-contact .contact-item {
     display: flex; 
     align-items: flex-start; 
@@ -58,7 +49,7 @@
 }
 
 .footer-contact .contact-item i {
-    color: #9749db; /* Icon color */
+    color: #9749db; 
     margin-right: 10px;
     margin-top: 2px;
     font-size: 1.1em;
@@ -70,11 +61,10 @@
     color: #f0f0f0;
 }
 
-/* Social Icons Styling */
 .social-icons {
     display: flex;
     gap: 15px;
-    margin-bottom: 15px; /* Separate icons from policy links */
+    margin-bottom: 15px; 
 }
 
 .social-icons a {
@@ -87,7 +77,6 @@
     color: #9749db;
 }
 
-/* Policy links under Social (Fourth column items) */
 .policy-link {
     display: block;
     font-size: 0.9em;
@@ -96,9 +85,7 @@
     margin: 4px 0;
 }
 
-/* --- NEW: COPYRIGHT BAR AT THE BOTTOM --- */
 .footer-bottom {
-    /* Slightly lighter background for the bottom bar for subtle contrast */
     background-color: #1a1a1a; 
     padding: 10px 0;
     text-align: center;
@@ -112,16 +99,13 @@
     color: #cccccc;
 }
 
-/* --- Responsive Adjustments --- */
 @media (max-width: 992px) {
-    /* Collapse to two columns on tablets */
     .footer-content {
         grid-template-columns: 1fr 1fr;
     }
 }
 
 @media (max-width: 600px) {
-    /* Stack all sections vertically on mobile */
     .portal-footer {
         padding-top: 20px;
     }
@@ -132,11 +116,10 @@
     }
     .footer-section h4 {
         margin-top: 20px;
-        border-bottom: 1px dashed #333; /* Use dashed line for mobile separation */
+        border-bottom: 1px dashed #333; 
         padding-bottom: 5px;
     }
     
-    /* Center items on mobile */
     .footer-links-group a,
     .policy-link {
         text-align: center;

@@ -7,18 +7,18 @@
 }
 
 .card {
-  background-color: #9266b8; /* Updated background color */
+  background-color: #9266b8;
   padding: 30px;
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
   width: 100%;
   max-width: 1000px;
-  color: white; /* Added to make text visible on the dark background */
+  color: white; 
 }
 
 h2 {
-  color: #ffffff; /* New font color for headings */
-  border-bottom: 2px solid #d4baff; /* New light purple */
+  color: #ffffff; 
+  border-bottom: 2px solid #d4baff; 
   padding-bottom: 15px;
   margin-bottom: 30px;
   font-size: 2em;
@@ -36,12 +36,11 @@ h2 {
 .control-group {
   display: flex;
   align-items: center;
-  /* gap: 10px; */
 }
 
 label {
   font-weight: 600;
-  color: #ffffff; /* This is for labels outside the modal, like "Select Course" */
+  color: #ffffff; 
 }
 
 select,
@@ -81,7 +80,7 @@ input[type='text']:focus {
 
 .add-btn {
   background-color: #ffffff;
-  color: #9266b8; /* Updated color to match new card background */
+  color: #9266b8;
 }
 
 .add-btn:hover {
@@ -113,7 +112,7 @@ table {
   border-collapse: separate;
   border-spacing: 0 10px;
   margin-top: 10px;
-  color: #333; /* Added for table text color */
+  color: #333; 
 }
 
 th,
@@ -186,7 +185,6 @@ tbody tr:hover {
   font-size: 0.9em;
 }
 
-/* Modal Styling */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -211,27 +209,25 @@ tbody tr:hover {
   position: relative;
   max-height: 95vh;
   overflow-y: auto;
-  color: #333; /* Explicitly set font color for the modal content */
+  color: #333; 
 }
 
 .modal h3 {
   margin-top: 0;
-  color: #9749db; /* Keep this color for the modal title */
+  color: #9749db;
   font-size: 1.8em;
   border-bottom: 1px solid #e2e8f0;
   margin-bottom: 25px;
 }
 
-/* Specific styling for labels within the modal to ensure visibility */
 .modal .form-group label {
-  color: #333; /* Dark gray for modal labels */
+  color: #333; 
   font-weight: 600;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  /* gap: 8px; */
 }
 
 .form-group input,
@@ -266,11 +262,10 @@ tbody tr:hover {
 .cancel-btn:hover {
   background-color: #5f6a7e;
 }
-/* ... existing CSS code ... */
 
 .action-buttons {
   display: flex;
-  gap: 10px; /* Adds a 10px gap between the buttons */
+  gap: 10px; 
   align-items: center;
 }
 
@@ -280,13 +275,11 @@ tbody tr:hover {
   transition: all 0.3s ease;
 }
 
-/* Improve question cell layout */
 td:first-child {
   vertical-align: top;
   width: 40%;
 }
 
-/* Style the question text */
 td:first-child > span.question-text {
   display: block;
   font-weight: 600;
@@ -294,7 +287,6 @@ td:first-child > span.question-text {
   color: #333;
 }
 
-/* Style options in a separate block */
 .options-list {
   background-color: #f4f4f8;
   border-radius: 8px;
@@ -309,7 +301,6 @@ td:first-child > span.question-text {
   color: #555;
 }
 
-/* Responsive adjustment for question and options */
 @media (max-width: 768px) {
   :host {
     padding: 10px;

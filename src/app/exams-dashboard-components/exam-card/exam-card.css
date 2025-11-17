@@ -86,7 +86,6 @@
   padding: 6px 0;
 }
 
-/* Responsive layout */
 @media (max-width: 720px) {
   .exam-row {
     width: 100%;

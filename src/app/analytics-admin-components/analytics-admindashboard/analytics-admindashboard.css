@@ -3,7 +3,6 @@
   font-family: Arial, sans-serif;
 }
 
-/* Summary Cards */
 .summary {
   display: flex;
   gap: 20px;
@@ -54,7 +53,6 @@
   color: #874caf;
 }
 
-/* Tables */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -82,7 +80,6 @@ tr:hover {
   transition: 0.2s;
 }
 
-/* Clickable Links (Student / Exam Names) */
 .clickable {
   color: #874caf;
   font-weight: 600;
@@ -94,7 +91,6 @@ tr:hover {
   text-decoration: underline;
 }
 
-/* Progress Bars */
 .progress-container {
   width: 100px;
   height: 10px;
@@ -109,7 +105,6 @@ tr:hover {
   transition: width 0.5s ease-in-out;
 }
 
-/* Modal Styles */
 .modal {
   position: fixed;
   top: 0;
@@ -165,7 +160,6 @@ tr:hover {
   color: #5a2d7f;
 }
 
-/* Smooth animations */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }

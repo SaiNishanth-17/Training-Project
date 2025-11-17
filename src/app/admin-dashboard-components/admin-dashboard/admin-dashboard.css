@@ -3,7 +3,6 @@
   width: 100%;
 
 
-/*— VARIABLES & RESets —*/
   --primary: #3a0ca3;
   --primary-light: #4361ee;
   --secondary: #7209b7;
@@ -41,7 +40,6 @@ body {
   overflow-x: hidden;
 }
 
-/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -57,11 +55,9 @@ body {
   background: var(--primary);
 }
 
-/*— HEADER —*/
 .header {
   grid-column: 2;
   display: flex;
-  /* justify-content: space-between; */
   align-items: center;
   padding: 0 30px;
   background-color: white;
@@ -79,31 +75,27 @@ body {
 }
 
 .logout-icon {
-  /* Basic styling for the button */
   border: none;
   background-color: transparent;
-  padding: 8px; /* Gives some space around the icon */
+  padding: 8px; 
   cursor: pointer;
   border-radius: var(--radius);
   transition: var(--transition);
-  margin-left: 10px; /* Separates it from the user profile */
+  margin-left: 10px; 
 }
  
 .logout-icon:hover {
-  /* Changes the background on hover for a good user experience */
   background-color: rgba(67, 97, 238, 0.05);
 }
  
 .logout-icon svg {
-  /* Styles the SVG icon itself */
   width: 24px;
   height: 24px;
   color: #b68ef1;
-; /* Or any color you prefer */
 }
  
 .logout-icon:hover svg {
-  color: var(--primary); /* Changes icon color on hover */
+  color: var(--primary); 
 }
 
 .header-actions {
@@ -148,7 +140,6 @@ body {
   color: var(--text-light);
 }
 
-/*— MAIN CONTENT & PAGE TITLE —*/
 .main-content {
   grid-column: 2;
   padding: 25px 30px;
@@ -189,7 +180,6 @@ body {
   margin-left: 12px;
 }
 
-/*— STATS CARDS —*/
 .stats-cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
@@ -259,7 +249,6 @@ body {
   box-shadow: 0 6px 10px rgba(0,0,0,0.1);
 }
 
-/* Table action buttons styling */
 .data-table {
   width: 100%;
   border-collapse: collapse;
@@ -319,7 +308,6 @@ body {
   color: var(--danger);
 }
 
-/*— DATA TABLE —*/
 .table-card {
   background: linear-gradient(135deg, #ffffff, #fafbfc);
   border-radius: var(--radius);

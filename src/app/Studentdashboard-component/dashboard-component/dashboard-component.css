@@ -99,34 +99,29 @@
 }
 
 .logout-icon {
-  /* Basic styling for the button */
   border: none;
   background-color: transparent;
-  padding: 8px; /* Gives some space around the icon */
+  padding: 8px; 
   cursor: pointer;
   border-radius: var(--radius);
   transition: var(--transition);
-  margin-left: 10px; /* Separates it from the user profile */
+  margin-left: 10px; 
 }
  
 .logout-icon:hover {
-  /* Changes the background on hover for a good user experience */
   background-color: rgba(67, 97, 238, 0.05);
 }
  
 .logout-icon svg {
-  /* Styles the SVG icon itself */
   width: 24px;
   height: 24px;
   color: #b68ef1;
-; /* Or any color you prefer */
 }
  
 .logout-icon:hover svg {
-  color: var(--primary); /* Changes icon color on hover */
+  color: var(--primary); 
 }
 
-/* Reuse admin profile styles for student header */
 .user-profile {
   display: flex;
   align-items: center;
@@ -148,7 +143,6 @@
   justify-content: center;
 }
 
-/* Style for profile modal inputs/buttons */
 .modal .modal-content { border-radius: 10px; }
 .modal .add-topic-btn { background: #a17ee8; color: #fff; border: none; padding: 8px 14px; border-radius: 6px; }
 .modal .cancel-btn { background: transparent; border: 1px solid #e6e6e6; padding: 8px 12px; border-radius: 6px; }
