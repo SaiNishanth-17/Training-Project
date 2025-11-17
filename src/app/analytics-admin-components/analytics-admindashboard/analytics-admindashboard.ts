@@ -21,30 +21,10 @@ export class AnalyticsAdmindashboard implements OnInit {
   constructor(private adminReportService: AdminReportService) {}
 
   ngOnInit(): void {
-    // this.loadTotalStudents();
-    // this.loadTotalSubjects();
     this.loadStudentAnalysis();
     this.loadSubjectAnalysis();
     this.loadAdminStats();
   }
-
-  // loadTotalStudents(): void {
-  //   this.adminReportService.getTotalStudents().subscribe({
-  //     next: (count) => {
-  //       this.totalStudents = count;
-  //     },
-  //     error: () => console.error('Failed to load total students')
-  //   });
-  // }
-
-  // loadTotalSubjects(): void {
-  //   this.adminReportService.getTotalSubjects().subscribe({
-  //     next: (count) => {
-  //       this.totalExams = count;
-  //     },
-  //     error: () => console.error('Failed to load total subjects')
-  //   });
-  // }
 
   loadStudentAnalysis(): void {
     this.adminReportService.getStudentAnalysis().subscribe({

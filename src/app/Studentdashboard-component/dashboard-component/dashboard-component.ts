@@ -1,6 +1,4 @@
 import { Component, Output, EventEmitter } from '@angular/core';
-import { AvailableExamService } from '../../Services/AvailableExamService';
-import { CompletedExamService } from '../../Services/completed-exam-service';
 import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -34,8 +32,6 @@ export class DashboardComponent {
   profileEdit: any = {};
 
   constructor(
-    private availableService: AvailableExamService,
-    private completedService: CompletedExamService,
     private studentReportService: StudentReportService,
     private userService: UserRegisteringService,
     private examtopicservice: ExamTopicService,
@@ -56,10 +52,6 @@ export class DashboardComponent {
     });
 
     if (user && user.id) {
-      this.completedService.loadCompletedExamsFromBackend(user.id);
-      setTimeout(() => {
-        this.completedCount = this.completedService.getCompletedExams().length;
-      }, 1000);
 
       this.studentReportService.getProgress().subscribe({
         next: (res) => {
@@ -69,9 +61,7 @@ export class DashboardComponent {
           this.progress = 0;
         }
       });
-    } else {
-      this.completedCount = this.completedService.getCompletedExams().length;
-    }
+    } 
 
     if (user) {
       this.studentProfile.firstName = user.firstname || 'Student';

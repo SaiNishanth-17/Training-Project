@@ -35,8 +35,8 @@ export class ExamPage implements OnInit {
   ngOnInit(): void {
     this.examName = this.route.snapshot.paramMap.get('name') || '';
     this.level = this.route.snapshot.queryParamMap.get('level') || 'basic';
-    this.duration = this.examDataService.getTime(); // in minutes
-    this.subjectId = this.examDataService.getSubjectId(); // now valid
+    this.duration = this.examDataService.getTime();
+    this.subjectId = this.examDataService.getSubjectId(); 
     this.currentExamQuestions = this.examDataService.getQuestions();
     this.selectedAnswers = new Array(this.currentExamQuestions.length).fill('');
     this.userId =this.userRegisteringService.decodeToken()?.id || '';

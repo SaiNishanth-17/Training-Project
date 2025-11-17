@@ -1,4 +1,3 @@
-
 import { Component, EventEmitter, Output } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
@@ -10,7 +9,7 @@ import { RouterModule } from '@angular/router';
 })
 export class SidebarComponent {
   @Output() sendItem = new EventEmitter<string>();
-  activeItem: string='Dashboard';
+  activeItem: string='';
   
   setActiveItem(item: string) {
     this.activeItem = item;

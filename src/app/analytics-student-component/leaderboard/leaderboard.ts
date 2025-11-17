@@ -16,7 +16,7 @@ export class Leaderboard implements OnInit {
 
   ngOnInit(): void {
     this.studentService.getLeaderboard().subscribe({
-      next: (rows) => (this.topScorers = rows || []),
+      next: (rows) => (this.topScorers = rows.slice(0,3) || []),
       error: (err) => console.error('Leaderboard load failed:', err)
     });
   }

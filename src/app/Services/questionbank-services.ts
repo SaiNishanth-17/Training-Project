@@ -49,7 +49,7 @@ export class QuestionbankServices {
       const difficulty = level.toLowerCase() as Difficulty;
       return this.getQuestions(examName, difficulty);
   }
-  // READ (GET) Questions: GET /api/questions/:subject/:difficulty
+
   getQuestions(subject: string, difficulty: Difficulty): Observable<Question[]> {
     const url = `${this.apiUrl}/${subject}/${difficulty}`;
     return this.http.get<any[]>(url).pipe(
@@ -63,7 +63,6 @@ export class QuestionbankServices {
     );
   }
  
-  // CREATE (POST) Question
   createQuestion(newQuestion: Question,selectedCourseName: string): Observable<any> {
  
     const difficulty = newQuestion.difficulty.toLowerCase() as Difficulty;
@@ -77,7 +76,6 @@ export class QuestionbankServices {
     return this.http.post(url, payload);
   }
  
-  // UPDATE (PUT) Question
   updateQuestion(updatedQuestion: Question, selectedCourseName: string  ): Observable<any> {
     const difficulty = updatedQuestion.difficulty.toLowerCase() as Difficulty;
     const url = `${this.apiUrl}/${selectedCourseName}/${difficulty}/${updatedQuestion.id}`;
@@ -90,7 +88,6 @@ export class QuestionbankServices {
     return this.http.put(url, payload);
   }
  
-  // DELETE Question
   deleteQuestion(id: number | string, courseName: string, difficulty: string  ): Observable<any> {
     const beDifficulty = difficulty.toLowerCase() as Difficulty;
     const url = `${this.apiUrl}/${courseName}/${beDifficulty}/${id}`;
