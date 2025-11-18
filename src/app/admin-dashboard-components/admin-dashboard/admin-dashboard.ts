@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SearchFilterPipePipe } from './search-filter-pipe-pipe';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { AdminServices } from '../../Services/admin-services';
 import { UserRegisteringService } from '../../Services/user-registering-service';
 import { StudentService } from '../../Services/student-services';
@@ -49,7 +49,8 @@ export class AdminDashboard {
   constructor(
     private adminService: AdminServices,
     private userService: UserRegisteringService,
-    private studentService: StudentService
+    private studentService: StudentService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -157,5 +158,12 @@ export class AdminDashboard {
         alert(err.error?.message || 'Failed to update profile');
       }
     });
+  }
+
+  logout(){
+    this.userService.logout();
+    // console.log("logout succesful")
+    this.userService.clearToken();
+    this.router.navigate(['/login']);
   }
 }

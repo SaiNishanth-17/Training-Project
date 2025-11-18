@@ -1,73 +1,43 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { tap, catchError, map } from 'rxjs/operators';
+import { of } from 'rxjs';
 import { Course } from '../Models/course';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LandingPageService {
-  private courses: Course[] = [
-    {
-        id:1,
-        name: 'HTML Quiz',
-        author: 'Web Development Team',
-        duration: '10 minutes',
-        topics: [
-            "Hyper Text Markup Language",
-            "Tags for hyperlinks, images, and line breaks",
-            "Attributes like 'alt'",
-            "Table and list creation"
-        ]
-    },
-    {
-        id:2,
-        name: 'CSS Quiz',
-        author: 'Web Development Team',
-        duration: '20 minutes',
-        topics: [
-            "Cascading Style Sheets",
-            "Styling properties (e.g., background-color, font-size)",
-            "Selectors (class, id, element)",
-            "Layout properties (e.g., display, position)"
-        ]
-    },
-    {
-        id:3,
-        name: 'JavaScript Quiz',
-        author: 'Web Development Team',
-        duration: '40 minutes',
-        topics: [
-            "Variable declaration (var, let)",
-            "DOM manipulation (document.write())",
-            "Operators and data types",
-            "Array methods and loops"
-        ]
-    },
-    {
-        id:4,
-        name: 'Bootstrap Quiz',
-        author: 'Web Development Team',
-        duration: '30 minutes',
-        topics: [
-            "Responsive web design",
-            "Grid system and container classes",
-            "Component classes (e.g., .btn, .navbar, .alert)",
-            "Utility classes for text and display"
-        ]
-    }
-];
+  private apiUrl = 'http://localhost:8001/api/subjects';
 
-  getCourses(): Course[] {
-    return this.courses;
+  constructor(private http: HttpClient) {}
+
+  getCourses(): Observable<Course[]> {
+    return this.http.get<any[]>(this.apiUrl).pipe(
+      map(subjects => subjects.map((subject, index) => ({
+        id: index + 1,
+        name: subject.subjectName,
+        author: 'admin',
+        duration: '30 minutes',
+        topics: [subject.description || 'No description available']
+      } as Course))),
+      tap(data => console.log('Courses fetched:', data)),
+      catchError(error => {
+        console.error('Error fetching courses:', error);
+        return of([]);
+      })
+    );
   }
 
-  filterCourses(searchTerm: string): string[] {
+  filterCourses(searchTerm: string, courses: Course[]): string[] {
     const term = searchTerm.toLowerCase();
-    return this.courses
+    return courses
       .filter(course => course.name.toLowerCase().includes(term))
       .map(course => course.name);
   }
 
-  getCourseByName(name: string): Course | null {
-    return this.courses.find(course => course.name === name) || null;
+  getCourseByName(name: string, courses: Course[]): Course | null {
+    return courses.find(course => course.name === name) || null;
   }
 }

@@ -181,7 +181,6 @@ tbody tr:hover {
     font-size: 0.9em;
 }
 
-/* Modal Styling */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -273,7 +272,6 @@ tbody tr:hover {
     transition: all 0.3s ease;
 }
 
-/* Improve question cell layout */
 td:first-child {
     vertical-align: top;
     width: 40%;
@@ -287,7 +285,6 @@ td:first-child > span.question {
     color: #333;
 }
 
-/* Style options in a separate block */
 .options-list {
     background-color: #f4f4f8;
     border-radius: 8px;

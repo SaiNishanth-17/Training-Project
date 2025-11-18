@@ -52,7 +52,6 @@ isAddingNew: boolean =false;
     this.apiErrorMessage = null;
   }
 
-  // READ (GET) OPERATION
   onDifficultyChange(level: 'basic' | 'intermediate' | 'advanced' | ''): void {
     this.filterDifficulty = level;
     this.displayedQuestions = [];
@@ -84,7 +83,6 @@ isAddingNew: boolean =false;
     return String.fromCharCode(65 + i);
   }
 
-  // CREATE (POST) SETUP/VALIDATION
   addQuestion() {
     this.isAddingNew = true;
     this.editingQuestion = null;
@@ -117,7 +115,6 @@ isAddingNew: boolean =false;
     return true;
   }
 
-  // CREATE (POST) EXECUTION
   saveNewQuestion(): void {
     if (!this.validateNewQuestion() || !this.selectedCourseName) {
       return;
@@ -151,13 +148,11 @@ isAddingNew: boolean =false;
     this.newQuestionItem = { id: 0, text: '', options: ['', '', '', ''], correctAnswer: '', difficulty: 'basic', };
   }
 
-  // UPDATE (PUT) SETUP
   editQuestion(question: Question): void {
     this.editingQuestion = {...question};
     this.correctAnswer = this.editingQuestion.correctAnswer;
   }
 
-  // UPDATE (PUT) EXECUTION
   saveQuestion(): void {
     if (!this.editingQuestion || !this.selectedCourseName) return;
     
@@ -185,7 +180,6 @@ isAddingNew: boolean =false;
     this.editingQuestion = null;
   }
 
-  // DELETE OPERATION
   deleteQuestion(id: number | string): void {
     if (!confirm('Are you sure you want to delete this question?')) return;
     this.apiErrorMessage = null;
@@ -204,7 +198,6 @@ isAddingNew: boolean =false;
     });
   }
 
-  // UI Helpers
   questionsCountForSelectedDifficulty(): number {
     return this.displayedQuestions.length;
   }

@@ -1,4 +1,3 @@
-/* Body Layout */
 .body-container {
     display: flex;
     flex-wrap: wrap;
@@ -7,7 +6,6 @@
     background-color: #f0f4f8;
 }
 
-/* Hero Card */
 .hero-card {
     flex: 1 1 45%;
     background-color: #ffffff;
@@ -47,18 +45,18 @@
     border-radius: 6px;
     font-weight: 600;
     cursor: pointer;
-    background-color: #9f71e4; /* Updated to new theme color */
+    background-color: #9f71e4; 
     color: white;
     text-align: right;
 }
 
 .primary-btn {
-    background-color: #9f71e4; /* Updated to new theme color */
+    background-color: #9f71e4; 
     color: white;
 }
 
 .primary-btn:hover {
-    background-color: #7b59b5; /* Darker shade for hover */
+    background-color: #7b59b5;
 }
 
 .secondary-btn {
@@ -66,7 +64,6 @@
     color: #333;
 }
 
-/* Image Cards */
 .image-cards {
     flex: 1 1 45%;
     display: flex;
@@ -115,7 +112,7 @@
 .story-card h3 {
     font-size: 1.4rem;
     margin-bottom: 10px;
-    color: #9f71e4; /* Updated to new theme color */
+    color: #9f71e4;
 }
 
 .story-card p {
@@ -127,13 +124,12 @@
 .story-tag {
     display: inline-block;
     background-color: #e3f2fd;
-    color: #0056b3; /* Keeping this blue as a secondary accent color */
+    color: #0056b3;
     padding: 5px 10px;
     border-radius: 4px;
     font-size: 0.9rem;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
     .body-container {
         flex-direction: column;
@@ -177,7 +173,6 @@
     }
 }
 
-/* Modal Styles */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -261,7 +256,7 @@
 }
 
 .btn-primary {
-    background-color: #9f71e4; /* Updated to new theme color */
+    background-color: #9f71e4; 
     color: white;
     border: none;
     padding: 10px 20px;
@@ -271,7 +266,7 @@
 }
 
 .btn-primary:hover {
-    background-color: #7b59b5; /* Darker shade for hover */
+    background-color: #7b59b5;
 }
 
 .btn-secondary {

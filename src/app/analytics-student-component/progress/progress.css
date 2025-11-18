@@ -57,6 +57,6 @@
     width: 0%;
   }
   to {
-    width: var(--targetWidth, 0%); /* Set your desired progress here */
+    width: var(--targetWidth, 0%); 
   }
 }

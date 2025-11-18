@@ -1,5 +1,5 @@
 import { inject } from '@angular/core';
-import { CanActivateFn,CanActivateChildFn } from '@angular/router';
+import { CanActivateFn} from '@angular/router';
 import { UserRegisteringService } from '../Services/user-registering-service';
 import { Router } from '@angular/router';
  

@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { StudentServices } from '../../Services/AvailableExamService';
 import { ExamTopicService } from '../../Services/exam-topic-service';
-// import { Topics } from '../../exams-admin-components/topics/topics';
+
 @Component({
   selector: 'app-available-exams',
   imports: [CommonModule],
@@ -14,7 +13,6 @@ export class AvailableexamsComponent {
   active: any;
 
   constructor(
-    private availableExams: StudentServices,
     private examtopicservice: ExamTopicService
   ) {}
 

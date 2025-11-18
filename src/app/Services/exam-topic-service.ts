@@ -10,7 +10,6 @@ export class ExamTopicService {
 
   constructor(private http: HttpClient) {}
 
-  // Adapter: Backend → Frontend
   private toFrontend(subject: any): ExamTopicType {
     return {
       subjectName: subject.subjectName,
@@ -20,7 +19,6 @@ export class ExamTopicService {
     };
   }
 
-  // Adapter: Frontend → Backend
   private toBackend(exam: ExamTopicType): any {
     return {
       subjectName: exam.subjectName,
@@ -29,24 +27,20 @@ export class ExamTopicService {
     };
   }
 
-  // Fetch subjects from backend
   getSubjects(): Observable<ExamTopicType[]> {
     return this.http.get<any[]>(this.baseUrl).pipe(
       map((subjects) => subjects.map((s) => this.toFrontend(s)))
     );
   }
 
-  // Create subject
   addExam(exam: ExamTopicType): Observable<any> {
     return this.http.post(this.baseUrl, this.toBackend(exam));
   }
 
-  // Update subject by original name
   updateExam(updatedExam: ExamTopicType, originalName: string): Observable<any> {
     return this.http.put(`${this.baseUrl}/${originalName}`, this.toBackend(updatedExam));
   }
 
-  // Delete subject by name
   deleteExam(name: string): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${name}`);
   }

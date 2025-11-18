@@ -1,7 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { RouterOutlet } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -10,5 +9,5 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./app.css']
 })
 export class App {
-
+  
 }

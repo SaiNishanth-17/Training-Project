@@ -15,7 +15,4 @@ activeItem: string = 'Dashboard';
   setActiveItem(item: string) {
     this.activeItem = item;
   }
-
-
-
 }

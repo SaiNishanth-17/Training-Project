@@ -144,7 +144,6 @@
 
 .back-button-text {
   transform: translateX(8px);
-  /* Add a transition for a smooth fade out */
   transition: opacity 500ms ease, transform 500ms ease;
 }
 
@@ -153,7 +152,6 @@
 }
 
 .back-button:hover .back-button-text {
-  /* Hide the text by making it transparent and shifting its position */
   opacity: 0;
   transform: translateX(20px);
 }

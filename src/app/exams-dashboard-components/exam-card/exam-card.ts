@@ -81,13 +81,13 @@ export class ExamCard implements OnInit {
           return;
         }
         const examQuestions: examQuestionType[] = questions.map((q: any) => ({
-  id: q.id || q._id,
-  question: q.text || q.question,
-  options: q.options,
-  answer: q.correctAnswer,
-  correctAnswer: q.correctAnswer,
-  difficulty: q.difficulty,
-}));
+          id: q.id || q._id,
+          question: q.text || q.question,
+          options: q.options,
+          answer: q.correctAnswer,
+          correctAnswer: q.correctAnswer,
+          difficulty: q.difficulty,
+        }));
 
         this.examData.setData([], examQuestions);
         console.log(this.levels[exam.name]);

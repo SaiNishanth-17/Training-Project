@@ -84,7 +84,6 @@
   }
 }
 
-/* Optional: Add smooth transition for text */
 .nav-item span {
   transition: all 0.3s ease;
 }

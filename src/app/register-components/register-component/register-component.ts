@@ -15,7 +15,6 @@ import { UserRegisteringService } from '../../Services/user-registering-service'
 export class RegisterComponent {
   showLogin = false;
  
-  // Registration fields
   firstname: string = '';
   lastname: string = '';
   email: string = '';
@@ -33,7 +32,7 @@ register(form: any) {
       alert('Password and Confirm Password do not match.');
       return;
     }
-    // Create payload without confirmPassword
+
 const payload = {
   email: this.email,
   firstname: this.firstname,
@@ -41,16 +40,13 @@ const payload = {
   password: this.password,
   confirmPassword: this.confirmPassword
 };
-console.log('Register payload:', payload);
+
    this.userService.registerUser(payload).subscribe({
       next: (res) => {
-        if (res.success) {
+        if (res.message === 'User registered successfully') {
           alert(res.message || 'Registration successful!');
           form.resetForm();
           this.router.navigate(['/login']);
-        // } else {
-          // if (res.message === 'User already exists') {
-            // alert(res.message||"User already exists");
           }
           else {
             alert(res.message ||'Registration failed.');
@@ -58,7 +54,7 @@ console.log('Register payload:', payload);
        
       },
      
-error: (err) => {
+      error: (err) => {
         console.error('Unexpected error:', err);
  
        

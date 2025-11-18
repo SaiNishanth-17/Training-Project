@@ -16,14 +16,12 @@ export class CompletedExamService {
     private http: HttpClient
   ) {}
 
-  /** Load exam answers & questions */
   private loadExamData() {
     const answers = this.examDataService.getAnswers();
     const questions = this.examDataService.getQuestions();
     return { answers, questions };
   }
 
-  /** Local Score Calculation */
   calculateScore(): { attempted: number; correct: number; score: number } {
     const { answers, questions } = this.loadExamData();
 
@@ -43,7 +41,6 @@ export class CompletedExamService {
     return { attempted, correct, score };
   }
 
-  /** Add completed exam to local list */
   addCompletedExam(examName: string, durationMinutes: number): completedExams {
     const { questions } = this.loadExamData();
 
@@ -52,14 +49,13 @@ export class CompletedExamService {
       name: examName,
       noOfQuestions: questions.length,
       duration: `${durationMinutes} minutes`,
-      score: 0 // updated later
+      score: 0 
     };
 
     this.completedExamList.push(exam);
     return exam;
   }
 
-  /** Submit exam to backend */
   submitExamToBackend(userId: string, examName: string, difficulty: string) {
     const { answers, questions } = this.loadExamData();
 
@@ -78,7 +74,7 @@ export class CompletedExamService {
       }))
     };
 
-    console.log('Submission payload:', payload);
+
 
     return this.http.post(
       `http://localhost:8001/api/exams/${examName}/submitExam`,
@@ -86,17 +82,14 @@ export class CompletedExamService {
     );
   }
 
-  /** Fetch completed exams from backend */
   fetchCompletedExamsFromBackend(userId: string) {
     return this.http.get<any[]>(`http://localhost:8001/api/exams/completed/${userId}`);
   }
 
-  /** Return completed exam list */
   getCompletedExams(): completedExams[] {
     return this.completedExamList;
   }
 
-  /** Load completed exams from backend and update local list */
   loadCompletedExamsFromBackend(userId: string) {
     return this.fetchCompletedExamsFromBackend(userId).subscribe({
       next: (exams) => {
@@ -107,8 +100,7 @@ export class CompletedExamService {
           duration: `${exam.duration || 0} minutes`,
           score: exam.score || 0
         }));
-      },
-      error: (err) => console.error('Failed to load completed exams:', err)
+      }
     });
   }
 }

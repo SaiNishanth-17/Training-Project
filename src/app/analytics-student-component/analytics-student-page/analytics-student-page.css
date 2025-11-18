@@ -52,7 +52,6 @@
   }
 }
 
-/* === STAT CARDS AND OTHER CONTAINERS === */
 .container1 {
   grid-column: 1 / 2;
   grid-row: 1 / 2;
@@ -83,16 +82,13 @@
   grid-row: 3 / 5;
 }
 
-/* === NEW LAYOUT FOR EXAM-WISE ANALYSIS AND CHART === */
 .container7 {
-  grid-column: 1 / 6;   /* left side of last row */
+  grid-column: 1 / 6;   
   grid-row: 4 / 5;
   width: 100%;
 }
 
 
-
-/* === CHART STYLING === */
 .chart-container {
   width: 100%;
   height: 100%;
@@ -117,7 +113,6 @@
   height: 300px !important;
 }
 
-/* === OPTIONAL: Middle & Bottom sections if used later === */
 .middle-section {
   display: flex;
   justify-content: space-between;

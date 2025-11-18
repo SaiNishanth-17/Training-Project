@@ -25,7 +25,6 @@ export class ResultComponent {
   constructor(
     private completedExamService: CompletedExamService,
     private examdataservice: ExamDataService,
-    private studentReportService: StudentReportService
   ) {}
 
   ngOnInit(): void {
